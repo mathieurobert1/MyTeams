@@ -1,14 +1,14 @@
 /*
-** EPITECH PROJECT, XXXX
-** NWP_myteams_XXXX
+** EPITECH PROJECT, 2024
+** MyTeams
 ** File description:
 ** a file containing libs functions that should be called in myteams_cli
 */
 
 #ifndef LIB_MYTEAMS_LOGGING_CLIENT_H
-#define LIB_MYTEAMS_LOGGING_CLIENT_H
+    #define LIB_MYTEAMS_LOGGING_CLIENT_H
 
-#include <time.h>
+    #include <time.h>
 
 /*
 ** The functions that have event in their name are called when you receive
@@ -29,11 +29,13 @@
 /*
 ** To receive team related events you MUST be subscribed to the team
 ** Ex: to receive client_event_thread_reply_received you must be subscribed to
-** the team, that have the channel, that have the thread, that got the new reply
+** the team, that have the channel, that have the thread, that got the new
+** reply
 */
 
 /*
-** To get team information or team modifications (list threads, create reply...)
+** To get team information or team modifications
+** (list threads, create reply...)
 ** you MUST be subscribed to the team.
 */
 
@@ -50,7 +52,8 @@ int client_event_logged_in(char const *user_uuid, const char *user_name);
 
 /**
 ** @brief Must be called when a user logged out (/logout or lost connexion).
-** When you log out (/logout) you should also receive the event before quitting.
+** When you log out (/logout) you should also receive the event before
+** quitting.
 ** @param user_uuid The id of the user who logged out
 ** @param user_name The name of the user who logged out
 **
@@ -60,7 +63,8 @@ int client_event_logged_in(char const *user_uuid, const char *user_name);
 int client_event_logged_out(char const *user_uuid, const char *user_name);
 
 /**
-** @brief Must be called when the current logged user receives a private message
+** @brief Must be called when the current logged user receives a private
+** message
 ** @param user_uuid The id of the user that sent the private message
 ** @param message_body The body of the private message
 **
@@ -155,7 +159,8 @@ int client_print_users(
 
 /**
 ** @brief Must be called when you requested a list of teams from the server
-** ex: asking the teams you are subscribed to or the available teams in a domain
+** ex: asking the teams you are subscribed to or the available teams in a
+** domain
 ** This function should be called once per team in the list
 ** This function should be called even if the list only has one entry
 ** @param team_uuid The id of a team
