@@ -1,0 +1,77 @@
+name : Mirroring
+
+on:
+  push:
+    branches-ignore:
+      - "ga-ignore-*"
+  pull_request:
+    branches-ignore:
+      - "ga-ignore-*"
+env:
+  MIRROR_URL: "git@github.com:EpitechPromo2027/B-NWP-400-NAN-4-1-myteams-theophile.jerome-rocher.git"
+  EXECUTABLES: "myteams_server", "myteams_cli"
+jobs:
+  check_coding_style:
+    runs-on: ubuntu-latest
+    container:  ghcr.io/epitech/coding-style-checker:latest
+    steps:
+      - name : "checkout"
+        uses : actions/checkout@v3
+      - name: "coding style"
+        run : |
+          check.sh $(pwd) $(pwd)
+          i=0;
+          while IFS= read -r ligne_str; do
+            FILE=$(echo "$ligne_str" | cut -d: -f1);
+            LINE=$(echo "$ligne_str" | cut -d: -f2);
+            TYPE=$(echo "$ligne_str" | cut -d: -f3);
+            ERR=$(echo "$ligne_str" | cut -d: -f4);
+            echo "::error title="$TYPE coding style error",file=$FILE,line=$LINE::$ERR"
+            i=i+1;
+          done < coding-style-reports.log
+          exit $i
+  check_program_compilation:
+    needs: check_coding_style
+    runs-on : ubuntu-latest
+    container : epitechcontent/epitest-docker
+    timeout-minutes: 2
+    steps:
+      - name : "checkout"
+        uses : actions/checkout@v3
+      - name : "make"
+        run : "make"
+      - name : "make clean"
+        run : "make clean"
+      - name: "Valid Executables"
+        run: |
+          IFS=','
+          string="${{ env.EXECUTABLES }}"
+          for exec in $string; do
+            if ! [ -x "$exec" ] || ! [ -f "$exec" ]; then
+              exit 42
+            fi
+          done
+  
+  run_tests:
+    needs: check_program_compilation
+    timeout-minutes : 2
+    runs-on: ubuntu-latest
+    container : epitechcontent/epitest-docker
+    steps:
+      - name : "checkout"
+        uses : actions/checkout@v3
+      - name : "tests"
+        run : "make run_tests"
+  push_to_mirror:
+    needs : run_tests
+    if: ${{ github.event_name == 'push' }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+            fetch-depth: 0
+      - uses: pixta-dev/repository-mirroring-action@v1
+        with:
+          target_repo_url: ${{ env.MIRROR_URL }}
+          ssh_private_key: ${{ secrets.GIT_SSH_PRIVATE_KEY }}
+
