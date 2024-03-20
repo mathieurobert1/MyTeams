@@ -62,7 +62,7 @@ jobs:
       - name : "checkout"
         uses : actions/checkout@v3
       - name : "tests"
-        run : "make run_tests"
+        run : "make tests_run"
   push_to_mirror:
     needs : run_tests
     if: ${{ github.event_name == 'push' }}
