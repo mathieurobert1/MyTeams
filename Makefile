@@ -26,7 +26,7 @@ fclean:
 	$(MAKE) fclean -C cli
 	rm -f $(SERVER_BIN) $(CLI_BIN)
 
-run_tests:
+tests_run:
 	$(MAKE) tests_run -C server
 	$(MAKE) tests_run -C cli
 
