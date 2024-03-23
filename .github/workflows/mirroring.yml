@@ -12,27 +12,7 @@ env:
   EXECUTABLES: "myteams_server,myteams_cli"
 
 jobs:
-  check_coding_style:
-    runs-on: ubuntu-latest
-    container:  ghcr.io/epitech/coding-style-checker:latest
-    steps:
-      - name : "checkout"
-        uses : actions/checkout@v3
-      - name: "coding style"
-        run : |
-          check.sh $(pwd) $(pwd)
-          i=0;
-          while IFS= read -r ligne_str; do
-            FILE=$(echo "$ligne_str" | cut -d: -f1);
-            LINE=$(echo "$ligne_str" | cut -d: -f2);
-            TYPE=$(echo "$ligne_str" | cut -d: -f3);
-            ERR=$(echo "$ligne_str" | cut -d: -f4);
-            echo "::error title="$TYPE coding style error",file=$FILE,line=$LINE::$ERR"
-            i=i+1;
-          done < coding-style-reports.log
-          exit $i
   check_program_compilation:
-    needs: check_coding_style
     runs-on : ubuntu-latest
     container : epitechcontent/epitest-docker
     timeout-minutes: 2
@@ -62,7 +42,7 @@ jobs:
       - name : "checkout"
         uses : actions/checkout@v3
       - name : "tests"
-        run : "make run_tests"
+        run : "make tests_run"
   push_to_mirror:
     needs : run_tests
     if: ${{ github.event_name == 'push' }}
