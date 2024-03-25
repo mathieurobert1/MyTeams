@@ -18,7 +18,7 @@ static void run_server(server_t *myServ)
     int activity;
 
     while (1) {
-        // accept_connection(myServ, &readfds, &writefds, &max_fd);
+        accept_connection(myServ, &readfds, &writefds, &max_fd);
         FD_ZERO(&readfds);
         FD_SET(myServ->_fd, &readfds);
         FD_ZERO(&writefds);
