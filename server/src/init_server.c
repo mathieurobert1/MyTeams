@@ -19,10 +19,8 @@ static bool set_socket(server_t *myServ)
     myServ->_type = SOCK_STREAM;
     myServ->_protocol = protocol->p_proto;
     myServ->_fd = socket(myServ->_domain, myServ->_type, myServ->_protocol);
-    if (myServ->_fd < 0) {
-        perror("socket failed");
+    if (myServ->_fd < 0)
         return false;
-    }
     return true;
 }
 
