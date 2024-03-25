@@ -9,7 +9,7 @@ MAIN_FILE = src/main.c
 
 MAIN_OBJ = $(MAIN_FILE:.c=.o)
 
-SRC_FILES =
+SRC_FILES = parsing.c \
 
 SRC_DIR = src/
 SRC = $(addprefix $(SRC_DIR), $(SRC_FILES))
