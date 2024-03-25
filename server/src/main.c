@@ -9,6 +9,7 @@
 
 #include "types.h"
 #include "parsing.h"
+#include "server.h"
 
 int main(int argc, char **argv)
 {
@@ -20,6 +21,8 @@ int main(int argc, char **argv)
     if (!parse_command(argc, argv, myServ))
         ret = 84;
     else {
+        if (!handle_server(myServ))
+            ret = 84;
     }
     free(myServ);
     return ret;
