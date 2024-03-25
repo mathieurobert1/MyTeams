@@ -33,12 +33,10 @@ static bool set_bind(server_t *myServ)
     myServ->_addr.sin_addr.s_addr = htons(INADDR_ANY);
     if (setsockopt(myServ->_fd, SOL_SOCKET, SO_REUSEADDR,
         &(int){1}, sizeof(int)) < 0) {
-        perror("reuse port failed");
         return false;
     }
     if (bind(myServ->_fd, (struct sockaddr *)&myServ->_addr,
         sizeof(myServ->_addr)) != 0) {
-        perror("bind failed");
         return false;
     }
     return true;
@@ -47,7 +45,6 @@ static bool set_bind(server_t *myServ)
 static bool set_listen(server_t *myServ)
 {
     if (listen(myServ->_fd, 10) != 0) {
-        perror("listen failed");
         return false;
     }
     return true;
