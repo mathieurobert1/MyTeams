@@ -18,3 +18,9 @@ typedef struct server_s {
     int _port;
     struct sockaddr_in _addr;
 } server_t;
+
+typedef struct client_s {
+    int _fd;
+    struct client_s *_next;
+    struct client_s *_last;
+} client_t;
