@@ -37,7 +37,8 @@ static void run_server(server_t *myServ)
         FD_ZERO(&myServ->writefds);
         max_fd = myServ->_fd;
         set_fd_client(&max_fd, myServ);
-        activity = select(max_fd + 1, &myServ->readfds, &myServ->writefds, NULL, NULL);
+        activity = select(max_fd + 1, &myServ->readfds,
+            &myServ->writefds, NULL, NULL);
         if ((activity < 0)) {
             continue;
         }
