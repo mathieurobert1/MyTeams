@@ -5,10 +5,25 @@
 ** main
 */
 
-#include <stdio.h>
+#include <stdlib.h>
 
-int main(void)
+#include "types.h"
+#include "parsing.h"
+#include "server.h"
+
+int main(int argc, char **argv)
 {
-    printf("Server is running...\n");
-    return 0;
+    server_t *myServ = malloc(sizeof(server_t));
+    int ret = 0;
+
+    if (!myServ)
+        return 84;
+    if (!parse_command(argc, argv, myServ))
+        ret = 84;
+    else {
+        if (!handle_server(myServ))
+            ret = 84;
+    }
+    free(myServ);
+    return ret;
 }
