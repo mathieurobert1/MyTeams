@@ -9,4 +9,6 @@
 
 #include "types.h"
 
+/// @brief handle the client's commands
+/// @param myServ server structure
 void handle_client_commands(server_t *myServ);
