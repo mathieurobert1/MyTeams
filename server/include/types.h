@@ -9,6 +9,7 @@
 
 #include <arpa/inet.h>
 #include <stdbool.h>
+#include <sys/select.h>
 
 typedef struct server_s {
     int _domain;
@@ -18,6 +19,8 @@ typedef struct server_s {
     int _port;
     struct sockaddr_in _addr;
     struct client_list_s *_list_client;
+    fd_set readfds;
+    fd_set writefds;
 } server_t;
 
 typedef struct client_s {

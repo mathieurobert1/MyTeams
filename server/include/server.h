@@ -11,5 +11,4 @@
 
 bool init_server(server_t *myServ);
 bool handle_server(server_t *myServ);
-void accept_connection(server_t *myServ, fd_set *readfds,
-    fd_set *writefds, int *max_fd);
+void accept_connection(server_t *myServ, int *max_fd);
