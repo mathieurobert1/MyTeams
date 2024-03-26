@@ -21,6 +21,7 @@ static bool set_parsing_values(char **argv, server_t *myServ)
 {
     myServ->_port = atoi(argv[1]);
     if (myServ->_port == 0) {
+        write(1, "Error: wrong port number\n", 25);
         return false;
     }
     return true;
@@ -36,5 +37,6 @@ bool parse_command(int argc, char **argv, server_t *myServ)
         }
         return set_parsing_values(argv, myServ);
     }
+    write(1, "Error: wrong arguments\n", 23);
     return false;
 }

@@ -21,6 +21,7 @@ void accept_connection(server_t *myServ, int *max_fd)
         new_socket = accept(myServ->_fd, (struct sockaddr*)&cliaddr,
         (socklen_t *)&len);
         if (new_socket < 0) {
+            write(1, "Error: Accept failed\n", 21);
             return;
         }
         create_client(new_socket, myServ);
