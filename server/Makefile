@@ -21,7 +21,7 @@ SRC_DIR = src/
 SRC = $(addprefix $(SRC_DIR), $(SRC_FILES))
 OBJ = $(SRC:.c=.o)
 CFLAGS = -Wall -Wextra -Werror
-INC = -I./include
+INC = -I./include -I../libs/myteams/ -L ../libs/myteams/ -lmyteams
 
 TEST_FILES =
 
