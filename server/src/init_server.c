@@ -50,7 +50,12 @@ static bool set_listen(server_t *myServ)
 
 static bool set_list_client(server_t *myServ)
 {
-    (void) myServ;
+    myServ->_list_client = malloc(sizeof(client_list_t));
+    if (!myServ->_list_client)
+        return false;
+    myServ->_list_client->first = NULL;
+    myServ->_list_client->last = NULL;
+    myServ->_list_client->nb_client = 0;
     return true;
 }
 

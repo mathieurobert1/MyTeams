@@ -12,6 +12,10 @@ MAIN_OBJ = $(MAIN_FILE:.c=.o)
 SRC_FILES = parsing.c \
 			init_server.c \
 			server.c \
+			list_chained.c \
+			accept_connection.c \
+			\
+			commands/handle_commands.c \
 
 SRC_DIR = src/
 SRC = $(addprefix $(SRC_DIR), $(SRC_FILES))
