@@ -15,7 +15,23 @@ SRC_FILES = parsing.c \
 			list_chained.c \
 			accept_connection.c \
 			\
+			commands/commands.c \
 			commands/handle_commands.c \
+			commands/help.c \
+			commands/login.c \
+			commands/logout.c \
+			commands/users.c \
+			commands/user.c \
+			commands/send.c \
+			commands/messages.c \
+			commands/subscribe.c \
+			commands/subscribed.c \
+			commands/unsubscribe.c \
+			commands/use.c \
+			commands/create.c \
+			commands/list.c \
+			commands/info.c \
+
 
 SRC_DIR = src/
 SRC = $(addprefix $(SRC_DIR), $(SRC_FILES))
