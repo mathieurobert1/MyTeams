@@ -10,6 +10,7 @@
 #include <sys/socket.h>
 #include <netdb.h>
 #include <stdlib.h>
+#include <unistd.h>
 
 static bool set_socket(server_t *myServ)
 {
@@ -19,8 +20,10 @@ static bool set_socket(server_t *myServ)
     myServ->_type = SOCK_STREAM;
     myServ->_protocol = protocol->p_proto;
     myServ->_fd = socket(myServ->_domain, myServ->_type, myServ->_protocol);
-    if (myServ->_fd < 0)
+    if (myServ->_fd < 0) {
+        write(1, "Error: Socket failed\n", 21);
         return false;
+    }
     return true;
 }
 
@@ -31,10 +34,12 @@ static bool set_bind(server_t *myServ)
     myServ->_addr.sin_addr.s_addr = htons(INADDR_ANY);
     if (setsockopt(myServ->_fd, SOL_SOCKET, SO_REUSEADDR,
         &(int){1}, sizeof(int)) < 0) {
+        write(1, "Error: Re-use port failed\n", 26);
         return false;
     }
     if (bind(myServ->_fd, (struct sockaddr *)&myServ->_addr,
         sizeof(myServ->_addr)) != 0) {
+        write(1, "Error: Bind failed\n", 19);
         return false;
     }
     return true;
@@ -43,6 +48,7 @@ static bool set_bind(server_t *myServ)
 static bool set_listen(server_t *myServ)
 {
     if (listen(myServ->_fd, 10) != 0) {
+        write(1, "Error: listen failed\n", 21);
         return false;
     }
     return true;

@@ -40,7 +40,7 @@ static void run_server(server_t *myServ)
         activity = select(max_fd + 1, &myServ->readfds,
             &myServ->writefds, NULL, NULL);
         if ((activity < 0)) {
-            continue;
+            write(1, "Error: Select failed\n", 21);
         }
         handle_client_commands(myServ);
     }
