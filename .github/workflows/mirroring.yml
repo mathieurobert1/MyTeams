@@ -44,7 +44,7 @@ jobs:
       - name : export so lib
         run : |
           Path=$(pwd)
-          "export=LD_LIBRARY_PATH=$path/libs/myteams:$LD_LIBRARY_PATH"
+          export=LD_LIBRARY_PATH=$Path/libs/myteams:$LD_LIBRARY_PATH
       - name : "tests"
         run : "make tests_run"
   push_to_mirror:
