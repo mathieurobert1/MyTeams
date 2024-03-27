@@ -30,6 +30,8 @@ static void run_server(server_t *myServ)
     int max_fd;
     int activity;
 
+    FD_ZERO(&myServ->readfds);
+    FD_ZERO(&myServ->writefds);
     while (1) {
         accept_connection(myServ, &max_fd);
         FD_ZERO(&myServ->readfds);

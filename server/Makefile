@@ -14,6 +14,7 @@ SRC_FILES = parsing.c \
 			server.c \
 			list_chained.c \
 			accept_connection.c \
+			delete_server.c \
 			\
 			commands/commands.c \
 			commands/handle_commands.c \
