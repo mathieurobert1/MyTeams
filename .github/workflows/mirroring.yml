@@ -41,12 +41,10 @@ jobs:
     steps:
       - name : "checkout"
         uses : actions/checkout@v3
-      - name : export so lib
-        run : |
-          Path=$(pwd)
-          export=LD_LIBRARY_PATH=$Path/libs/myteams:$LD_LIBRARY_PATH
       - name : "tests"
-        run : "make tests_run"
+        run : |
+          PATH=$(pwd)
+          LD_LIBRARY_PATH=$PATH/libs/myteams:$LD_LIBRARY_PATH make tests_run
   push_to_mirror:
     needs : run_tests
     if: ${{ github.event_name == 'push' }}
