@@ -16,6 +16,8 @@ SRC_FILES = parsing.c \
 			accept_connection.c \
 			\
 			commands/handle_commands.c \
+			\
+			protocol/send.c \
 
 SRC_DIR = src/
 SRC = $(addprefix $(SRC_DIR), $(SRC_FILES))
