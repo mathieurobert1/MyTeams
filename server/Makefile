@@ -17,6 +17,9 @@ SRC_FILES = parsing.c \
 			\
 			commands/commands.c \
 			commands/handle_commands.c \
+			commands/read_command.c \
+			commands/get_command.c \
+			\
 			commands/help.c \
 			commands/login.c \
 			commands/logout.c \

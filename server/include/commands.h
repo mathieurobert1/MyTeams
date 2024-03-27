@@ -17,6 +17,29 @@
 void handle_client_commands(server_t *myServ);
 
 /**
+ * @brief read the client command
+ *
+ * @param tmp client to read
+ * @return char* command of the client
+ */
+char *read_data_client(client_t *tmp);
+
+/**
+ * @brief Get the list of the client command
+ *
+ * @param buffer command in char*
+ * @return char** list of char* command
+ */
+char **get_list_arg(char *buffer);
+
+/**
+ * @brief delete the command list
+ *
+ * @param list_arg command list
+ */
+void delete_list_arg(char **list_arg);
+
+/**
  * @brief help_command
  *
  * @param command array
