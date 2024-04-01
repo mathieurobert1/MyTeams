@@ -5,7 +5,8 @@
 ## Makefile
 ##
 
-MAIN_FILE = src/main.c
+MAIN_FILE = src/main.c \
+				src/parsing.c \
 
 MAIN_OBJ = $(MAIN_FILE:.c=.o)
 
