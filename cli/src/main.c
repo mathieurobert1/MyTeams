@@ -15,6 +15,7 @@
 #include <signal.h>
 #include "client.h"
 #include <string.h>
+#include <fcntl.h>
 
 static bool connect_to_server(client_t *client)
 {
@@ -44,9 +45,7 @@ static bool client_logic(client_t *client)
 {
     fd_set rdfds;
     fd_set wrtfds;
-    char readserverbuff;
-    char *uinput = NULL;
-    size_t uinputsize = 9999;
+    char *tmp;
 
     if (!connect_to_server(client))
         return false;
@@ -55,19 +54,21 @@ static bool client_logic(client_t *client)
         FD_ZERO(&rdfds);
         FD_SET(client->cli_fd, &rdfds);
         FD_SET(client->cli_fd, &wrtfds);
+        FD_SET(STDIN_FILENO, &rdfds);
+
         if (!select(client->cli_fd + 1, &rdfds, &wrtfds, NULL, NULL))
             break;
         if (FD_ISSET(client->cli_fd, &rdfds)) {
-            while (read(client->cli_fd, &readserverbuff, 1) != 0) {
-                write(1, &readserverbuff, 1);
-            }
+            tmp = read_flow(client->cli_fd, true);
+            write(1, tmp, strlen(tmp));
+            free(tmp);
         }
         if (FD_ISSET(client->cli_fd, &wrtfds)) {
-            if (getline(&uinput, &uinputsize, stdin) > 0) {
-                while(uinput[0] == ' ') uinput++;
-                uinput[strlen(uinput) - 1] = '\0';
-                strcat(uinput, "\r\n");
-                send(client->cli_fd, uinput, strlen(uinput), 0);
+            if (FD_ISSET(STDIN_FILENO, &rdfds)) {
+                tmp = read_flow(STDIN_FILENO, false);
+                write(client->cli_fd, tmp, (strlen(tmp) - 1));
+                write(client->cli_fd, "\r\n", 2);
+                free(tmp);
             }
         }
         

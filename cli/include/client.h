@@ -14,3 +14,4 @@ typedef struct client_s {
 } client_t;
 
 int parse_client(int ac, char **av, client_t *client);
+char *read_flow(int fd, bool rn);

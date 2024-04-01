@@ -7,6 +7,7 @@
 
 MAIN_FILE = src/main.c \
 				src/parsing.c \
+				src/read_flow.c \
 
 MAIN_OBJ = $(MAIN_FILE:.c=.o)
 
