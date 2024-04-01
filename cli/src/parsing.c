@@ -9,7 +9,8 @@
 #include <string.h>
 #include <stdlib.h>
 
-int parse_client(int ac, char **av, client_t *client) {
+int parse_client(int ac, char **av, client_t *client)
+{
     if (ac == 2 && strcmp(av[1], "-help") == 0) {
         printf("on affiche l'aide");
         return 1;
@@ -18,7 +19,7 @@ int parse_client(int ac, char **av, client_t *client) {
         return 84;
     client->ip = strdup(av[1]);
     client->port = atoi(av[2]);
-    if (port == 0)
+    if (client->port == 0 || client->ip == NULL)
         return 84;
     return 0;
 }

@@ -2,16 +2,15 @@
 ** EPITECH PROJECT, 2024
 ** client
 ** File description:
-** header file 
+** header file
 */
-
 #pragma once
 #include <stdbool.h>
 
 typedef struct client_s {
-    int port; 
+    int port;
     char *ip;
+    int cli_fd;
 } client_t;
-
 
 int parse_client(int ac, char **av, client_t *client);
