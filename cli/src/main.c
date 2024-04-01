@@ -41,37 +41,62 @@ static bool connect_to_server(client_t *client)
     return true;
 }
 
+static void set_fds(fd_set *wrtfds, fd_set *rdfds, client_t *client)
+{
+    FD_ZERO(wrtfds);
+    FD_ZERO(rdfds);
+    FD_SET(client->cli_fd, rdfds);
+    FD_SET(client->cli_fd, wrtfds);
+    FD_SET(STDIN_FILENO, rdfds);
+}
+
+static void read_server(client_t *client, bool *issue)
+{
+    char *tmp;
+
+    tmp = read_flow(client->cli_fd, true);
+    if (!tmp && !(*issue)) {
+        (*issue) = true;
+        return;
+    }
+    write(1, tmp, strlen(tmp));
+    free(tmp);
+}
+
+static void uinput(client_t *client, fd_set *rdfds, bool *issue)
+{
+    char *tmp;
+
+    if (FD_ISSET(STDIN_FILENO, rdfds)) {
+        tmp = read_flow(STDIN_FILENO, false);
+        if (!tmp && !(*issue)) {
+            (*issue) = true;
+            return;
+        }
+        write(client->cli_fd, tmp, (strlen(tmp) - 1));
+        write(client->cli_fd, "\r\n", 2);
+        free(tmp);
+    }
+}
+
 static bool client_logic(client_t *client)
 {
     fd_set rdfds;
     fd_set wrtfds;
-    char *tmp;
+    bool issue = false;
 
     if (!connect_to_server(client))
         return false;
     while (1) {
-        FD_ZERO(&wrtfds);
-        FD_ZERO(&rdfds);
-        FD_SET(client->cli_fd, &rdfds);
-        FD_SET(client->cli_fd, &wrtfds);
-        FD_SET(STDIN_FILENO, &rdfds);
-
+        set_fds(&wrtfds, &rdfds, client);
         if (!select(client->cli_fd + 1, &rdfds, &wrtfds, NULL, NULL))
             break;
-        if (FD_ISSET(client->cli_fd, &rdfds)) {
-            tmp = read_flow(client->cli_fd, true);
-            write(1, tmp, strlen(tmp));
-            free(tmp);
-        }
-        if (FD_ISSET(client->cli_fd, &wrtfds)) {
-            if (FD_ISSET(STDIN_FILENO, &rdfds)) {
-                tmp = read_flow(STDIN_FILENO, false);
-                write(client->cli_fd, tmp, (strlen(tmp) - 1));
-                write(client->cli_fd, "\r\n", 2);
-                free(tmp);
-            }
-        }
-        
+        if (FD_ISSET(client->cli_fd, &rdfds))
+            read_server(client, &issue);
+        if (FD_ISSET(client->cli_fd, &wrtfds))
+            uinput(client, &rdfds, &issue);
+        if (issue)
+            return true;
     }
     close(client->cli_fd);
     return true;
@@ -89,7 +114,7 @@ int main(int ac, char **av)
         return ret;
     }
     if (!client_logic(&client))
-        return 84;
+        ret = 84;
     free(client.ip);
     return ret;
 }
