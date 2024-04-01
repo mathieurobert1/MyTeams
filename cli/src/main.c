@@ -14,6 +14,7 @@
 #include <stdio.h>
 #include <signal.h>
 #include "client.h"
+#include <string.h>
 
 static bool connect_to_server(client_t *client)
 {
@@ -43,6 +44,9 @@ static bool client_logic(client_t *client)
 {
     fd_set rdfds;
     fd_set wrtfds;
+    char readserverbuff;
+    char *uinput = NULL;
+    size_t uinputsize = 9999;
 
     if (!connect_to_server(client))
         return false;
@@ -51,11 +55,22 @@ static bool client_logic(client_t *client)
         FD_ZERO(&rdfds);
         FD_SET(client->cli_fd, &rdfds);
         FD_SET(client->cli_fd, &wrtfds);
-        select(client->cli_fd + 1, &rdfds, &wrtfds, NULL, NULL);
+        if (!select(client->cli_fd + 1, &rdfds, &wrtfds, NULL, NULL))
+            break;
         if (FD_ISSET(client->cli_fd, &rdfds)) {
+            while (read(client->cli_fd, &readserverbuff, 1) != 0) {
+                write(1, &readserverbuff, 1);
+            }
         }
         if (FD_ISSET(client->cli_fd, &wrtfds)) {
+            if (getline(&uinput, &uinputsize, stdin) > 0) {
+                while(uinput[0] == ' ') uinput++;
+                uinput[strlen(uinput) - 1] = '\0';
+                strcat(uinput, "\r\n");
+                send(client->cli_fd, uinput, strlen(uinput), 0);
+            }
         }
+        
     }
     close(client->cli_fd);
     return true;
