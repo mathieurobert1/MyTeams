@@ -11,7 +11,6 @@
 
 #include <stdlib.h>
 #include <string.h>
-
 #include <unistd.h>
 
 static void handle_command(char *buffer, server_t *myServ, client_t *client)
