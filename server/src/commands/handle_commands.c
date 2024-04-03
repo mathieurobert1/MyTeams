@@ -7,6 +7,7 @@
 
 #include "types.h"
 #include "commands.h"
+#include "protocol.h"
 
 #include <stdlib.h>
 #include <string.h>
@@ -21,7 +22,7 @@ static void handle_command(char *buffer, server_t *myServ, client_t *client)
         return;
     list_arg = get_list_arg(buffer);
     if (!list_arg) {
-        //send error syntax
+        ptc_send(SYNTAX_ERROR, "Error Syntax", client->_fd, &myServ->writefds);
         return;
     }
     for (int i = 0; _list_command[i]._name != NULL; i++) {
@@ -32,7 +33,7 @@ static void handle_command(char *buffer, server_t *myServ, client_t *client)
             return;
         }
     }
-    //send error syntax
+    ptc_send(SYNTAX_ERROR, "Error Syntax.", client->_fd, &myServ->writefds);
     free(buffer);
     delete_list_arg(list_arg);
 }
