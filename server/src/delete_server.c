@@ -14,6 +14,7 @@ void delete_server(server_t *myServ)
 {
     if (!myServ)
         return;
-    delete_clients(myServ->_list_client);
+    if (myServ->_list_client)
+        delete_clients(myServ->_list_client);
     free(myServ);
 }
