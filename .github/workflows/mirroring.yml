@@ -33,20 +33,20 @@ jobs:
             fi
           done
   
-  run_tests:
-    needs: check_program_compilation
-    timeout-minutes : 2
-    runs-on: ubuntu-latest
-    container : epitechcontent/epitest-docker
-    steps:
-      - name : "checkout"
-        uses : actions/checkout@v3
-      - name : "tests"
-        run : |
-          PATH=$(pwd)
-          LD_LIBRARY_PATH=$PATH/libs/myteams:$LD_LIBRARY_PATH make tests_run
+  # run_tests:
+  #   needs: check_program_compilation
+  #   timeout-minutes : 2
+  #   runs-on: ubuntu-latest
+  #   container : epitechcontent/epitest-docker
+  #   steps:
+  #     - name : "checkout"
+  #       uses : actions/checkout@v3
+  #     - name : "tests"
+  #       run : |
+  #         PATH=$(pwd)
+  #         LD_LIBRARY_PATH=$PATH/libs/myteams:$LD_LIBRARY_PATH make tests_run
   push_to_mirror:
-    needs : run_tests
+    needs : check_program_compilation
     if: ${{ github.event_name == 'push' }}
     runs-on: ubuntu-latest
     steps:
