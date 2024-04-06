@@ -34,3 +34,10 @@ typedef struct client_list_s {
     client_t *last;
     int nb_client;
 } client_list_t;
+
+typedef struct command_s {
+    char *_name;
+    void (*_fct)(char **command, server_t *myServ, client_t *client);
+} command_t;
+
+extern const command_t _list_command[];

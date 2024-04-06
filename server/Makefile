@@ -14,8 +14,27 @@ SRC_FILES = parsing.c \
 			server.c \
 			list_chained.c \
 			accept_connection.c \
+			delete_server.c \
 			\
+			commands/commands.c \
 			commands/handle_commands.c \
+			commands/read_command.c \
+			commands/get_command.c \
+			\
+			commands/help.c \
+			commands/login.c \
+			commands/logout.c \
+			commands/users.c \
+			commands/user.c \
+			commands/send.c \
+			commands/messages.c \
+			commands/subscribe.c \
+			commands/subscribed.c \
+			commands/unsubscribe.c \
+			commands/use.c \
+			commands/create.c \
+			commands/list.c \
+			commands/info.c \
 			\
 			protocol/send.c \
 
