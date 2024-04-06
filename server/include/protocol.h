@@ -10,7 +10,11 @@
 #include <sys/select.h>
 
 typedef enum ptc_state {
-    SYNTAX_ERROR = 500
+    HELP = 214,
+
+    SYNTAX_ERROR = 500,
+    ERROR_PARAMETERS = 501,
+    TO_MORE_PARAMETERS = 502
 } ptc_state_t;
 
 /**
