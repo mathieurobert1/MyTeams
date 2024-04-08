@@ -18,7 +18,8 @@ static void send_message(client_t *client, server_t *myServ)
     ptc_send(MESSAGE_SEND, "Message send.", client->_fd, &myServ->writefds);
 }
 
-static void receive_message(char *msg, server_t *myServ, user_t *user_to_send)
+static void send_message_to_receiver(char *msg, server_t *myServ,
+    user_t *user_to_send)
 {
     client_t *tmp = myServ->_list_client->first;
 
@@ -61,5 +62,5 @@ void send_command(char **command, server_t *myServ, client_t *client)
     user_to_send->uuid, command[2]);
     save_message(client->_user_data, user_to_send, command[2]);
     send_message(client, myServ);
-    receive_message(command[2], myServ, user_to_send);
+    send_message_to_receiver(command[2], myServ, user_to_send);
 }
