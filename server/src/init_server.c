@@ -11,6 +11,7 @@
 #include <netdb.h>
 #include <stdlib.h>
 #include <unistd.h>
+#include "lists.h"
 
 static bool set_socket(server_t *myServ)
 {
@@ -72,5 +73,6 @@ bool init_server(server_t *myServ)
         !set_listen(myServ) ||
         !set_list_client(myServ))
         return false;
+    myServ->_list_users = init_list_users();
     return true;
 }

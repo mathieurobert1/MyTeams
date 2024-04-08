@@ -11,10 +11,12 @@
 
 typedef enum ptc_state {
     HELP = 214,
+    LOGED_IN = 230,
 
     SYNTAX_ERROR = 500,
     ERROR_PARAMETERS = 501,
-    TO_MORE_PARAMETERS = 502
+    TOO_MORE_PARAMETERS = 502,
+    TOO_FEW_PARAMETERS = 503
 } ptc_state_t;
 
 /**

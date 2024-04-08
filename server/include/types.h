@@ -11,6 +11,10 @@
 #include <stdbool.h>
 #include <sys/select.h>
 
+#define MAX_NAME_LENGTH 32
+#define MAX_DESCRIPTION_LENGTH 255
+#define MAX_BODY_LENGTH 512
+
 typedef struct server_s {
     int _domain;
     int _type;
@@ -19,12 +23,14 @@ typedef struct server_s {
     int _port;
     struct sockaddr_in _addr;
     struct client_list_s *_list_client;
+    struct user_list_s *_list_users;
     fd_set readfds;
     fd_set writefds;
 } server_t;
 
 typedef struct client_s {
     int _fd;
+    struct user_s *_user_data;
     struct client_s *_next;
     struct client_s *_last;
 } client_t;
@@ -97,3 +103,5 @@ typedef struct command_s {
     char *_name;
     void (*_fct)(char **command, server_t *myServ, client_t *client);
 } command_t;
+
+extern const command_t _list_command[];

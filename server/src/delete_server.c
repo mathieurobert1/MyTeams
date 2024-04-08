@@ -6,7 +6,7 @@
 */
 
 #include "types.h"
-#include "list_chained.h"
+#include "lists.h"
 
 #include <stdlib.h>
 
