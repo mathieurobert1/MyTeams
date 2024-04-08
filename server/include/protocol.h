@@ -15,6 +15,7 @@ typedef enum ptc_state {
     LOGED_IN = 230,
     COMMAND_SUCCESS = 200,
 
+    UNKNOWN_USER = 400,
     SYNTAX_ERROR = 500,
     ERROR_PARAMETERS = 501,
     TOO_MORE_PARAMETERS = 502,
