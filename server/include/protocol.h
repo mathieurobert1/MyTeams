@@ -19,7 +19,10 @@ typedef enum ptc_state {
     SYNTAX_ERROR = 500,
     ERROR_PARAMETERS = 501,
     TOO_MORE_PARAMETERS = 502,
-    TOO_FEW_PARAMETERS = 503
+    TOO_FEW_PARAMETERS = 503,
+
+    MESSAGE_SEND = 600,
+    MESSAGE_RECIEVE = 601
 } ptc_state_t;
 
 /**

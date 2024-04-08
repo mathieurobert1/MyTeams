@@ -13,7 +13,7 @@
 #include <string.h>
 #include <stdlib.h>
 
-static int getSizeMessage(user_list_t *user_list)
+static int get_size_message(user_list_t *user_list)
 {
     int size = 0;
     user_t *tmp = user_list->first;
@@ -25,9 +25,9 @@ static int getSizeMessage(user_list_t *user_list)
     return size;
 }
 
-static char *getMessage(user_list_t *user_list)
+static char *get_message(user_list_t *user_list)
 {
-    int size = getSizeMessage(user_list);
+    int size = get_size_message(user_list);
     char *msg = malloc(sizeof(char) * (size + 1));
     user_t *tmp = user_list->first;
 
@@ -54,9 +54,10 @@ void users_command(char **command, server_t *myServ, client_t *client)
     user_list_t *user_list = myServ->_list_users;
     char *msg = NULL;
 
-    if (is_correct_command(&myServ->writefds, command, 0, client->_fd) == false)
+    if (is_correct_command(&myServ->writefds,
+    command, 0, client->_fd) == false)
         return;
-    msg = getMessage(user_list);
+    msg = get_message(user_list);
     ptc_send(COMMAND_SUCCESS, msg, client->_fd, &myServ->writefds);
     if (msg != NULL)
         free(msg);

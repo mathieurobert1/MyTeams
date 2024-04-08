@@ -23,7 +23,8 @@ message_list_t *init_list_messages(void)
     return messages_list;
 }
 
-message_t *create_messages(message_list_t *list_messagess, char *uuidReceiver, char *uuidSender, char *message)
+message_t *create_messages(message_list_t *list_messagess,
+    char *uuidReceiver, char *uuidSender, char *message)
 {
     message_t *messages = malloc(sizeof(message_t));
 
