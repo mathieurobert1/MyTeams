@@ -8,6 +8,8 @@
 #include "types.h"
 #include <stdlib.h>
 #include <unistd.h>
+#include <string.h>
+#include "lists.h"
 
 team_list_t *init_list_teams(void)
 {
@@ -34,22 +36,23 @@ team_t *create_team(team_list_t *list_teams, char *uuid, char *name)
     team->name = strdup(name);
     team->users = NULL;
     team->uuid = strdup(uuid);
+    add_to_list_team(list_teams, team);
     return team;
 }
 
-void delete_team(team_t *user)
+void delete_team(team_t *team)
 {
-    if (!user)
+    if (!team)
         return;
-    if (user->name)
-        free(user->name);
-    if (user->uuid)
-        free(user->uuid);
-    if (user->description)
-        free(user->description);
-    if (user->description)
-        free(user->description);    
-    free(user);
+    if (team->name)
+        free(team->name);
+    if (team->uuid)
+        free(team->uuid);
+    if (team->description)
+        free(team->description);
+    if (team->description)
+        free(team->description);    
+    free(team);
 }
 
 void delete_list_teams(team_list_t *list_teams)
@@ -70,7 +73,7 @@ void delete_list_teams(team_list_t *list_teams)
 
 void add_to_list_team(team_list_t *list, team_t *team)
 {
-    client_t *tmp = list->first;
+    team_t *tmp = list->first;
 
     if (list->nb_team == 0) {
         list->first = team;
@@ -82,7 +85,7 @@ void add_to_list_team(team_list_t *list, team_t *team)
     }
     list->first = team;
     team->last = NULL;
-    tmp->_last = team;
+    tmp->last = team;
     team->next = tmp;
     list->nb_team++;
 }

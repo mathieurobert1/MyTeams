@@ -8,6 +8,8 @@
 #include "types.h"
 #include <stdlib.h>
 #include <unistd.h>
+#include <string.h>
+#include "lists.h"
 
 channel_list_t *init_list_channels(void)
 {
@@ -33,6 +35,7 @@ channel_t *create_channel(channel_list_t *list_channels, char *name, char *uuid)
     channel->uuid = strdup(uuid);
     channel->description = NULL;
     channel->threads = NULL;
+    add_to_list_channel(list_channels, channel);
     return channel;
 }
 
@@ -67,7 +70,7 @@ void delete_list_channels(channel_list_t *list_channels)
 
 void add_to_list_channel(channel_list_t *list, channel_t *channel)
 {
-    client_t *tmp = list->first;
+    channel_t *tmp = list->first;
 
     if (list->nb_channel == 0) {
         list->first = channel;
@@ -79,7 +82,7 @@ void add_to_list_channel(channel_list_t *list, channel_t *channel)
     }
     list->first = channel;
     channel->last = NULL;
-    tmp->_last = channel;
+    tmp->last = channel;
     channel->next = tmp;
     list->nb_channel++;
 }

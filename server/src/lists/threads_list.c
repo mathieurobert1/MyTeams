@@ -8,6 +8,8 @@
 #include "types.h"
 #include <stdlib.h>
 #include <unistd.h>
+#include <string.h>
+#include "lists.h"
 
 thread_list_t *init_list_threads(void)
 {
@@ -32,6 +34,7 @@ thread_t *create_thread(thread_list_t *list_threads, char *uuid, char *title)
     thread->message = NULL;
     thread->title = strdup(title);
     thread->uuid = strdup(uuid);
+    add_to_list_threads(list_threads, thread);
     return thread;
 }
 
@@ -66,7 +69,7 @@ void delete_list_threads(thread_list_t *list_threads)
 
 void add_to_list_threads(thread_list_t *list, thread_t *thread)
 {
-    client_t *tmp = list->first;
+    thread_t *tmp = list->first;
 
     if (list->nb_thread == 0) {
         list->first = thread;
@@ -78,7 +81,7 @@ void add_to_list_threads(thread_list_t *list, thread_t *thread)
     }
     list->first = thread;
     thread->last = NULL;
-    tmp->_last = thread;
+    tmp->last = thread;
     thread->next = tmp;
     list->nb_thread++;
 }

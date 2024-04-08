@@ -8,6 +8,8 @@
 #include "types.h"
 #include <stdlib.h>
 #include <unistd.h>
+#include <string.h>
+#include "lists.h"
 
 user_list_t *init_list_users(void)
 {
@@ -31,6 +33,7 @@ user_t *create_user(user_list_t *list_users, char *uuid, char *user_name)
     user->next = NULL;
     user->username = strdup(user_name);
     user->uuid = strdup(uuid);
+    add_to_list_users(list_users, user);
     return user;
 }
 
@@ -63,7 +66,7 @@ void delete_list_users(user_list_t *list_users)
 
 void add_to_list_users(user_list_t *list, user_t *user)
 {
-    client_t *tmp = list->first;
+    user_t *tmp = list->first;
 
     if (list->nb_user == 0) {
         list->first = user;
@@ -75,7 +78,7 @@ void add_to_list_users(user_list_t *list, user_t *user)
     }
     list->first = user;
     user->last = NULL;
-    tmp->_last = user;
+    tmp->last = user;
     user->next = tmp;
     list->nb_user++;
 }
