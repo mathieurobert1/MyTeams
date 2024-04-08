@@ -10,11 +10,16 @@ MAIN_FILE = src/main.c
 MAIN_OBJ = $(MAIN_FILE:.c=.o)
 
 SRC_FILES = parsing.c \
+			lists/channels_list.c \
+			lists/clients_list.c \
+			lists/teams_list.c \
+			lists/threads_list.c \
+			lists/users_list.c \
 			init_server.c \
 			server.c \
-			list_chained.c \
 			accept_connection.c \
 			delete_server.c \
+			\
 			\
 			commands/commands.c \
 			commands/handle_commands.c \
