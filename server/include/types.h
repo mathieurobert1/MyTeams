@@ -11,6 +11,10 @@
 #include <stdbool.h>
 #include <sys/select.h>
 
+#define MAX_NAME_LENGTH 32
+#define MAX_DESCRIPTION_LENGTH 255
+#define MAX_BODY_LENGTH 512
+
 typedef struct server_s {
     int _domain;
     int _type;
