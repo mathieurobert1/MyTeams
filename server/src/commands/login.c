@@ -41,6 +41,8 @@ static user_t *get_user_data(server_t *myServ, char *user_name)
 
 static void login_client(char **command, server_t *myServ, client_t *client)
 {
+    char *uuid = NULL;
+
     cut_user_name_to_long(command);
     client->_user_data = get_user_data(myServ, command[1]);
     if (client->_user_data != NULL) {
@@ -49,7 +51,11 @@ static void login_client(char **command, server_t *myServ, client_t *client)
         client->_fd, &myServ->writefds);
         return;
     }
-    client->_user_data = create_user(myServ->_list_users, "UUID", command[1]);
+    uuid = create_uuid();
+    if (!uuid)
+        return;
+    client->_user_data = create_user(myServ->_list_users, uuid, command[1]);
+    free(uuid);
     if (!client->_user_data)
         return;
     server_event_user_logged_in(client->_user_data->uuid);

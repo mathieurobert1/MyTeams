@@ -208,3 +208,10 @@ bool is_too_more_args(char **command, size_t nb_args,
  */
 bool is_correct_command(fd_set *writefds, char **command,
     size_t nb_args, int fd_client);
+
+/**
+ * @brief create an uuid
+ *
+ * @return char* of the uuid
+ */
+char *create_uuid(void);

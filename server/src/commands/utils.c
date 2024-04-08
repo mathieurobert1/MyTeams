@@ -6,8 +6,10 @@
 */
 
 #include <unistd.h>
+#include <stdlib.h>
 #include <stdbool.h>
 #include "protocol.h"
+#include <uuid/uuid.h>
 
 bool is_too_few_args(char **command, size_t nb_args,
     int fd_client, fd_set *writefds)
@@ -47,4 +49,16 @@ bool is_correct_command(fd_set *writefds, char **command,
     if (is_too_more_args(command, nb_args, fd_client, writefds))
         return false;
     return true;
+}
+
+char *create_uuid(void)
+{
+    uuid_t binuuid;
+    char *uuid = malloc(37);
+
+    if (!uuid)
+        return NULL;
+    uuid_generate_random(binuuid);
+    uuid_unparse_lower(binuuid, uuid);
+    return uuid;
 }
