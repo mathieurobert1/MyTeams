@@ -8,6 +8,7 @@
 #include "types.h"
 #include "commands.h"
 #include "protocol.h"
+#include "utils.h"
 
 #include <string.h>
 #include <stdlib.h>

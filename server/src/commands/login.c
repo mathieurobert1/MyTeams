@@ -8,10 +8,12 @@
 #include "types.h"
 #include "protocol.h"
 #include "commands.h"
-#include <stdlib.h>
-#include <string.h>
 #include "lists.h"
 #include "logging_server.h"
+#include "utils.h"
+
+#include <stdlib.h>
+#include <string.h>
 
 static void cut_user_name_to_long(char **command)
 {
