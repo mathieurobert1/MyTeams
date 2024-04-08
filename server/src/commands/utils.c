@@ -12,11 +12,11 @@
 bool is_too_few_args(char **command, size_t nb_args,
     int fd_client, fd_set *writefds)
 {
-    int len_command = 0;
+    size_t len_command = 0;
 
     for (size_t i = 0; command[i] != NULL; i++)
         len_command++;
-    if (nb_args < (len_command - 1)) {
+    if (nb_args > (len_command - 1)) {
         ptc_send(TOO_FEW_PARAMETERS, "Too few arguments",
         fd_client, writefds);
         return true;
@@ -27,12 +27,12 @@ bool is_too_few_args(char **command, size_t nb_args,
 bool is_too_more_args(char **command, size_t nb_args,
     int fd_client, fd_set *writefds)
 {
-    int len_command = 0;
+    size_t len_command = 0;
 
     for (size_t i = 0; command[i] != NULL; i++)
         len_command++;
-    if (nb_args > (len_command - 1)) {
-        ptc_send(TOO_MORE_PARAMETERS, "Too few arguments",
+    if (nb_args < (len_command - 1)) {
+        ptc_send(TOO_MORE_PARAMETERS, "Too more arguments",
         fd_client, writefds);
         return true;
     }

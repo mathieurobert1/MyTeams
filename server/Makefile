@@ -35,6 +35,7 @@ SRC_FILES = parsing.c \
 			commands/create.c \
 			commands/list.c \
 			commands/info.c \
+			commands/utils.c \
 			\
 			protocol/send.c \
 

@@ -103,3 +103,5 @@ typedef struct command_s {
     char *_name;
     void (*_fct)(char **command, server_t *myServ, client_t *client);
 } command_t;
+
+extern const command_t _list_command[];

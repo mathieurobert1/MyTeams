@@ -11,23 +11,6 @@
 
 #include "types.h"  // for server_t, client_t and command_t
 
-const command_t _list_command[] = {
-    {"/help", help_command},
-    {"/login", login_command},
-    {"/logout", logout_command},
-    {"/users", users_command},
-    {"/user", user_command},
-    {"/send", send_command},
-    {"/messages", messages_command},
-    {"/subscribe", subscribe_command},
-    {"/subscribed", subscribed_command},
-    {"/unsubscribe", unsubscribe_command},
-    {"/use", use_command},
-    {"/create", create_command},
-    {"/list", list_command},
-    {"/info", info_command},
-    {NULL, NULL}
-};
 
 /**
  * @brief handle the client's commands
@@ -192,24 +175,36 @@ void info_command(char **command, server_t *myServ, client_t *client);
  *
  * @param command user command
  * @param nb_args nb args required
+ * @param fd_client client fd
+ * @param writefds select variable to check if client can write
  * @return true
  * @return false
  */
-bool is_too_few_args(char **command, size_t nb_args);
+bool is_too_few_args(char **command, size_t nb_args,
+    int fd_client, fd_set *writefds);
 
 /**
  * @brief check if the command has too more arguments
  *
  * @param command user command
  * @param nb_args nb args required
+ * @param fd_client client fd
+ * @param writefds select variable to check if client can write
  * @return true
  * @return false
  */
-bool is_too_more_args(char **command, size_t nb_args);
+bool is_too_more_args(char **command, size_t nb_args,
+    int fd_client, fd_set *writefds);
 
 /**
  * @brief check if the command has the correct number of args
  *
+ * @param command user command
+ * @param nb_args nb args required
+ * @param fd_client client fd
+ * @param writefds select variable to check if client can write
+ * @return true
+ * @return false
  */
 bool is_correct_command(fd_set *writefds, char **command,
-                        size_t nb_args, int fd_client);
+    size_t nb_args, int fd_client);
