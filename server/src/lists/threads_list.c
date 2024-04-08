@@ -63,3 +63,22 @@ void delete_list_threads(thread_list_t *list_threads)
     }
     free(list_threads);
 }
+
+void add_to_list_threads(thread_list_t *list, thread_t *thread)
+{
+    client_t *tmp = list->first;
+
+    if (list->nb_thread == 0) {
+        list->first = thread;
+        list->last = thread;
+        thread->last = NULL;
+        thread->next = NULL;
+        list->nb_thread++;
+        return;
+    }
+    list->first = thread;
+    thread->last = NULL;
+    tmp->_last = thread;
+    thread->next = tmp;
+    list->nb_thread++;
+}

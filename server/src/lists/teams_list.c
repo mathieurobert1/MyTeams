@@ -67,3 +67,22 @@ void delete_list_teams(team_list_t *list_teams)
     }
     free(list_teams);
 }
+
+void add_to_list_team(team_list_t *list, team_t *team)
+{
+    client_t *tmp = list->first;
+
+    if (list->nb_team == 0) {
+        list->first = team;
+        list->last = team;
+        team->last = NULL;
+        team->next = NULL;
+        list->nb_team++;
+        return;
+    }
+    list->first = team;
+    team->last = NULL;
+    tmp->_last = team;
+    team->next = tmp;
+    list->nb_team++;
+}

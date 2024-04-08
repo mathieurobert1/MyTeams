@@ -64,3 +64,22 @@ void delete_list_channels(channel_list_t *list_channels)
     }
     free(list_channels);
 }
+
+void add_to_list_channel(channel_list_t *list, channel_t *channel)
+{
+    client_t *tmp = list->first;
+
+    if (list->nb_channel == 0) {
+        list->first = channel;
+        list->last = channel;
+        channel->last = NULL;
+        channel->next = NULL;
+        list->nb_channel++;
+        return;
+    }
+    list->first = channel;
+    channel->last = NULL;
+    tmp->_last = channel;
+    channel->next = tmp;
+    list->nb_channel++;
+}

@@ -60,3 +60,22 @@ void delete_list_users(user_list_t *list_users)
     }
     free(list_users);
 }
+
+void add_to_list_users(user_list_t *list, user_t *user)
+{
+    client_t *tmp = list->first;
+
+    if (list->nb_user == 0) {
+        list->first = user;
+        list->last = user;
+        user->last = NULL;
+        user->next = NULL;
+        list->nb_user++;
+        return;
+    }
+    list->first = user;
+    user->last = NULL;
+    tmp->_last = user;
+    user->next = tmp;
+    list->nb_user++;
+}
