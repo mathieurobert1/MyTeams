@@ -7,6 +7,7 @@
 
 #include "types.h"
 #include "protocol.h"
+#include "commands.h"
 
 #include <stdlib.h>
 #include <string.h>
@@ -33,7 +34,7 @@ void help_command(char **command, server_t *myServ, client_t *client)
     char *help_msg = NULL;
 
     if (command[1]) {
-        ptc_send(TO_MORE_PARAMETERS, "To more parameters.",
+        ptc_send(TOO_MORE_PARAMETERS, "To more parameters.",
         client->_fd, &myServ->writefds);
         return;
     }

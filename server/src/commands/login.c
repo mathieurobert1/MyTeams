@@ -11,14 +11,7 @@
 
 void login_command(char **command, server_t *myServ, client_t *client)
 {
-    if (is_too_few_args(command, 1)) {
-        ptc_send(TOO_FEW_PARAMETERS, "Too few arguments",
-        client->_fd, &myServ->writefds);
+    if (is_correct_command(&myServ->writefds,
+    command, 1, client->_fd))
         return;
-    }
-    if (is_too_more_args(command, 1)) {
-        ptc_send(TO_MORE_PARAMETERS, "Too more arguments",
-        client->_fd, &myServ->writefds);
-        return;
-    }
 }
