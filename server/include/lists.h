@@ -206,3 +206,45 @@ void delete_user(user_t *user);
  * @param user to add
  */
 void add_to_list_users(user_list_t *list, user_t *user);
+
+// MESSAGES //
+
+/**
+ * @brief initialize the messages list
+ *
+ * @return message_list_t*
+ */
+message_list_t *init_list_messages(void);
+
+/**
+ * @brief Create a messages object
+ *
+ * @param list_messagess
+ * @param uuidReceiver
+ * @param uuidSender
+ * @param message
+ * @return message_t*
+ */
+message_t *create_messages(message_list_t *list_messagess, char *uuidReceiver, char *uuidSender, char *message);
+
+/**
+ * @brief delete a message object
+ *
+ * @param messages
+ */
+void delete_messages(message_t *messages);
+
+/**
+ * @brief delete all list messages
+ *
+ * @param list_messagess
+ */
+void delete_list_messages(message_list_t *list_messagess);
+
+/**
+ * @brief add a message to a message list
+ *
+ * @param list
+ * @param messages
+ */
+void add_to_list_messages(message_list_t *list, message_t *messages);
