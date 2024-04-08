@@ -35,9 +35,65 @@ typedef struct client_list_s {
     int nb_client;
 } client_list_t;
 
+typedef struct user_s {
+    char *uuid;
+    char *username;
+    struct user_s *next;
+    struct user_s *last;
+} user_t;
+
+typedef struct user_list_s {
+    user_t *first;
+    user_t *last;
+    int nb_user;
+} user_list_t;
+
+typedef struct thread_s {
+    char *uuid;
+    char *title;
+    char *message;
+    struct thread_s *next;
+    struct thread_s *last;
+} thread_t;
+
+typedef struct thread_list_s {
+    thread_t *first;
+    thread_t *last;
+    int nb_thread;
+} thread_list_t;
+
+typedef struct channel_s {
+    char *uuid;
+    char *name;
+    char *description;
+    struct thread_list_s *threads;
+    struct channel_s *next;
+    struct channel_s *last;
+} channel_t;
+
+typedef struct channel_list_s {
+    channel_t *first;
+    channel_t *last;
+    int nb_channel;
+} channel_list_t;
+
+typedef struct team_s {
+    char *uuid;
+    char *name;
+    char *description;
+    struct channel_list_s *channels;
+    struct user_list_s *users;
+    struct team_s *next;
+    struct team_s *last;
+} team_t;
+
+typedef struct team_list_s {
+    team_t *first;
+    team_t *last;
+    int nb_team;
+} team_list_t;
+
 typedef struct command_s {
     char *_name;
     void (*_fct)(char **command, server_t *myServ, client_t *client);
 } command_t;
-
-extern const command_t _list_command[];
