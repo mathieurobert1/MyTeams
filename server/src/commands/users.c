@@ -30,6 +30,8 @@ static char *getMessage(user_list_t *user_list)
     char *msg = malloc(sizeof(char) * (size + 1));
     user_t *tmp = user_list->first;
 
+    if (!msg)
+        return NULL;
     memset(msg, 0, size + 1);
     strcat(msg, "[");
     while (tmp->next != NULL) {
@@ -55,7 +57,6 @@ void users_command(char **command, server_t *myServ, client_t *client)
         return;
     msg = getMessage(user_list);
     ptc_send(COMMAND_SUCCESS, msg, client->_fd, &myServ->writefds);
-    free(msg);
+    if (msg != NULL)
+        free(msg);
 }
-
-// CODE [user1 : uuid, user2 : uuid, user3 : uuid, ...]
