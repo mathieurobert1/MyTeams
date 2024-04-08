@@ -20,6 +20,8 @@ static void cut_user_name_to_long(char **command)
     if (strlen(command[1]) < MAX_NAME_LENGTH)
         return;
     new_name = malloc(sizeof(char) * (MAX_NAME_LENGTH + 1));
+    if (!new_name)
+        return;
     for (size_t i = 0; i < MAX_NAME_LENGTH; i++)
         new_name[i] = command[1][i];
     new_name[MAX_NAME_LENGTH] = '\0';
