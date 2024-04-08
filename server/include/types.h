@@ -86,3 +86,9 @@ typedef struct team_s {
     struct team_s *next;
     struct team_s *last;
 } team_t;
+
+typedef struct team_list_s {
+    team_t *first;
+    team_t *last;
+    int nb_team;
+} team_list_t;
