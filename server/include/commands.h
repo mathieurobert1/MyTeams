@@ -206,3 +206,10 @@ bool is_too_few_args(char **command, size_t nb_args);
  * @return false
  */
 bool is_too_more_args(char **command, size_t nb_args);
+
+/**
+ * @brief check if the command has the correct number of args
+ *
+ */
+bool is_correct_command(fd_set *writefds, char **command,
+                        size_t nb_args, int fd_client);
