@@ -11,6 +11,7 @@
 
 typedef enum ptc_state {
     HELP = 214,
+    LOGED_OUT = 221,
     LOGED_IN = 230,
 
     SYNTAX_ERROR = 500,
