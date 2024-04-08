@@ -23,7 +23,8 @@ channel_list_t *init_list_channels(void)
     return channel_list;
 }
 
-channel_t *create_channel(channel_list_t *list_channels, char *name, char *uuid)
+channel_t *create_channel(channel_list_t *list_channels,
+    char *name, char *uuid)
 {
     channel_t *channel = malloc(sizeof(channel_t));
 

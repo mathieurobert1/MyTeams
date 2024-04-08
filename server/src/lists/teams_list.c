@@ -51,7 +51,7 @@ void delete_team(team_t *team)
     if (team->description)
         free(team->description);
     if (team->description)
-        free(team->description);    
+        free(team->description);
     free(team);
 }
 

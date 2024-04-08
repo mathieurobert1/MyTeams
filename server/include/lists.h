@@ -47,7 +47,7 @@ void delete_a_client(client_t *client, server_t *myServ);
 /**
  * @brief initialize the channels list
  *
- * @return channel_list_t* 
+ * @return channel_list_t*
  */
 channel_list_t *init_list_channels(void);
 
@@ -60,13 +60,14 @@ void delete_list_channels(channel_list_t *list_channels);
 
 /**
  * @brief Create a channel object
- * 
+ *
  * @param list_channels list to add to
  * @param name of the channel
  * @param uuid of the channel
  * @return channel_t*
  */
-channel_t *create_channel(channel_list_t *list_channels, char *name, char *uuid);
+channel_t *create_channel(channel_list_t *list_channels,
+    char *name, char *uuid);
 
 /**
  * @brief delete a channel
@@ -88,7 +89,7 @@ void add_to_list_channel(channel_list_t *list, channel_t *channel);
 /**
  * @brief initialize the teams list
  *
- * @return team_list_t* 
+ * @return team_list_t*
  */
 team_list_t *init_list_teams(void);
 
@@ -105,14 +106,14 @@ void delete_list_teams(team_list_t *list_teams);
  * @param list_teams to add to
  * @param uuid of the team
  * @param name of the team
- * @return team_t* 
+ * @return team_t*
  */
 team_t *create_team(team_list_t *list_teams, char *uuid, char *name);
 
 /**
  * @brief delete a team
  *
- * @param team to delete 
+ * @param team to delete
  */
 void delete_team(team_t *team);
 
@@ -129,7 +130,7 @@ void add_to_list_team(team_list_t *list, team_t *team);
 /**
  * @brief initialize the threads list
  *
- * @return thread_list_t* 
+ * @return thread_list_t*
  */
 thread_list_t *init_list_threads(void);
 
@@ -146,7 +147,7 @@ void delete_list_threads(thread_list_t *list_threads);
  * @param list_threads to add to
  * @param uuid of the thread
  * @param title of the thread
- * @return thread_t* 
+ * @return thread_t*
  */
 thread_t *create_thread(thread_list_t *list_threads, char *uuid, char *title);
 
@@ -170,7 +171,7 @@ void add_to_list_threads(thread_list_t *list, thread_t *thread);
 /**
  * @brief initialize the users list
  *
- * @return user_list_t* 
+ * @return user_list_t*
  */
 user_list_t *init_list_users(void);
 
@@ -187,7 +188,7 @@ void delete_list_users(user_list_t *list_users);
  * @param list_users to add to
  * @param uuid of the user
  * @param user_name of the user
- * @return user_t* 
+ * @return user_t*
  */
 user_t *create_user(user_list_t *list_users, char *uuid, char *user_name);
 
