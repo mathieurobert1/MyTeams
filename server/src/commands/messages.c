@@ -13,7 +13,7 @@
 #include <string.h>
 #include <stdlib.h>
 
-static int getSizeMessage(user_t *user, char *uuid_dest)
+static int get_size_message(user_t *user, char *uuid_dest)
 {
     int size = 0;
     message_t *tmp = user->messages->first;
@@ -28,9 +28,9 @@ static int getSizeMessage(user_t *user, char *uuid_dest)
     return size;
 }
 
-static char *getMessages(user_t *user, char *uuid_dest)
+static char *get_messages(user_t *user, char *uuid_dest)
 {
-    char *messages = malloc(getSizeMessage(user, uuid_dest) + 1);
+    char *messages = malloc(get_size_message(user, uuid_dest) + 1);
     message_t *tmp = user->messages->first;
 
     if (!messages)
@@ -52,13 +52,15 @@ static char *getMessages(user_t *user, char *uuid_dest)
 void messages_command(char **command, server_t *myServ, client_t *client)
 {
     user_t *user = NULL;
+
     if (!is_correct_command(&myServ->writefds, command, 1, client->_fd))
         return;
-    user = getUserByUuid(command[1], myServ);
+    user = get_user_by_uuid(command[1], myServ);
     if (!user) {
         ptc_send(UNKNOWN_USER, "Unknown user", client->_fd, &myServ->writefds);
         return;
     } else {
-        ptc_send(COMMAND_SUCCESS, getMessages(user, client->_user_data->uuid), client->_fd, &myServ->writefds);
+        ptc_send(COMMAND_SUCCESS, get_messages(user, client->_user_data->uuid),
+        client->_fd, &myServ->writefds);
     }
 }

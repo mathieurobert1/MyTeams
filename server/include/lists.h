@@ -225,7 +225,8 @@ message_list_t *init_list_messages(void);
  * @param message
  * @return message_t*
  */
-message_t *create_messages(message_list_t *list_messagess, char *uuidReceiver, char *uuidSender, char *message);
+message_t *create_messages(message_list_t *list_messagess,
+    char *uuidReceiver, char *uuidSender, char *message);
 
 /**
  * @brief delete a message object

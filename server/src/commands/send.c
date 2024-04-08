@@ -9,13 +9,13 @@
 #include "protocol.h"
 #include "utils.h"
 #include "logging_server.h"
+#include "lists.h"
 
 #include <string.h>
 
 static void send_message(client_t *client, server_t *myServ)
 {
     ptc_send(MESSAGE_SEND, "Message send.", client->_fd, &myServ->writefds);
-    //save
 }
 
 static void receive_message(char *msg, server_t *myServ, user_t *user_to_send)
@@ -28,7 +28,16 @@ static void receive_message(char *msg, server_t *myServ, user_t *user_to_send)
             ptc_send(MESSAGE_RECIEVE, msg, tmp->_fd, &myServ->writefds);
         tmp = tmp->_next;
     }
-    //save
+}
+
+static void save_message(user_t *user1, user_t *user2, char *msg)
+{
+    message_t *message = create_messages(user1->messages, user2->uuid,
+        user1->uuid, msg);
+
+    if (!message)
+        return;
+    add_to_list_messages(user2->messages, message);
 }
 
 void send_command(char **command, server_t *myServ, client_t *client)
@@ -50,6 +59,7 @@ void send_command(char **command, server_t *myServ, client_t *client)
     }
     server_event_private_message_sended(client->_user_data->uuid,
     user_to_send->uuid, command[2]);
+    save_message(client->_user_data, user_to_send, command[2]);
     send_message(client, myServ);
     receive_message(command[2], myServ, user_to_send);
 }
