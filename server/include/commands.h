@@ -164,3 +164,25 @@ void list_command(char **command, server_t *myServ, client_t *client);
  * @param client client structure
  */
 void info_command(char **command, server_t *myServ, client_t *client);
+
+// UTILS //
+
+/**
+ * @brief check if the command has too few arguments
+ *
+ * @param command user command
+ * @param nb_args nb args required
+ * @return true
+ * @return false
+ */
+bool is_too_few_args(char **command, size_t nb_args);
+
+/**
+ * @brief check if the command has too more arguments
+ *
+ * @param command user command
+ * @param nb_args nb args required
+ * @return true
+ * @return false
+ */
+bool is_too_more_args(char **command, size_t nb_args);
