@@ -10,6 +10,7 @@
 #include "commands.h"
 #include <stdlib.h>
 #include <string.h>
+#include "lists.h"
 
 static void cut_user_name_to_long(char **command)
 {
@@ -36,21 +37,6 @@ static user_t *get_user_data(server_t *myServ, char *user_name)
     return NULL;
 }
 
-static user_t *create_user_data(server_t *myServ, char *user_name)
-{
-    (void) myServ;
-    user_t *new_user = malloc(sizeof(user_t));
-
-    if (!new_user)
-        return NULL;
-    new_user->username = strdup(user_name);
-    new_user->uuid = "/!\\ CREATE AN UUID";
-    new_user->last = NULL;
-    new_user->next = NULL;
-    //add new_user to the user list
-    return new_user;
-}
-
 void login_command(char **command, server_t *myServ, client_t *client)
 {
     if (!is_correct_command(&myServ->writefds, command, 1, client->_fd))
@@ -64,6 +50,5 @@ void login_command(char **command, server_t *myServ, client_t *client)
     client->_user_data = get_user_data(myServ, command[1]);
     if (client->_user_data != NULL)
         return;
-    client->_user_data = create_user_data(myServ, command[1]);
-
+    client->_user_data = create_user(myServ->_list_users, "UUID", command[1]);
 }
