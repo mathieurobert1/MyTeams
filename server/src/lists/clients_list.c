@@ -2,7 +2,7 @@
 ** EPITECH PROJECT, 2024
 ** myftp
 ** File description:
-** list
+** list clients
 */
 
 #include "types.h"
