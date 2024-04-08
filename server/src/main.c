@@ -24,6 +24,6 @@ int main(int argc, char **argv)
         if (!handle_server(myServ))
             ret = 84;
     }
-    free(myServ);
+    delete_server(myServ);
     return ret;
 }

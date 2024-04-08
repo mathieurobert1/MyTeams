@@ -92,3 +92,8 @@ typedef struct team_list_s {
     team_t *last;
     int nb_team;
 } team_list_t;
+
+typedef struct command_s {
+    char *_name;
+    void (*_fct)(char **command, server_t *myServ, client_t *client);
+} command_t;
