@@ -54,7 +54,7 @@ void users_command(char **command, server_t *myServ, client_t *client)
     if (is_correct_command(&myServ->writefds, command, 0, client->_fd) == false)
         return;
     msg = getMessage(user_list);
-    ptc_send(LOGED_IN, msg, client->_fd, &myServ->writefds);
+    ptc_send(COMMAND_SUCCESS, msg, client->_fd, &myServ->writefds);
     free(msg);
 }
 
