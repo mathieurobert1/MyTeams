@@ -64,4 +64,4 @@ char *create_uuid(void);
  * @param myServ server structure
  * @return user_t* user structure
  */
-user_t *getUserByUuid(char *uuid, server_t *myServ);
+user_t *get_user_by_uuid(char *uuid, server_t *myServ);

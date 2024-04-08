@@ -13,7 +13,7 @@
 #include <string.h>
 #include <stdlib.h>
 
-static int getSizeDetails(user_t *user)
+static int get_size_details(user_t *user)
 {
     int size = 0;
 
@@ -22,9 +22,9 @@ static int getSizeDetails(user_t *user)
     return size;
 }
 
-static char *getDetails(user_t *user)
+static char *get_details(user_t *user)
 {
-    char *details = malloc(getSizeDetails(user) + 2 + 7 + 14);
+    char *details = malloc(get_size_details(user) + 2 + 7 + 14);
 
     if (!details)
         return NULL;
@@ -41,11 +41,12 @@ void user_command(char **command, server_t *myServ, client_t *client)
 
     if (!is_correct_command(&myServ->writefds, command, 1, client->_fd))
         return;
-    user = getUserByUuid(command[1], myServ);
+    user = get_user_by_uuid(command[1], myServ);
     if (!user) {
         ptc_send(UNKNOWN_USER, "Unknown user", client->_fd, &myServ->writefds);
         return;
     } else {
-        ptc_send(COMMAND_SUCCESS, getDetails(user), client->_fd, &myServ->writefds);
+        ptc_send(COMMAND_SUCCESS, get_details(user),
+        client->_fd, &myServ->writefds);
     }
 }

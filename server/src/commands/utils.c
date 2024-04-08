@@ -66,7 +66,7 @@ char *create_uuid(void)
     return uuid;
 }
 
-user_t *getUserByUuid(char *uuid, server_t *myServ)
+user_t *get_user_by_uuid(char *uuid, server_t *myServ)
 {
     user_list_t *list = myServ->_list_users;
     user_t *user = list->first;
