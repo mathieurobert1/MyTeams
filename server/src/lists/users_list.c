@@ -33,6 +33,7 @@ user_t *create_user(user_list_t *list_users, char *uuid, char *user_name)
     user->next = NULL;
     user->username = strdup(user_name);
     user->uuid = strdup(uuid);
+    user->messages = init_list_messages();
     add_to_list_users(list_users, user);
     return user;
 }

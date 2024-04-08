@@ -41,9 +41,24 @@ typedef struct client_list_s {
     int nb_client;
 } client_list_t;
 
+typedef struct message_s {
+    char *sender_uuid;
+    char *receiver_uuid;
+    char *message;
+    struct message_s *next;
+    struct message_s *last;
+} message_t;
+
+typedef struct message_list_s {
+    message_t *first;
+    message_t *last;
+    int nb_messages;
+} message_list_t;
+
 typedef struct user_s {
     char *uuid;
     char *username;
+    message_list_t *messages;
     struct user_s *next;
     struct user_s *last;
 } user_t;
