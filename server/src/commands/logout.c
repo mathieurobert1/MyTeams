@@ -10,6 +10,7 @@
 #include "logging_server.h"
 #include "protocol.h"
 #include "lists.h"
+#include "utils.h"
 
 void logout_command(char **command, server_t *myServ, client_t *client)
 {

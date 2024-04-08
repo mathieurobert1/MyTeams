@@ -8,24 +8,12 @@
 #include "types.h"
 #include "commands.h"
 #include "protocol.h"
+#include "utils.h"
 
 #include <string.h>
 #include <stdlib.h>
 
-user_t *getUserByUuid(char *uuid, server_t *myServ)
-{
-    user_list_t *list = myServ->_list_users;
-    user_t *user = list->first;
-
-    for (size_t i = 0; user != NULL; i++) {
-        if (strcmp(user->uuid, uuid) == 0)
-            return user;
-        user = user->next;
-    }
-    return NULL;
-}
-
-int getSizeDetails(user_t *user)
+static int getSizeDetails(user_t *user)
 {
     int size = 0;
 
@@ -34,7 +22,7 @@ int getSizeDetails(user_t *user)
     return size;
 }
 
-char *getDetails(user_t *user)
+static char *getDetails(user_t *user)
 {
     char *details = malloc(getSizeDetails(user) + 2 + 7 + 14);
 
