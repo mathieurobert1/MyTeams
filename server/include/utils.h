@@ -65,3 +65,12 @@ char *create_uuid(void);
  * @return user_t* user structure
  */
 user_t *get_user_by_uuid(char *uuid, server_t *myServ);
+
+
+/**
+ * @brief get the team by uuid
+ *
+ * @param myServ server structure
+ * @return team_t* team structure
+ */
+team_t *get_team_by_uuid(char *uuid, server_t *myServ);

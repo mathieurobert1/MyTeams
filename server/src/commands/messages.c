@@ -19,9 +19,11 @@ static int get_size_message(user_t *user, char *uuid_dest)
     message_t *tmp = user->messages->first;
 
     while (tmp) {
-        if (strcmp(tmp->sender_uuid, uuid_dest) == 0 && strcmp(tmp->receiver_uuid, user->uuid) == 0)
+        if (strcmp(tmp->sender_uuid, uuid_dest) == 0 &&
+        strcmp(tmp->receiver_uuid, user->uuid) == 0)
             size += strlen(tmp->message) + 2;
-        if (strcmp(tmp->receiver_uuid, uuid_dest) == 0 && strcmp(tmp->sender_uuid, user->uuid) == 0)
+        if (strcmp(tmp->receiver_uuid, uuid_dest) == 0 &&
+        strcmp(tmp->sender_uuid, user->uuid) == 0)
             size += strlen(tmp->message) + 2;
         tmp = tmp->next;
     }
@@ -37,11 +39,13 @@ static char *get_messages(user_t *user, char *uuid_dest)
         return NULL;
     memset(messages, 0, get_size_message(user, uuid_dest) + 1);
     while (tmp) {
-        if (strcmp(tmp->sender_uuid, uuid_dest) == 0 && strcmp(tmp->receiver_uuid, user->uuid) == 0 ){
+        if (strcmp(tmp->sender_uuid, uuid_dest) == 0 &&
+        strcmp(tmp->receiver_uuid, user->uuid) == 0) {
             strcat(messages, tmp->message);
             strcat(messages, "\n");
         }
-        if (strcmp(tmp->receiver_uuid, uuid_dest) == 0 && strcmp(tmp->sender_uuid, user->uuid) == 0) {
+        if (strcmp(tmp->receiver_uuid, uuid_dest) == 0 &&
+        strcmp(tmp->sender_uuid, user->uuid) == 0) {
             strcat(messages, tmp->message);
             strcat(messages, "\n");
         }

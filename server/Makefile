@@ -41,6 +41,7 @@ SRC_FILES = parsing.c 				\
 			commands/list.c 		\
 			commands/info.c 		\
 			commands/utils.c 		\
+			commands/get_uuid.c		\
 			\
 			protocol/send.c 		\
 

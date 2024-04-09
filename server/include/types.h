@@ -24,6 +24,7 @@ typedef struct server_s {
     struct sockaddr_in _addr;
     struct client_list_s *_list_client;
     struct user_list_s *_list_users;
+    struct team_list_s *_list_teams;
     fd_set readfds;
     fd_set writefds;
 } server_t;

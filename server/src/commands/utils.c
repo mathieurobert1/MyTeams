@@ -12,7 +12,6 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include <uuid/uuid.h>
-#include <string.h>
 
 bool is_too_few_args(char **command, size_t nb_args,
     int fd_client, fd_set *writefds)
@@ -64,17 +63,4 @@ char *create_uuid(void)
     uuid_generate_random(binuuid);
     uuid_unparse_lower(binuuid, uuid);
     return uuid;
-}
-
-user_t *get_user_by_uuid(char *uuid, server_t *myServ)
-{
-    user_list_t *list = myServ->_list_users;
-    user_t *user = list->first;
-
-    for (size_t i = 0; user != NULL; i++) {
-        if (strcmp(user->uuid, uuid) == 0)
-            return user;
-        user = user->next;
-    }
-    return NULL;
 }
