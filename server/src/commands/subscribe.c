@@ -27,4 +27,6 @@ void subscribe_command(char **command, server_t *myServ, client_t *client)
     }
     add_to_list_users(team->users, client->_user_data);
     server_event_user_subscribed(command[1], client->_user_data->uuid);
+    ptc_send(COMMAND_SUCCESS, "Command success.",
+    client->_fd, &myServ->writefds);
 }
