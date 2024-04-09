@@ -11,6 +11,8 @@
 #include <unistd.h>
 #include "commands.h"
 
+#include <stdio.h>
+
 static void set_fd_client(int *max_fd, server_t *myServ)
 {
     client_t *tmp = myServ->_list_client->first;

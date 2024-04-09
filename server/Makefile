@@ -44,6 +44,23 @@ SRC_FILES = parsing.c 				\
 			commands/get_uuid.c		\
 			\
 			protocol/send.c 		\
+			\
+			data/save.c				\
+			data/load.c				\
+			data/serialization/channel.c\
+			data/serialization/message.c\
+			data/serialization/server.c\
+			data/serialization/team.c\
+			data/serialization/thread.c\
+			data/serialization/user.c\
+			data/serialization/string.c\
+			data/deserialization/channel.c\
+			data/deserialization/message.c\
+			data/deserialization/server.c\
+			data/deserialization/team.c\
+			data/deserialization/thread.c\
+			data/deserialization/user.c\
+			data/deserialization/string.c\
 
 SRC_DIR = src/
 SRC = $(addprefix $(SRC_DIR), $(SRC_FILES))

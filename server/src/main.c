@@ -10,10 +10,11 @@
 #include "types.h"
 #include "parsing.h"
 #include "server.h"
+#include "data.h"
 
 int main(int argc, char **argv)
 {
-    server_t *myServ = malloc(sizeof(server_t));
+    server_t *myServ = data_load();
     int ret = 0;
 
     if (!myServ)

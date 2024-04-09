@@ -8,6 +8,7 @@
 #include "types.h"
 #include "commands.h"
 #include "protocol.h"
+#include "data.h"
 
 #include <stdlib.h>
 #include <string.h>
@@ -37,6 +38,7 @@ static bool execute_command(int index, char **list_arg,
             return true;
         _list_command[index]._fct(list_arg, myServ, client);
         delete_list_arg(list_arg);
+        data_save(myServ);
         return true;
     }
     return false;
