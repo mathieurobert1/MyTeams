@@ -78,7 +78,9 @@ static void uinput(client_t *client, fd_set *rdfds, bool *issue)
         }
         write(client->cli_fd, tmp, (strlen(tmp) - 1));
         write(client->cli_fd, "\r\n", 2);
-        //get_list_arg(tmp);
+        if (client->last_command_parsed)
+            delete_list_arg(client->last_command_parsed);
+        client->last_command_parsed = get_list_arg(tmp);
         free(tmp);
     }
 }
@@ -111,6 +113,7 @@ int main(int ac, char **av)
     client_t client;
     int ret = 0;
 
+    client.last_command_parsed = NULL;
     ret = parse_client(ac, av, &client);
     if (ret != 0) {
         if (ret == 1)
@@ -120,5 +123,7 @@ int main(int ac, char **av)
     if (!client_logic(&client))
         ret = 84;
     free(client.ip);
+    if (client.last_command_parsed)
+        delete_list_arg(client.last_command_parsed);
     return ret;
 }

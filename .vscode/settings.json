@@ -9,6 +9,8 @@
         "unistd.h": "c",
         "*.tcc": "c",
         "types.h": "c",
-        "shared.h": "c"
+        "shared.h": "c",
+        "fcntl.h": "c",
+        "select.h": "c"
     }
 }

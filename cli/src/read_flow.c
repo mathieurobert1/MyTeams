@@ -34,6 +34,8 @@ char *read_flow(int fd, bool rn)
         if (csize >= msize) {
             msize += 200;
             whole_buff = realloc(whole_buff, sizeof(char) * msize);
+            if (!whole_buff)
+                return NULL;
         }
         strcat(whole_buff, chunk);
         csize++;
