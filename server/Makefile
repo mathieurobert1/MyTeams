@@ -9,21 +9,47 @@ MAIN_FILE = src/main.c
 
 MAIN_OBJ = $(MAIN_FILE:.c=.o)
 
-SRC_FILES = parsing.c \
-			init_server.c \
-			server.c \
-			list_chained.c \
-			accept_connection.c \
+SRC_FILES = parsing.c 				\
+			lists/channels_list.c	\
+			lists/clients_list.c 	\
+			lists/teams_list.c 		\
+			lists/threads_list.c 	\
+			lists/users_list.c 		\
+			lists/messages_list.c 	\
+			init_server.c 			\
+			server.c 				\
+			accept_connection.c 	\
+			delete_server.c 		\
 			\
-			commands/handle_commands.c \
+			commands/commands.c 		\
+			commands/handle_commands.c 	\
+			commands/read_command.c 	\
+			commands/get_command.c 		\
 			\
-			protocol/send.c \
+			commands/help.c 		\
+			commands/login.c 		\
+			commands/logout.c 		\
+			commands/users.c 		\
+			commands/user.c 		\
+			commands/send.c 		\
+			commands/messages.c 	\
+			commands/subscribe.c 	\
+			commands/subscribed.c 	\
+			commands/unsubscribe.c 	\
+			commands/use.c 			\
+			commands/create.c 		\
+			commands/list.c 		\
+			commands/info.c 		\
+			commands/utils.c 		\
+			commands/get_uuid.c		\
+			\
+			protocol/send.c 		\
 
 SRC_DIR = src/
 SRC = $(addprefix $(SRC_DIR), $(SRC_FILES))
 OBJ = $(SRC:.c=.o)
 CFLAGS = -Wall -Wextra -Werror
-INC = -I./include -I../libs/myteams/ -L ../libs/myteams/ -lmyteams
+INC = -I./include -I../libs/myteams/ -L ../libs/myteams/ -lmyteams -luuid
 
 TEST_FILES =
 

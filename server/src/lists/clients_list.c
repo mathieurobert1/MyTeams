@@ -2,7 +2,7 @@
 ** EPITECH PROJECT, 2024
 ** myftp
 ** File description:
-** list
+** list clients
 */
 
 #include "types.h"
@@ -36,6 +36,7 @@ void create_client(int fd, server_t *myServ)
     if (!new_client)
         return;
     new_client->_fd = fd;
+    new_client->_user_data = NULL;
     add_to_list(myServ->_list_client, new_client);
 }
 
