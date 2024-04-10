@@ -16,6 +16,7 @@
 #include "client.h"
 #include <string.h>
 #include <fcntl.h>
+#include <sys/select.h>
 
 static bool connect_to_server(client_t *client)
 {
