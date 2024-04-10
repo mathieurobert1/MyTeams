@@ -8,6 +8,7 @@
 MAIN_FILE = src/main.c \
 				src/parsing.c \
 				src/read_flow.c \
+				src/handle_response.c \
 
 MAIN_OBJ = $(MAIN_FILE:.c=.o)
 
@@ -23,7 +24,7 @@ SRC_DIR = src/
 SRC = $(addprefix $(SRC_DIR), $(SRC_FILES))
 OBJ = $(SRC:.c=.o)
 CFLAGS = -Wall -Wextra -Werror -g
-INC = -I./include -I../shared/include
+INC = -I./include -I../shared/include -I../libs/myteams/ -L ../libs/myteams/ -lmyteams
 
 TEST_FILES =
 

@@ -11,8 +11,8 @@
 
 typedef enum ptc_state {
     HELP = 214,
-    LOGED_OUT = 221,
-    LOGED_IN = 230,
+    LOGGED_OUT = 221,
+    LOGGED_IN = 230,
     COMMAND_SUCCESS = 200,
 
     UNKNOWN_USER = 400,
@@ -20,7 +20,7 @@ typedef enum ptc_state {
     ERROR_PARAMETERS = 501,
     TOO_MORE_PARAMETERS = 502,
     TOO_FEW_PARAMETERS = 503,
-    NOT_LOGED_IN = 530,
+    NOT_LOGGED_IN = 530,
 
     MESSAGE_SEND = 600,
     MESSAGE_RECIEVE = 601

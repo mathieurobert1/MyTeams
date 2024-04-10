@@ -61,8 +61,7 @@ static void read_server(client_t *client, bool *issue)
         (*issue) = true;
         return;
     }
-    write(1, tmp, strlen(tmp));
-    //get_list_arg(tmp);
+    handle_response(client, tmp);
     free(tmp);
 }
 

@@ -16,3 +16,4 @@ typedef struct client_s {
 
 int parse_client(int ac, char **av, client_t *client);
 char *read_flow(int fd, bool rn);
+void handle_response(client_t *client, char *msg);

@@ -11,6 +11,7 @@
         "types.h": "c",
         "shared.h": "c",
         "fcntl.h": "c",
-        "select.h": "c"
+        "select.h": "c",
+        "logging_client.h": "c"
     }
 }
