@@ -14,7 +14,7 @@
 
 server_t *data_load(void)
 {
-    int fd = open("server.db", O_RDONLY);
+    int fd = open("server.db", O_RDONLY | O_CREAT, 0666);
     server_t *server = NULL;
 
     if (fd == -1) {
