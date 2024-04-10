@@ -38,7 +38,9 @@ void create_client(int fd, server_t *myServ)
     new_client->_fd = fd;
     new_client->_use_state = 0;
     new_client->_user_data = NULL;
-    new_client->_use_uuid = NULL;
+    new_client->_use_uuid_team = NULL;
+    new_client->_use_uuid_channel = NULL;
+    new_client->_use_uuid_thread = NULL;
     add_to_list(myServ->_list_client, new_client);
 }
 
@@ -58,6 +60,12 @@ void delete_clients(client_list_t *list)
 static void free_client(client_t *client)
 {
     close(client->_fd);
+    if (client->_use_uuid_team)
+        free(client->_use_uuid_team);
+    if (client->_use_uuid_channel)
+        free(client->_use_uuid_channel);
+    if (client->_use_uuid_thread)
+        free(client->_use_uuid_thread);
     free(client);
 }
 

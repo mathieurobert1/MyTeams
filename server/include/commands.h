@@ -13,10 +13,10 @@
 
 enum use_command_e {
     NONE = 0,
-    EMPTY,
-    TEAM,
-    CHANNEL,
-    THREAD
+    EMPTY = 1,
+    TEAM = 2,
+    CHANNEL = 3,
+    THREAD = 4
 };
 
 /**
@@ -195,4 +195,4 @@ void change_use(int use_state, char *uuid, client_t *client);
  * @return true
  * @return false
  */
-bool uuid_is_team(char *uuid, server_t *myServ, client_t *client);
+bool uuid_is_team(char **command, server_t *myServ, client_t *client);
