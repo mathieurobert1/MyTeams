@@ -15,7 +15,6 @@ void data_save(server_t *server)
 {
     int fd = open("server.db", O_CREAT | O_WRONLY | O_TRUNC, 0666);
 
-    write(1, "Data is save\n", 14);
     if (fd == -1) {
         write(1, "Error with open in data_save\n", 30);
     }

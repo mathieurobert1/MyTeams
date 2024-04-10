@@ -15,6 +15,8 @@ server_t *deserialize_server(int fd)
 {
     server_t *server = malloc(sizeof(server_t));
 
+    if (!server)
+        return NULL;
     read(fd, server, sizeof(server_t));
     server->_list_users = deserialize_user_list(fd);
     server->_list_teams = deserialize_team_list(fd);
