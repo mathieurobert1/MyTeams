@@ -35,7 +35,8 @@ thread_list_t *deserialize_thread_list(int fd)
 
     if (!list)
         return NULL;
-    read(fd, list, sizeof(thread_list_t));
+    if (read(fd, list, sizeof(thread_list_t)) == 0)
+        list->nb_thread = 0;
     list->first = NULL;
     list->last = NULL;
     tmp_nb_thread = list->nb_thread;

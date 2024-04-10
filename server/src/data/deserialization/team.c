@@ -38,7 +38,8 @@ team_list_t *deserialize_team_list(int fd)
 
     if (!list)
         return NULL;
-    read(fd, list, sizeof(team_list_t));
+    if (read(fd, list, sizeof(team_list_t)) == 0)
+        list->nb_team = 0;
     list->first = NULL;
     list->last = NULL;
     tmp_nb_team = list->nb_team;

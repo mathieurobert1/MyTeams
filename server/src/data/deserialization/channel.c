@@ -36,7 +36,8 @@ channel_list_t *deserialize_channel_list(int fd)
 
     if (!list)
         return NULL;
-    read(fd, list, sizeof(channel_list_t));
+    if (read(fd, list, sizeof(channel_list_t)) == 0)
+        list->nb_channel = 0;
     list->first = NULL;
     list->last = NULL;
     tmp_nb_channel = list->nb_channel;

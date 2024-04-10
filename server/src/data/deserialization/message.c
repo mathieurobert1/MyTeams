@@ -35,7 +35,8 @@ message_list_t *deserialize_message_list(int fd)
 
     if (!list)
         return NULL;
-    read(fd, list, sizeof(message_list_t));
+    if (read(fd, list, sizeof(message_list_t)) == 0)
+        list->nb_messages = 0;
     list->first = NULL;
     list->last = NULL;
     tmp_nb_messages = list->nb_messages;

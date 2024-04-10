@@ -35,7 +35,8 @@ user_list_t *deserialize_user_list(int fd)
 
     if (!list)
         return NULL;
-    read(fd, list, sizeof(user_list_t));
+    if (read(fd, list, sizeof(user_list_t)) == 0)
+        list->nb_user = 0;
     list->first = NULL;
     list->last = NULL;
     tmp_nb_user = list->nb_user;
