@@ -4,6 +4,7 @@
 ** File description:
 ** get_command
 */
+#include "shared.h"
 
 #include <stdlib.h>
 #include <string.h>
@@ -61,7 +62,7 @@ static char *get_between_spaces(char *buffer, int *len, int len_buffer)
     return message;
 }
 
-char **my_realloc(char **list_arg, char *arg, int len_processed)
+static char **my_realloc(char **list_arg, char *arg, int len_processed)
 {
     char **tmp = realloc(list_arg, sizeof(char *) * (len_processed + 1));
 
@@ -74,7 +75,7 @@ char **my_realloc(char **list_arg, char *arg, int len_processed)
     return tmp;
 }
 
-char **get_args(char *buffer, int *idx, char **list_arg, int *len_processed)
+static char **get_args(char *buffer, int *idx, char **list_arg, int *len_processed)
 {
     char *arg = NULL;
     int len_buffer = strlen(buffer) - 2;
