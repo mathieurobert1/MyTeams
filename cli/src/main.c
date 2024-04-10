@@ -17,6 +17,7 @@
 #include <string.h>
 #include <fcntl.h>
 #include <sys/select.h>
+#include "shared.h"
 
 static bool connect_to_server(client_t *client)
 {
@@ -61,6 +62,7 @@ static void read_server(client_t *client, bool *issue)
         return;
     }
     write(1, tmp, strlen(tmp));
+    //get_list_arg(tmp);
     free(tmp);
 }
 
@@ -76,6 +78,7 @@ static void uinput(client_t *client, fd_set *rdfds, bool *issue)
         }
         write(client->cli_fd, tmp, (strlen(tmp) - 1));
         write(client->cli_fd, "\r\n", 2);
+        //get_list_arg(tmp);
         free(tmp);
     }
 }

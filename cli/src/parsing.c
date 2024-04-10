@@ -9,10 +9,16 @@
 #include <string.h>
 #include <stdlib.h>
 
+static void display_help() {
+    printf("USAGE: ./myteams_cli ip port\n");
+    printf("\tip\t is the server ip address on which the server socket listens\n");
+    printf("\tport\t is the port number on which the server socket listens\n");
+}
+
 int parse_client(int ac, char **av, client_t *client)
 {
     if (ac == 2 && strcmp(av[1], "-help") == 0) {
-        printf("on affiche l'aide");
+        display_help();
         return 1;
     }
     if (ac != 3)

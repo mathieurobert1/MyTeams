@@ -26,6 +26,8 @@ char *read_flow(int fd, bool rn)
     char chunk[2];
     bool b_r = false;
 
+    if (!whole_buff)
+        return NULL;
     whole_buff[0] = '\0';
     while (read(fd, chunk, 1) > 0) {
         chunk[1] = '\0';
