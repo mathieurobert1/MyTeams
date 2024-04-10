@@ -31,6 +31,8 @@ typedef struct server_s {
 
 typedef struct client_s {
     int _fd;
+    int _use_state;
+    char *_use_uuid;
     struct user_s *_user_data;
     struct client_s *_next;
     struct client_s *_last;

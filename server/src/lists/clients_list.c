@@ -36,7 +36,9 @@ void create_client(int fd, server_t *myServ)
     if (!new_client)
         return;
     new_client->_fd = fd;
+    new_client->_use_state = 0;
     new_client->_user_data = NULL;
+    new_client->_use_uuid = NULL;
     add_to_list(myServ->_list_client, new_client);
 }
 
