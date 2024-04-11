@@ -16,6 +16,7 @@ SRC_FILES = parsing.c 				\
 			lists/threads_list.c 	\
 			lists/users_list.c 		\
 			lists/messages_list.c 	\
+			lists/comment_list.c 	\
 			init_server.c 			\
 			server.c 				\
 			accept_connection.c 	\

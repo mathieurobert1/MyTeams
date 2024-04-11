@@ -85,8 +85,8 @@ typedef struct user_list_s {
 #pragma pack(push, 1)
 typedef struct comment_s {
     char *uuid;
-    char *body;
-    char *sender_uuid;
+    char *content;
+    char *author_uuid;
     struct comment_s *next;
     struct comment_s *last;
 } comment_t;
