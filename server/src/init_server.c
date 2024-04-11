@@ -73,7 +73,5 @@ bool init_server(server_t *myServ)
         !set_listen(myServ) ||
         !set_list_client(myServ))
         return false;
-    myServ->_list_users = init_list_users();
-    myServ->_list_teams = init_list_teams();
     return true;
 }
