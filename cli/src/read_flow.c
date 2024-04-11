@@ -4,11 +4,21 @@
 ** File description:
 ** read_flow
 */
-#include "client.h"
-#include <stdio.h>
-#include <string.h>
-#include <stdlib.h>
+#include <stdbool.h>
 #include <unistd.h>
+#include <stdlib.h>
+#include <sys/socket.h>
+#include <arpa/inet.h>
+#include <netinet/in.h>
+#include <netinet/ip.h>
+#include <stdio.h>
+#include <signal.h>
+#include "client.h"
+#include <string.h>
+#include <fcntl.h>
+#include <sys/select.h>
+#include "shared.h"
+#include "logging_client.h"
 
 static void update_endline_bool(bool *b_r, char *chunk)
 {
@@ -49,4 +59,36 @@ char *read_flow(int fd, bool rn)
             return whole_buff;
     }
     return NULL;
+}
+
+void uinput(client_t *client, fd_set *rdfds, bool *issue)
+{
+    char *tmp;
+
+    if (FD_ISSET(STDIN_FILENO, rdfds)) {
+        tmp = read_flow(STDIN_FILENO, false);
+        if (!tmp && !(*issue)) {
+            (*issue) = true;
+            return;
+        }
+        write(client->serv_fd, tmp, (strlen(tmp) - 1));
+        write(client->serv_fd, "\r\n", 2);
+        if (client->last_command_parsed)
+            delete_list_arg(client->last_command_parsed);
+        client->last_command_parsed = get_list_arg(tmp);
+        free(tmp);
+    }
+}
+
+void read_server(client_t *client, bool *issue)
+{
+    char *tmp;
+
+    tmp = read_flow(client->serv_fd, true);
+    if (!tmp && !(*issue)) {
+        (*issue) = true;
+        return;
+    }
+    handle_response(client, tmp);
+    free(tmp);
 }

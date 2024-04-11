@@ -30,7 +30,6 @@ static bool connect_to_server(client_t *client)
 
     client->serv_fd = socket(domain, type, protocol);
     if (!client->serv_fd) {
-        perror("socket failed");
         return false;
     }
     serveraddr.sin_family = domain;
@@ -38,7 +37,6 @@ static bool connect_to_server(client_t *client)
     serveraddr.sin_addr.s_addr = inet_addr("127.0.0.1");
     len = sizeof(serveraddr);
     if (connect(client->serv_fd, (struct sockaddr *)&serveraddr, len) != 0) {
-        perror("connection failed");
         return false;
     }
     return true;
@@ -51,38 +49,6 @@ static void set_fds(fd_set *wrtfds, fd_set *rdfds, client_t *client)
     FD_SET(client->serv_fd, rdfds);
     FD_SET(client->serv_fd, wrtfds);
     FD_SET(STDIN_FILENO, rdfds);
-}
-
-static void read_server(client_t *client, bool *issue)
-{
-    char *tmp;
-
-    tmp = read_flow(client->serv_fd, true);
-    if (!tmp && !(*issue)) {
-        (*issue) = true;
-        return;
-    }
-    handle_response(client, tmp);
-    free(tmp);
-}
-
-static void uinput(client_t *client, fd_set *rdfds, bool *issue)
-{
-    char *tmp;
-
-    if (FD_ISSET(STDIN_FILENO, rdfds)) {
-        tmp = read_flow(STDIN_FILENO, false);
-        if (!tmp && !(*issue)) {
-            (*issue) = true;
-            return;
-        }
-        write(client->serv_fd, tmp, (strlen(tmp) - 1));
-        write(client->serv_fd, "\r\n", 2);
-        if (client->last_command_parsed)
-            delete_list_arg(client->last_command_parsed);
-        client->last_command_parsed = get_list_arg(tmp);
-        free(tmp);
-    }
 }
 
 static bool client_logic(client_t *client)

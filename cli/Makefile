@@ -5,10 +5,7 @@
 ## Makefile
 ##
 
-MAIN_FILE = src/main.c \
-				src/parsing.c \
-				src/read_flow.c \
-				src/handle_response.c \
+MAIN_FILE = src/main.c
 
 MAIN_OBJ = $(MAIN_FILE:.c=.o)
 
@@ -18,7 +15,9 @@ SHARED_DIR = ../shared/
 SHARED_SRC = $(addprefix $(SHARED_DIR), $(SHARED_FILES))
 SHARED_OBJ = $(SHARED_SRC:.c=.o)
 
-SRC_FILES =
+SRC_FILES =	parsing.c \
+				read_flow.c \
+				handle_response.c \
 
 SRC_DIR = src/
 SRC = $(addprefix $(SRC_DIR), $(SRC_FILES))
