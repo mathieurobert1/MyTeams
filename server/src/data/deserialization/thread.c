@@ -21,7 +21,8 @@ thread_t *deserialize_thread(int fd)
     read(fd, thread, sizeof(thread_t));
     thread->uuid = deserialize_string(fd);
     thread->title = deserialize_string(fd);
-    thread->message = deserialize_string(fd);
+    thread->content = deserialize_string(fd);
+    thread->comments = deserialize_comment_list(fd);
     thread->next = NULL;
     thread->last = NULL;
     return thread;

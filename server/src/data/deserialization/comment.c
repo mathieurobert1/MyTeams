@@ -7,8 +7,10 @@
 
 #include "types.h"  // comment_t, comment_list_t
 #include "data.h"   // deserialize_string
+#include "lists.h"  // add_to_list_comments
 
 #include <unistd.h> // read
+#include <stdlib.h> // malloc
 
 comment_t *deserialize_comment(int fd)
 {
@@ -43,7 +45,7 @@ comment_list_t *deserialize_comment_list(int fd)
         tmp = deserialize_comment(fd);
         if (!tmp)
             return NULL;
-        add_to_list_comments(list, tmp);
+        add_to_list_comment(list, tmp);
     }
     return list;
 }

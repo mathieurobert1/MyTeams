@@ -9,6 +9,7 @@
 #include "data.h"   // serialize_string
 
 #include <unistd.h> // write
+#include <stdlib.h> // malloc
 
 void serialize_comment(int fd, comment_t *comment)
 {

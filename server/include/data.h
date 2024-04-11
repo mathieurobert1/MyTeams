@@ -230,3 +230,19 @@ server_t *deserialize_server(int fd);
  * @return char*
  */
 char *deserialize_string(int fd);
+
+/**
+ * @brief deserialize a comment_t struct
+ *
+ * @param fd
+ * @return comment_t*
+ */
+comment_t *deserialize_comment(int fd);
+
+/**
+ * @brief deserialize a comment_list_t struct
+ *
+ * @param fd
+ * @return comment_list_t*
+ */
+comment_list_t *deserialize_comment_list(int fd);

@@ -56,6 +56,7 @@ SRC_FILES = parsing.c 				\
 			data/serialization/thread.c\
 			data/serialization/user.c\
 			data/serialization/string.c\
+			data/serialization/comment.c\
 			data/deserialization/channel.c\
 			data/deserialization/message.c\
 			data/deserialization/server.c\
@@ -63,6 +64,7 @@ SRC_FILES = parsing.c 				\
 			data/deserialization/thread.c\
 			data/deserialization/user.c\
 			data/deserialization/string.c\
+			data/deserialization/comment.c\
 
 SRC_DIR = src/
 SRC = $(addprefix $(SRC_DIR), $(SRC_FILES))
