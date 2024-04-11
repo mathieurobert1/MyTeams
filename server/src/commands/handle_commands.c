@@ -8,6 +8,7 @@
 #include "types.h"
 #include "commands.h"
 #include "protocol.h"
+#include "shared.h"
 #include "data.h"
 
 #include <stdlib.h>
@@ -22,7 +23,7 @@ static bool can_perform_command(client_t *client, char *command,
         if (client->_user_data)
             return true;
         else {
-            ptc_send(NOT_LOGED_IN, "Not loged in.",
+            ptc_send(NOT_LOGGED_IN, "Not LOGGED in.",
             client->_fd, &myServ->writefds);
             return false;
         }
