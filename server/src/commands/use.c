@@ -10,15 +10,6 @@
 #include "commands.h"
 #include "protocol.h"
 
-static int len_tab(char **tab)
-{
-    int len = 0;
-
-    for (int i = 0; tab[i] != NULL; i++)
-        len++;
-    return len;
-}
-
 void use_command(char **command, server_t *myServ, client_t *client)
 {
     if (command[1] == NULL) {
@@ -27,9 +18,7 @@ void use_command(char **command, server_t *myServ, client_t *client)
         client->_fd, &myServ->writefds);
         return;
     }
-    if (len_tab(command) > 4) {
-        ptc_send(TOO_MORE_PARAMETERS, "Too more parameters.",
-        client->_fd, &myServ->writefds);
+    if (is_too_more_args(command, 3, client->_fd, &myServ->writefds)) {
         return;
     }
     if (uuid_is_team(command, myServ, client)) {
