@@ -6,7 +6,7 @@
 */
 #pragma once
 #include <stdbool.h>
-
+#include <sys/select.h>
 /**
  * @brief The client's structure containing key data
  * 

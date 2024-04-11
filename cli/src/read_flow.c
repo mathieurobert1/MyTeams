@@ -7,18 +7,11 @@
 #include <stdbool.h>
 #include <unistd.h>
 #include <stdlib.h>
-#include <sys/socket.h>
-#include <arpa/inet.h>
-#include <netinet/in.h>
-#include <netinet/ip.h>
 #include <stdio.h>
 #include <signal.h>
 #include "client.h"
 #include <string.h>
-#include <fcntl.h>
-#include <sys/select.h>
 #include "shared.h"
-#include "logging_client.h"
 
 static void update_endline_bool(bool *b_r, char *chunk)
 {
