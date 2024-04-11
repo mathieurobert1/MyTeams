@@ -8,6 +8,8 @@
 #include "types.h" // *
 
 #include <stddef.h> // null
+#include <string.h> // strcmp
+#include <stdlib.h> // malloc
 
 static int get_size_list_teams(team_list_t *teams)
 {

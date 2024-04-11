@@ -19,7 +19,7 @@ void subscribe_command(char **command, server_t *myServ, client_t *client)
 
     if (!is_correct_command(&myServ->writefds, command, 1, client->_fd))
         return;
-    team = get_team_by_uuid(command[1], myServ);
+    team = team_get_by_uuid(command[1], myServ->_list_teams);
     if (!team) {
         ptc_send(ERROR_PARAMETERS, "Team uuid didn't exist on domain.",
         client->_fd, &myServ->writefds);

@@ -8,6 +8,7 @@
 #include "types.h" // *
 
 #include <stddef.h>
+#include <string.h>
 
 team_t *team_get_by_uuid(char *uuid, team_list_t *teams)
 {

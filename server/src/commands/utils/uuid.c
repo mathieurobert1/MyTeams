@@ -7,6 +7,7 @@
 
 #include <uuid/uuid.h>
 #include <stddef.h>
+#include <stdlib.h>
 
 char *create_uuid(void)
 {
