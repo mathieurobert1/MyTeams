@@ -31,7 +31,7 @@ team_t *create_team(team_list_t *list_teams, char *uuid, char *name)
         return NULL;
     team->last = NULL;
     team->next = NULL;
-    team->channels = NULL;
+    team->channels = init_list_channels();
     team->description = NULL;
     team->name = strdup(name);
     team->users = NULL;
