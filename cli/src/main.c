@@ -13,11 +13,12 @@
 #include <netinet/ip.h>
 #include <stdio.h>
 #include <signal.h>
-#include "client.h"
 #include <string.h>
 #include <fcntl.h>
 #include <sys/select.h>
+
 #include "shared.h"
+#include "client.h"
 #include "logging_client.h"
 
 static bool connect_to_server(client_t *client)

@@ -4,14 +4,16 @@
 ** File description:
 ** handle_response
 */
-#include "client.h"
-#include "shared.h"
+
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
 #include <unistd.h>
+
 #include "logging_client.h"
 #include "protocol.h"
+#include "client.h"
+#include "shared.h"
 
 static void handles1(int code, char **parsed, client_t *client)
 {

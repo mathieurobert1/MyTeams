@@ -22,7 +22,7 @@ SRC_FILES =	parsing.c \
 SRC_DIR = src/
 SRC = $(addprefix $(SRC_DIR), $(SRC_FILES))
 OBJ = $(SRC:.c=.o)
-CFLAGS = -Wall -Wextra -Werror -g
+CFLAGS = -Wall -Wextra -Werror
 INC = -I./include -I../shared/include \
 	-I../libs/myteams/ -L ../libs/myteams/ -lmyteams
 
