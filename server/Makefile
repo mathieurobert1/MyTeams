@@ -35,6 +35,7 @@ SRC_FILES = parsing.c 				\
 			commands/messages.c 	\
 			commands/subscribe.c 	\
 			commands/subscribed.c 	\
+			commands/subscribed_utils.c 	\
 			commands/unsubscribe.c 	\
 			commands/use.c 			\
 			commands/create.c 		\

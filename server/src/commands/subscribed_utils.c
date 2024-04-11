@@ -42,7 +42,7 @@ static int get_size_list_teams(team_list_t *list_teams, user_t *user)
     return size;
 }
 
-static char *get_message_list_team(team_list_t *list_teams, user_t *user)
+char *get_message_list_team(team_list_t *list_teams, user_t *user)
 {
     int size = get_size_list_teams(list_teams, user);
     char *msg = malloc(sizeof(char) * (size + 1));
@@ -79,7 +79,7 @@ static int get_size_list_users(user_list_t *list_users)
     return size;
 }
 
-static char *get_message_list_users(user_list_t *list_users)
+char *get_message_list_users(user_list_t *list_users)
 {
     int size = get_size_list_users(list_users);
     char *msg = malloc(sizeof(char) * (size + 1));
@@ -98,32 +98,4 @@ static char *get_message_list_users(user_list_t *list_users)
     }
     strcat(msg, "]");
     return msg;
-}
-
-static char *get_message_team(server_t *myServ, char *team_uuid)
-{
-    team_list_t *list_teams = myServ->_list_teams;
-    team_t *tmp = list_teams->first;
-
-    while (tmp) {
-        if (strcmp(tmp->uuid, team_uuid) == 0) {
-            return get_message_list_users(tmp->users);
-        }
-        tmp = tmp->next;
-    }
-    return NULL;
-}
-
-void subscribed_command(char **command, server_t *myServ, client_t *client)
-{
-    char *msg = NULL;
-
-    if (is_too_more_args(command, 1, client->_fd, &myServ->writefds))
-        return;
-    if (command[1] == NULL)
-        msg = get_message_list_team(myServ->_list_teams, client->_user_data);
-    else {
-        msg = get_message_team(myServ, command[1]);
-    }
-    ptc_send(COMMAND_SUCCESS, msg, client->_fd, &myServ->writefds);
 }
