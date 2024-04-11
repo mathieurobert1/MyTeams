@@ -14,6 +14,7 @@
         "select.h": "c",
         "logging_client.h": "c",
         "protocol.h": "c",
-        "ip.h": "c"
+        "ip.h": "c",
+        "system_error": "c"
     }
 }

@@ -75,7 +75,8 @@ static char **my_realloc(char **list_arg, char *arg, int len_processed)
     return tmp;
 }
 
-static char **get_args(char *buffer, int *idx, char **list_arg, int *len_processed)
+static char **get_args(char *buffer,
+    int *idx, char **list_arg, int *len_processed)
 {
     char *arg = NULL;
     int len_buffer = strlen(buffer) - 2;

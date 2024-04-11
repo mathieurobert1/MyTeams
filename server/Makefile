@@ -51,10 +51,11 @@ SHARED_SRC = $(addprefix $(SHARED_DIR), $(SHARED_FILES))
 SHARED_OBJ = $(SHARED_SRC:.c=.o)
 
 SRC_DIR = src/
-SRC = $(addprefix $(SRC_DIR), $(SRC_FILES)) 
+SRC = $(addprefix $(SRC_DIR), $(SRC_FILES))
 OBJ = $(SRC:.c=.o)
 CFLAGS = -Wall -Wextra -Werror
-INC = -I./include -I../libs/myteams/ -I../shared/include -L ../libs/myteams/ -lmyteams -luuid
+INC = -I./include -I../libs/myteams/ \
+	-I../shared/include -L ../libs/myteams/ -lmyteams -luuid
 
 TEST_FILES =
 
@@ -79,7 +80,8 @@ run: all
 	./$(NAME)
 
 clean:
-	rm -f $(OBJ) $(MAIN_OBJ) $(TEST_OBJ) $(SHARED_OBJ) $(TEST_GCNO) $(TEST_GCDA)
+	rm -f $(OBJ) $(MAIN_OBJ) $(TEST_OBJ) $(SHARED_OBJ) \
+		$(TEST_GCNO) $(TEST_GCDA)
 
 fclean: clean
 	rm -f $(NAME) $(TEST_NAME)
