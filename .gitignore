@@ -1,3 +1,4 @@
 *.o
 myteams_cli
 myteams_server
+.vscode
