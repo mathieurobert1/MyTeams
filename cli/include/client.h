@@ -10,8 +10,10 @@
 typedef struct client_s {
     int port;
     char *ip;
-    int cli_fd;
+    int serv_fd;
     char **last_command_parsed;
+    char *user_uuid;
+    char *user_name;
 } client_t;
 
 int parse_client(int ac, char **av, client_t *client);

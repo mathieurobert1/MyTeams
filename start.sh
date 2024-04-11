@@ -1,3 +1,3 @@
 export LD_LIBRARY_PATH=$(pwd)/libs/myteams:$LD_LIBRARY_PATH
 make re
-./myteams_cli localhost 8888 
+valgrind --leak-check=full ./myteams_cli localhost 8888 

@@ -13,23 +13,16 @@
 #include "logging_client.h"
 #include "protocol.h"
 
-static bool is_in_enum(int value) {
-    for (int i = 200; i < 490; i += 10) {
-        if ((ptc_state_t)i == (ptc_state_t)value) {
-            return true;
-        }
-    }
-    return false;
-}
-
 void handle_response(client_t *client, char *msg) 
 {
     char **parsed = get_list_arg(msg);
     int code = atoi(parsed[0]);
 
-    (void) client;
-    if (code == CLIENT_EVENT_LOGGED_IN)
+    if (code == CLIENT_EVENT_LOGGED_IN) {
         client_event_logged_in(parsed[1], parsed[2]);
+        client->user_uuid = strdup(parsed[1]);
+        client->user_name = strdup(parsed[2]);
+    }
     if (code == CLIENT_EVENT_LOGGED_OUT)
         client_event_logged_out(parsed[1], parsed[2]);
     if (code == CLIENT_EVENT_PRIVATE_MESSAGE_RECEIVED)
@@ -86,6 +79,6 @@ void handle_response(client_t *client, char *msg)
         client_print_subscribed(parsed[1], parsed[2]);
     if (code == CLIENT_PRINT_UNSUBSCRIBED)
         client_print_subscribed(parsed[1], parsed[2]);
-    if (!is_in_enum(code))
-        write(1, msg, strlen(msg));
+    write(1, msg, strlen(msg));
+    delete_list_arg(parsed);
 }

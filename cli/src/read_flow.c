@@ -18,6 +18,15 @@ static void update_endline_bool(bool *b_r, char *chunk)
         (*b_r) = false;
 }
 
+static char *realloc_if_needed(int csize, int *msize, char **whole_buff)
+{
+    if (csize >= (*msize)) {
+        (*msize) += 200;
+        (*whole_buff) = realloc((*whole_buff), sizeof(char) * (*msize));
+    }
+    return (*whole_buff);
+}
+
 char *read_flow(int fd, bool rn)
 {
     int csize = 1;
@@ -31,12 +40,8 @@ char *read_flow(int fd, bool rn)
     whole_buff[0] = '\0';
     while (read(fd, chunk, 1) > 0) {
         chunk[1] = '\0';
-        if (csize >= msize) {
-            msize += 200;
-            whole_buff = realloc(whole_buff, sizeof(char) * msize);
-            if (!whole_buff)
-                return NULL;
-        }
+        if (!realloc_if_needed(csize, &msize, &whole_buff))
+            return NULL;
         strcat(whole_buff, chunk);
         csize++;
         update_endline_bool(&b_r, chunk);

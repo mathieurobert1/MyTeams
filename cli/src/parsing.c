@@ -9,9 +9,11 @@
 #include <string.h>
 #include <stdlib.h>
 
-static void display_help() {
+static void display_help(void)
+{
     printf("USAGE: ./myteams_cli ip port\n");
-    printf("\tip\t is the server ip address on which the server socket listens\n");
+    printf("\tip\t is the server ip address on which"
+    " the server socket listens\n");
     printf("\tport\t is the port number on which the server socket listens\n");
 }
 
