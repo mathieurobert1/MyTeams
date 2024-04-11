@@ -2,7 +2,7 @@
 ** EPITECH PROJECT, 2024
 ** MyTeams
 ** File description:
-** main
+** parsing
 */
 #include "client.h"
 #include <stdio.h>
