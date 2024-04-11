@@ -11,6 +11,13 @@
 
 #include "types.h"  // for server_t, client_t and command_t
 
+enum use_command_e {
+    NONE = 0,
+    EMPTY = 1,
+    TEAM = 2,
+    CHANNEL = 3,
+    THREAD = 4
+};
 
 /**
  * @brief handle the client's commands
@@ -152,3 +159,25 @@ void list_command(char **command, server_t *myServ, client_t *client);
  * @param client client structure
  */
 void info_command(char **command, server_t *myServ, client_t *client);
+
+// Utils Command /use //
+
+/**
+ * @brief change the use state
+ *
+ * @param use_state use state
+ * @param uuid of use
+ * @param client to change state
+ */
+void change_use(int use_state, char *uuid, client_t *client);
+
+/**
+ * @brief check if uuid correspond to team/channel/thread
+ *
+ * @param uuid to find
+ * @param myServ server_t struct
+ * @param client
+ * @return true
+ * @return false
+ */
+bool uuid_is_team(char **command, server_t *myServ, client_t *client);
