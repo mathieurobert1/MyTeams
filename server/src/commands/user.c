@@ -13,9 +13,9 @@
 #include <string.h>
 #include <stdlib.h>
 
-static int get_size_details(user_t *user)
+static size_t get_size_details(user_t *user)
 {
-    int size = 0;
+    size_t size = 0;
 
     size += strlen(user->uuid);
     size += strlen(user->username);
@@ -24,7 +24,8 @@ static int get_size_details(user_t *user)
 
 static char *get_details(user_t *user)
 {
-    char *details = malloc(get_size_details(user) + 2 + 7 + 14);
+    size_t size = get_size_details(user);
+    char *details = malloc(size + 2 + 7 + 14);
 
     if (!details)
         return NULL;
@@ -41,7 +42,7 @@ void user_command(char **command, server_t *myServ, client_t *client)
 
     if (!is_correct_command(&myServ->writefds, command, 1, client->_fd))
         return;
-    user = get_user_by_uuid(command[1], myServ);
+    user = user_get_by_uuid(command[1], myServ->_list_users);
     if (!user) {
         ptc_send(UNKNOWN_USER, "Unknown user", client->_fd, &myServ->writefds);
         return;

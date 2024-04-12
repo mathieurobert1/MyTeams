@@ -26,9 +26,9 @@ static bool is_user_subscribed_to_team(team_t *team, user_t *user)
     return false;
 }
 
-static int get_size_list_teams(team_list_t *list_teams, user_t *user)
+static size_t get_size_list_teams(team_list_t *list_teams, user_t *user)
 {
-    int size = 0;
+    size_t size = 0;
     team_t *tmp = list_teams->first;
 
     while (tmp) {
@@ -44,7 +44,7 @@ static int get_size_list_teams(team_list_t *list_teams, user_t *user)
 
 char *get_message_list_team(team_list_t *list_teams, user_t *user)
 {
-    int size = get_size_list_teams(list_teams, user);
+    size_t size = get_size_list_teams(list_teams, user);
     char *msg = malloc(sizeof(char) * (size + 1));
     team_t *tmp = list_teams->first;
 
@@ -65,9 +65,9 @@ char *get_message_list_team(team_list_t *list_teams, user_t *user)
     return msg;
 }
 
-static int get_size_list_users(user_list_t *list_users)
+static size_t get_size_list_users(user_list_t *list_users)
 {
-    int size = 0;
+    size_t size = 0;
     user_t *tmp = list_users->first;
 
     while (tmp) {
@@ -81,7 +81,7 @@ static int get_size_list_users(user_list_t *list_users)
 
 char *get_message_list_users(user_list_t *list_users)
 {
-    int size = get_size_list_users(list_users);
+    size_t size = get_size_list_users(list_users);
     char *msg = malloc(sizeof(char) * (size + 1));
     user_t *tmp = list_users->first;
 
