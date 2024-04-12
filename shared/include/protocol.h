@@ -20,7 +20,7 @@ typedef enum ptc_state {
     TOO_MORE_PARAMETERS = 502,
     TOO_FEW_PARAMETERS = 503,
     NOT_LOGGED_IN = 530,
-    NOT_CONTEXT = 531,
+    NO_CONTEXT = 531,
     MESSAGE_SEND = 600,
     MESSAGE_RECIEVE = 601,
 
