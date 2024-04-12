@@ -31,9 +31,10 @@ thread_t *create_thread(thread_list_t *list_threads, char *uuid, char *title)
         return NULL;
     thread->last = NULL;
     thread->next = NULL;
-    thread->message = NULL;
+    thread->content = NULL;
     thread->title = strdup(title);
     thread->uuid = strdup(uuid);
+    thread->comments = init_list_comments();
     add_to_list_threads(list_threads, thread);
     return thread;
 }
@@ -46,8 +47,10 @@ void delete_thread(thread_t *thread)
         free(thread->title);
     if (thread->uuid)
         free(thread->uuid);
-    if (thread->message)
-        free(thread->message);
+    if (thread->content)
+        free(thread->content);
+    if (thread->comments)
+        delete_list_comments(thread->comments);
     free(thread);
 }
 

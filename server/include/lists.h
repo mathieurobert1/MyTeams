@@ -249,3 +249,44 @@ void delete_list_messages(message_list_t *list_messagess);
  * @param messages
  */
 void add_to_list_messages(message_list_t *list, message_t *messages);
+
+/**
+ * @brief initialize the comments list
+ *
+ * @return comment_list_t*
+ */
+comment_list_t *init_list_comments(void);
+
+/**
+ * @brief Create a comment object
+ *
+ * @param list_comments
+ * @param content
+ * @param uuid
+ * @param author_uuid
+ * @return comment_t*
+ */
+comment_t *create_comment(comment_list_t *list_comments,
+    char *content, char *uuid, char *author_uuid);
+
+/**
+ * @brief delete a comment object
+ *
+ * @param comment
+ */
+void delete_comment(comment_t *comment);
+
+/**
+ * @brief delete all list comments
+ *
+ * @param list_comments
+ */
+void delete_list_comments(comment_list_t *list_comments);
+
+/**
+ * @brief add a comment to a comment list
+ *
+ * @param list
+ * @param comment
+ */
+void add_to_list_comment(comment_list_t *list, comment_t *comment);

@@ -120,6 +120,22 @@ void serialize_server(int fd, server_t *server);
 void serialize_string(int fd, char *str);
 
 /**
+ * @brief serialize a comment_t struct
+ *
+ * @param fd the file descriptor
+ * @param comment the comment to serialize
+ */
+void serialize_comment(int fd, comment_t *comment);
+
+/**
+ * @brief serialize a comment_litst_t struct
+ *
+ * @param fd the file descriptor
+ * @param list the list to serialize
+ */
+void serialize_comment_list(int fd, comment_list_t *list);
+
+/**
  * @brief deserialize a channel_list_t struct
  *
  * @param fd
@@ -214,3 +230,19 @@ server_t *deserialize_server(int fd);
  * @return char*
  */
 char *deserialize_string(int fd);
+
+/**
+ * @brief deserialize a comment_t struct
+ *
+ * @param fd
+ * @return comment_t*
+ */
+comment_t *deserialize_comment(int fd);
+
+/**
+ * @brief deserialize a comment_list_t struct
+ *
+ * @param fd
+ * @return comment_list_t*
+ */
+comment_list_t *deserialize_comment_list(int fd);

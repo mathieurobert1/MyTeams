@@ -16,6 +16,7 @@ SRC_FILES = parsing.c 				\
 			lists/threads_list.c 	\
 			lists/users_list.c 		\
 			lists/messages_list.c 	\
+			lists/comment_list.c 	\
 			init_server.c 			\
 			server.c 				\
 			accept_connection.c 	\
@@ -54,6 +55,7 @@ SRC_FILES = parsing.c 				\
 			data/serialization/thread.c\
 			data/serialization/user.c\
 			data/serialization/string.c\
+			data/serialization/comment.c\
 			data/deserialization/channel.c\
 			data/deserialization/message.c\
 			data/deserialization/server.c\
@@ -61,6 +63,7 @@ SRC_FILES = parsing.c 				\
 			data/deserialization/thread.c\
 			data/deserialization/user.c\
 			data/deserialization/string.c\
+			data/deserialization/comment.c\
 
 SHARED_FILES = get_command.c \
 
