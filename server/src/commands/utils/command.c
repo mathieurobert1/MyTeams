@@ -53,7 +53,7 @@ bool is_correct_command(fd_set *writefds, char **command,
     return true;
 }
 
-bool is_use_define(int fd_client, fd_set *writefds, int use_value)
+bool is_context_def(int fd_client, fd_set *writefds, int use_value)
 {
     if (use_value == NONE) {
         ptc_send(NOT_CONTEXT, "Not in a context",

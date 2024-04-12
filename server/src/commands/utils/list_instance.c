@@ -116,7 +116,8 @@ static int get_size_list_comments(comment_list_t *comments)
     comment_t *tmp = comments->first;
 
     while (tmp) {
-        size += strlen(tmp->uuid) + 2 + strlen(tmp->content) + 8 + strlen(tmp->author_uuid) + 3;
+        size += strlen(tmp->uuid) + 2 + strlen(tmp->content) + 8 +
+            strlen(tmp->author_uuid) + 3;
         tmp = tmp->next;
     }
     return size;

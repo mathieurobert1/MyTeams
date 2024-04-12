@@ -51,6 +51,17 @@ bool is_correct_command(fd_set *writefds, char **command,
     size_t nb_args, int fd_client);
 
 /**
+ * @brief check if use is define
+ *
+ * @param fd_client fd to write in case of error
+ * @param writefds select variable to check if client can write
+ * @param use_value the value to check
+ * @return true
+ * @return false
+ */
+bool is_context_def(int fd_client, fd_set *writefds, int use_value);
+
+/**
  * @brief create an uuid
  *
  * @return char* of the uuid
