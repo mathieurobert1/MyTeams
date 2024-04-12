@@ -15,7 +15,8 @@ void serialize_thread(int fd, thread_t *thread)
     write(fd, thread, sizeof(thread_t));
     serialize_string(fd, thread->uuid);
     serialize_string(fd, thread->title);
-    serialize_string(fd, thread->message);
+    serialize_string(fd, thread->content);
+    serialize_comment_list(fd, thread->comments);
 }
 
 void serialize_thread_list(int fd, thread_list_t *list)

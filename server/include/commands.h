@@ -35,21 +35,6 @@ void handle_client_commands(server_t *myServ);
 char *read_data_client(client_t *tmp);
 
 /**
- * @brief Get the list of the client command
- *
- * @param buffer command in char*
- * @return char** list of char* command
- */
-char **get_list_arg(char *buffer);
-
-/**
- * @brief delete the command list
- *
- * @param list_arg command list
- */
-void delete_list_arg(char **list_arg);
-
-/**
  * @brief help_command
  *
  * @param command array
@@ -196,3 +181,23 @@ void change_use(int use_state, char *uuid, client_t *client);
  * @return false
  */
 bool uuid_is_team(char **command, server_t *myServ, client_t *client);
+
+// Utils Command /subscribed //
+
+/**
+ * @brief Get the message list users in form of [...(user1), ...(user2), ...]
+ *
+ * @param list_users
+ * @return char*
+ */
+char *get_message_list_users(user_list_t *list_users);
+
+/**
+ * @brief Get the message list team in form of [...(team1), ...(team2), ...]
+ * The fonction check if the user is subscribed to the team
+ *
+ * @param list_teams initial list of teams
+ * @param user user to check
+ * @return char*
+ */
+char *get_message_list_team(team_list_t *list_teams, user_t *user);

@@ -51,7 +51,7 @@ static void login_client(char **command, server_t *myServ, client_t *client)
     client->_user_data = get_user_data(myServ, command[1]);
     if (client->_user_data != NULL) {
         server_event_user_logged_in(client->_user_data->uuid);
-        ptc_send(LOGED_IN, "User logged in, proceed.",
+        ptc_send(LOGGED_IN, "User logged in, proceed.",
         client->_fd, &myServ->writefds);
         return;
     }
@@ -63,7 +63,7 @@ static void login_client(char **command, server_t *myServ, client_t *client)
         return;
     server_event_user_created(client->_user_data->uuid,
     client->_user_data->username);
-    ptc_send(LOGED_IN, "User logged in, proceed.",
+    ptc_send(LOGGED_IN, "User logged in, proceed.",
     client->_fd, &myServ->writefds);
 }
 
@@ -72,7 +72,7 @@ void login_command(char **command, server_t *myServ, client_t *client)
     if (!is_correct_command(&myServ->writefds, command, 1, client->_fd))
         return;
     if (client->_user_data) {
-        ptc_send(LOGED_IN, "User logged in, proceed.",
+        ptc_send(LOGGED_IN, "User logged in, proceed.",
         client->_fd, &myServ->writefds);
         return;
     }

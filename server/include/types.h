@@ -83,10 +83,29 @@ typedef struct user_list_s {
 #pragma pack(pop)
 
 #pragma pack(push, 1)
+typedef struct comment_s {
+    char *uuid;
+    char *content;
+    char *author_uuid;
+    struct comment_s *next;
+    struct comment_s *last;
+} comment_t;
+#pragma pack(pop)
+
+#pragma pack(push, 1)
+typedef struct comment_list_s {
+    comment_t *first;
+    comment_t *last;
+    int nb_comment;
+} comment_list_t;
+#pragma pack(pop)
+
+#pragma pack(push, 1)
 typedef struct thread_s {
     char *uuid;
     char *title;
-    char *message;
+    char *content;
+    comment_list_t *comments;
     struct thread_s *next;
     struct thread_s *last;
 } thread_t;

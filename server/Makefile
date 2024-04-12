@@ -16,6 +16,7 @@ SRC_FILES = parsing.c 				\
 			lists/threads_list.c 	\
 			lists/users_list.c 		\
 			lists/messages_list.c 	\
+			lists/comment_list.c 	\
 			init_server.c 			\
 			server.c 				\
 			accept_connection.c 	\
@@ -24,7 +25,6 @@ SRC_FILES = parsing.c 				\
 			commands/commands.c 		\
 			commands/handle_commands.c 	\
 			commands/read_command.c 	\
-			commands/get_command.c 		\
 			\
 			commands/help.c 		\
 			commands/login.c 		\
@@ -35,6 +35,7 @@ SRC_FILES = parsing.c 				\
 			commands/messages.c 	\
 			commands/subscribe.c 	\
 			commands/subscribed.c 	\
+			commands/subscribed_utils.c 	\
 			commands/unsubscribe.c 	\
 			commands/use.c 			\
 			commands/create.c 		\
@@ -57,6 +58,7 @@ SRC_FILES = parsing.c 				\
 			data/serialization/thread.c\
 			data/serialization/user.c\
 			data/serialization/string.c\
+			data/serialization/comment.c\
 			data/deserialization/channel.c\
 			data/deserialization/message.c\
 			data/deserialization/server.c\
@@ -64,12 +66,20 @@ SRC_FILES = parsing.c 				\
 			data/deserialization/thread.c\
 			data/deserialization/user.c\
 			data/deserialization/string.c\
+			data/deserialization/comment.c\
+
+SHARED_FILES = get_command.c \
+
+SHARED_DIR = ../shared/
+SHARED_SRC = $(addprefix $(SHARED_DIR), $(SHARED_FILES))
+SHARED_OBJ = $(SHARED_SRC:.c=.o)
 
 SRC_DIR = src/
 SRC = $(addprefix $(SRC_DIR), $(SRC_FILES))
 OBJ = $(SRC:.c=.o)
 CFLAGS = -Wall -Wextra -Werror
-INC = -I./include -I../libs/myteams/ -L ../libs/myteams/ -lmyteams -luuid
+INC = -I./include -I../libs/myteams/ \
+	-I../shared/include -L ../libs/myteams/ -lmyteams -luuid
 
 TEST_FILES =
 
@@ -87,14 +97,15 @@ CC = gcc
 
 all: $(NAME)
 
-$(NAME): $(OBJ) $(MAIN_OBJ)
-	$(CC) -o $(NAME) $(OBJ) $(MAIN_OBJ) $(CFLAGS) $(INC)
+$(NAME): $(OBJ) $(MAIN_OBJ) $(SHARED_OBJ)
+	$(CC) -o $(NAME) $(OBJ) $(SHARED_OBJ) $(MAIN_OBJ) $(CFLAGS) $(INC)
 
 run: all
 	./$(NAME)
 
 clean:
-	rm -f $(OBJ) $(MAIN_OBJ) $(TEST_OBJ) $(TEST_GCNO) $(TEST_GCDA)
+	rm -f $(OBJ) $(MAIN_OBJ) $(TEST_OBJ) $(SHARED_OBJ) \
+		$(TEST_GCNO) $(TEST_GCDA)
 
 fclean: clean
 	rm -f $(NAME) $(TEST_NAME)
@@ -111,7 +122,7 @@ obj: $(OBJ)
 tests_run: fclean
 	$(MAKE) obj CFLAGS+=--coverage
 	$(MAKE) test_obj
-	$(CC) -o $(TEST_NAME) $(OBJ) $(TEST_OBJ) $(TEST_FLAGS) $(INC)
+	$(CC) -o $(TEST_NAME) $(OBJ) $(SHARED_OBJ) $(TEST_OBJ) $(TEST_FLAGS) $(INC)
 	./$(TEST_NAME)
 	gcovr --exclude tests/
 	gcovr -b --exclude tests/

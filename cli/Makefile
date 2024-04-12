@@ -9,13 +9,22 @@ MAIN_FILE = src/main.c
 
 MAIN_OBJ = $(MAIN_FILE:.c=.o)
 
-SRC_FILES =
+SHARED_FILES = get_command.c \
+
+SHARED_DIR = ../shared/
+SHARED_SRC = $(addprefix $(SHARED_DIR), $(SHARED_FILES))
+SHARED_OBJ = $(SHARED_SRC:.c=.o)
+
+SRC_FILES =	parsing.c \
+				read_flow.c \
+				handle_response.c \
 
 SRC_DIR = src/
 SRC = $(addprefix $(SRC_DIR), $(SRC_FILES))
 OBJ = $(SRC:.c=.o)
 CFLAGS = -Wall -Wextra -Werror
-INC = -I./include
+INC = -I./include -I../shared/include \
+	-I../libs/myteams/ -L ../libs/myteams/ -lmyteams
 
 TEST_FILES =
 
@@ -23,8 +32,6 @@ TEST_DIR = tests/
 TEST = $(addprefix $(TEST_DIR), $(TEST_FILES))
 TEST_OBJ = $(TEST:.c=.o)
 TEST_GCNO = $(SRC:.c=.gcno)
-TEST_GCDA = $(SRC:.c=.gcda)
-TEST_FLAGS = $(CFLAGS) --coverage -lcriterion
 
 NAME = myteams_cli
 TEST_NAME = test_cli
@@ -33,14 +40,15 @@ CC = gcc
 
 all: $(NAME)
 
-$(NAME): $(OBJ) $(MAIN_OBJ)
-	$(CC) -o $(NAME) $(OBJ) $(MAIN_OBJ) $(CFLAGS) $(INC)
+$(NAME): $(OBJ) $(MAIN_OBJ) $(SHARED_OBJ)
+	$(CC) -o $(NAME) $(SHARED_OBJ) $(OBJ) $(MAIN_OBJ) $(CFLAGS) $(INC)
 
 run: all
 	./$(NAME)
 
 clean:
-	rm -f $(OBJ) $(MAIN_OBJ) $(TEST_OBJ) $(TEST_GCNO) $(TEST_GCDA)
+	rm -f $(OBJ) $(MAIN_OBJ) $(SHARED_OBJ) \
+		$(TEST_OBJ) $(TEST_GCNO) $(TEST_GCDA)
 
 fclean: clean
 	rm -f $(NAME) $(TEST_NAME)
