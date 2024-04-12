@@ -11,9 +11,9 @@
 #include <string.h> // strcmp
 #include <stdlib.h> // malloc
 
-static int get_size_list_teams(team_list_t *teams)
+static size_t get_size_list_teams(team_list_t *teams)
 {
-    int size = 0;
+    size_t size = 0;
     team_t *tmp = teams->first;
 
     while (tmp) {
@@ -25,7 +25,7 @@ static int get_size_list_teams(team_list_t *teams)
 
 char *get_str_list_all_teams(team_list_t *teams)
 {
-    int size = get_size_list_teams(teams);
+    size_t size = get_size_list_teams(teams);
     char *str = malloc(sizeof(char) * (size + 3));
     team_t *tmp = teams->first;
 
@@ -44,9 +44,9 @@ char *get_str_list_all_teams(team_list_t *teams)
     return str;
 }
 
-static int get_size_list_threads(thread_list_t *threads)
+static size_t get_size_list_threads(thread_list_t *threads)
 {
-    int size = 0;
+    size_t size = 0;
     thread_t *tmp = threads->first;
 
     while (tmp) {
@@ -58,7 +58,7 @@ static int get_size_list_threads(thread_list_t *threads)
 
 char *get_str_list_all_threads(thread_list_t *threads)
 {
-    int size = get_size_list_threads(threads);
+    size_t size = get_size_list_threads(threads);
     char *str = malloc(sizeof(char) * (size + 3));
     thread_t *tmp = threads->first;
 
@@ -77,9 +77,9 @@ char *get_str_list_all_threads(thread_list_t *threads)
     return str;
 }
 
-static int get_size_list_channels(channel_list_t *channels)
+static size_t get_size_list_channels(channel_list_t *channels)
 {
-    int size = 0;
+    size_t size = 0;
     channel_t *tmp = channels->first;
 
     while (tmp) {
@@ -91,7 +91,7 @@ static int get_size_list_channels(channel_list_t *channels)
 
 char *get_str_list_all_channels(channel_list_t *channels)
 {
-    int size = get_size_list_channels(channels);
+    size_t size = get_size_list_channels(channels);
     char *str = malloc(sizeof(char) * (size + 3));
     channel_t *tmp = channels->first;
 
@@ -110,9 +110,9 @@ char *get_str_list_all_channels(channel_list_t *channels)
     return str;
 }
 
-static int get_size_list_comments(comment_list_t *comments)
+static size_t get_size_list_comments(comment_list_t *comments)
 {
-    int size = 0;
+    size_t size = 0;
     comment_t *tmp = comments->first;
 
     while (tmp) {
@@ -125,7 +125,7 @@ static int get_size_list_comments(comment_list_t *comments)
 
 char *get_str_list_all_comments(comment_list_t *comments)
 {
-    int size = get_size_list_comments(comments);
+    size_t size = get_size_list_comments(comments);
     char *str = malloc(sizeof(char) * (size + 3));
     comment_t *tmp = comments->first;
 

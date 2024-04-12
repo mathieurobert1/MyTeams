@@ -15,7 +15,7 @@
 
 static int get_size_message(user_t *user, char *uuid_dest)
 {
-    int size = 0;
+    size_t size = 0;
     message_t *tmp = user->messages->first;
 
     while (tmp) {
