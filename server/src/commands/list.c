@@ -75,9 +75,6 @@ static char *list_get_str(client_t *client, server_t *myServ)
 void list_command(char **command, server_t *myServ, client_t *client)
 {
     char *str = NULL;
-    channel_list_t *channels = NULL;
-    thread_list_t *threads = NULL;
-    comment_list_t *comments = NULL;
 
     if (!is_correct_command(&myServ->writefds, command, 0, client->_fd))
         return;
