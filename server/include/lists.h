@@ -108,7 +108,8 @@ void delete_list_teams(team_list_t *list_teams);
  * @param name of the team
  * @return team_t*
  */
-team_t *create_team(team_list_t *list_teams, char *uuid, char *name);
+team_t *create_team(team_list_t *list_teams, char *uuid,
+    char *name, char *description);
 
 /**
  * @brief delete a team
