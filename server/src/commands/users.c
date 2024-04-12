@@ -13,9 +13,9 @@
 #include <string.h>
 #include <stdlib.h>
 
-static int get_size_message(user_list_t *user_list)
+static size_t get_size_message(user_list_t *user_list)
 {
-    int size = 0;
+    size_t size = 0;
     user_t *tmp = user_list->first;
 
     while (tmp != NULL) {
@@ -27,7 +27,7 @@ static int get_size_message(user_list_t *user_list)
 
 static char *get_message(user_list_t *user_list)
 {
-    int size = get_size_message(user_list);
+    size_t size = get_size_message(user_list);
     char *msg = malloc(sizeof(char) * (size + 1));
     user_t *tmp = user_list->first;
 

@@ -7,11 +7,11 @@
 
 #include "protocol.h"
 #include "types.h"
+#include "commands.h"
 
 #include <unistd.h>
 #include <stdlib.h>
 #include <stdbool.h>
-#include <uuid/uuid.h>
 
 bool is_too_few_args(char **command, size_t nb_args,
     int fd_client, fd_set *writefds)
@@ -53,14 +53,10 @@ bool is_correct_command(fd_set *writefds, char **command,
     return true;
 }
 
-char *create_uuid(void)
+bool is_context_def(int fd_client, fd_set *writefds, int use_value)
 {
-    uuid_t binuuid;
-    char *uuid = malloc(37);
-
-    if (!uuid)
-        return NULL;
-    uuid_generate_random(binuuid);
-    uuid_unparse_lower(binuuid, uuid);
-    return uuid;
+    if (use_value != NONE)
+        return false;
+    ptc_send(NO_CONTEXT, "Not in a context", fd_client, writefds);
+    return false;
 }

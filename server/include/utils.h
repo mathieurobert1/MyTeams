@@ -51,6 +51,17 @@ bool is_correct_command(fd_set *writefds, char **command,
     size_t nb_args, int fd_client);
 
 /**
+ * @brief check if use is define
+ *
+ * @param fd_client fd to write in case of error
+ * @param writefds select variable to check if client can write
+ * @param use_value the value to check
+ * @return true
+ * @return false
+ */
+bool is_context_def(int fd_client, fd_set *writefds, int use_value);
+
+/**
  * @brief create an uuid
  *
  * @return char* of the uuid
@@ -58,19 +69,71 @@ bool is_correct_command(fd_set *writefds, char **command,
 char *create_uuid(void);
 
 /**
- * @brief get the user by uuid
+ * @brief get a team by its uuid
  *
- * @param uuid user uuid
- * @param myServ server structure
- * @return user_t* user structure
+ * @param uuid the uuid of the team to get
+ * @param teams the list of teams
+ * @return team_t*
  */
-user_t *get_user_by_uuid(char *uuid, server_t *myServ);
-
+team_t *team_get_by_uuid(char *uuid, team_list_t *teams);
 
 /**
- * @brief get the team by uuid
+ * @brief get a user by its uuid
  *
- * @param myServ server structure
- * @return team_t* team structure
+ * @param uuid the uuid of the user to get
+ * @param users the list of users
+ * @return user_t*
  */
-team_t *get_team_by_uuid(char *uuid, server_t *myServ);
+user_t *user_get_by_uuid(char *uuid, user_list_t *users);
+
+/**
+ * @brief get a channel by its uuid
+ *
+ * @param uuid the uuid of the channel to get
+ * @param channels the list of channels
+ * @return channel_t*
+ */
+channel_t *channel_get_by_uuid(char *uuid, channel_list_t *channels);
+
+/**
+ * @brief get a thread by its uuid
+ *
+ * @param uuid the uuid of the thread to get
+ * @param threads the list of threads
+ * @return thread_t*
+ */
+thread_t *thread_get_by_uuid(char *uuid, thread_list_t *threads);
+
+/**
+ * @brief Get the str form of all teams
+ * in format [team_name: team_uuid, ...]
+ *
+ * @param teams
+ * @return char*
+ */
+char *get_str_list_all_teams(team_list_t *teams);
+
+/**
+ * @brief Get the str form of all channels
+ * in format [channel_tittle: channel_uuid, ...]
+ *
+ * @param teams
+ * @return char*
+ */
+char *get_str_list_all_threads(thread_list_t *threads);
+
+/**
+ * @brief Get the str form of list channels object
+ * in format [channel_name: channel_uuid, ...]
+ * @param channels
+ * @return char*
+ */
+char *get_str_list_all_channels(channel_list_t *channels);
+
+/**
+ * @brief Get the str form of list users object
+ * in format [comment_uuid: comment_content\nBY : author_uuid, ...]
+ * @param users
+ * @return char*
+ */
+char *get_str_list_all_comments(comment_list_t *comments);

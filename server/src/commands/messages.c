@@ -15,7 +15,7 @@
 
 static int get_size_message(user_t *user, char *uuid_dest)
 {
-    int size = 0;
+    size_t size = 0;
     message_t *tmp = user->messages->first;
 
     while (tmp) {
@@ -60,7 +60,7 @@ void messages_command(char **command, server_t *myServ, client_t *client)
 
     if (!is_correct_command(&myServ->writefds, command, 1, client->_fd))
         return;
-    user = get_user_by_uuid(command[1], myServ);
+    user = user_get_by_uuid(command[1], myServ->_list_users);
     if (!user) {
         ptc_send(UNKNOWN_USER, "Unknown user", client->_fd, &myServ->writefds);
         return;

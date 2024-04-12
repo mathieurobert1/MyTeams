@@ -52,7 +52,7 @@ void send_command(char **command, server_t *myServ, client_t *client)
         client->_fd, &myServ->writefds);
         return;
     }
-    user_to_send = get_user_by_uuid(command[1], myServ);
+    user_to_send = user_get_by_uuid(command[1], myServ->_list_users);
     if (!user_to_send) {
         ptc_send(ERROR_PARAMETERS, "User uuid didn't exist on domain.",
         client->_fd, &myServ->writefds);
