@@ -55,10 +55,8 @@ bool is_correct_command(fd_set *writefds, char **command,
 
 bool is_context_def(int fd_client, fd_set *writefds, int use_value)
 {
-    if (use_value == NONE) {
-        ptc_send(NO_CONTEXT, "Not in a context",
-        fd_client, writefds);
+    if (use_value != NONE)
         return false;
-    }
-    return true;
+    ptc_send(NO_CONTEXT, "Not in a context", fd_client, writefds);
+    return false;
 }
