@@ -118,3 +118,11 @@ char *get_str_list_all_threads(thread_list_t *threads);
  * @return char*
  */
 char *get_str_list_all_channels(channel_list_t *channels);
+
+/**
+ * @brief Get the str form of list users object
+ * in format [comment_uuid: comment_content\nBY : author_uuid, ...]
+ * @param users
+ * @return char*
+ */
+char *get_str_list_all_comments(comment_list_t *comments);

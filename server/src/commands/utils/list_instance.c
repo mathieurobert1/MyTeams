@@ -109,3 +109,38 @@ char *get_str_list_all_channels(channel_list_t *channels)
     strcat(str, "]");
     return str;
 }
+
+static int get_size_list_comments(comment_list_t *comments)
+{
+    int size = 0;
+    comment_t *tmp = comments->first;
+
+    while (tmp) {
+        size += strlen(tmp->uuid) + 2 + strlen(tmp->content) + 8 + strlen(tmp->author_uuid) + 3;
+        tmp = tmp->next;
+    }
+    return size;
+}
+
+char *get_str_list_all_comments(comment_list_t *comments)
+{
+    int size = get_size_list_comments(comments);
+    char *str = malloc(sizeof(char) * (size + 3));
+    comment_t *tmp = comments->first;
+
+    if (!str)
+        return NULL;
+    memset(str, 0, size + 3);
+    strcat(str, "[");
+    while (tmp) {
+        strcat(str, tmp->uuid);
+        strcat(str, ": ");
+        strcat(str, tmp->content);
+        strcat(str, "\nBY : ");
+        strcat(str, tmp->author_uuid);
+        strcat(str, ", ");
+        tmp = tmp->next;
+    }
+    strcat(str, "]");
+    return str;
+}
