@@ -34,8 +34,8 @@ static bool connect_to_server(client_t *client)
         return false;
     }
     serveraddr.sin_family = domain;
-    serveraddr.sin_port = htons(8888);
-    serveraddr.sin_addr.s_addr = inet_addr("127.0.0.1");
+    serveraddr.sin_port = htons(client->port);
+    serveraddr.sin_addr.s_addr = inet_addr(client->ip);
     len = sizeof(serveraddr);
     if (connect(client->serv_fd, (struct sockaddr *)&serveraddr, len) != 0) {
         return false;
