@@ -10,6 +10,7 @@
 #include "utils.h"
 #include "lists.h"
 #include "commands.h"
+#include "logging_server.h"
 
 #include <unistd.h>
 #include <stdio.h>
@@ -89,6 +90,7 @@ void create_new_team(char **command, server_t *myServ, client_t *client)
     if (!uuid)
         return;
     create_team(myServ->_list_teams, uuid, command[1], command[2]);
+    server_event_team_created(uuid, command[1], client->_user_data->uuid);
     send_create_team_message(command, uuid, myServ, client);
     free(uuid);
 }
