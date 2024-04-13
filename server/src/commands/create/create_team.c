@@ -64,7 +64,7 @@ void create_new_team(char **command, server_t *myServ, client_t *client)
 {
     char *uuid = NULL;
 
-    if (is_correct_command(&myServ->writefds, command, 2, client->_fd))
+    if (!is_correct_command(&myServ->writefds, command, 2, client->_fd))
         return;
     if (strlen(command[1]) > MAX_NAME_LENGTH) {
         ptc_send(ERROR_PARAMETERS, "Too long name.",
