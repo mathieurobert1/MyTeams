@@ -67,7 +67,7 @@ void delete_list_channels(channel_list_t *list_channels);
  * @return channel_t*
  */
 channel_t *create_channel(channel_list_t *list_channels,
-    char *name, char *uuid);
+    char *name, char *description, char *uuid);
 
 /**
  * @brief delete a channel

@@ -24,7 +24,7 @@ channel_list_t *init_list_channels(void)
 }
 
 channel_t *create_channel(channel_list_t *list_channels,
-    char *name, char *uuid)
+    char *name, char *description, char *uuid)
 {
     channel_t *channel = malloc(sizeof(channel_t));
 
@@ -34,7 +34,7 @@ channel_t *create_channel(channel_list_t *list_channels,
     channel->next = NULL;
     channel->name = strdup(name);
     channel->uuid = strdup(uuid);
-    channel->description = NULL;
+    channel->description = strdup(description);
     channel->threads = init_list_threads();
     add_to_list_channel(list_channels, channel);
     return channel;

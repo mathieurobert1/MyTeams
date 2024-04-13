@@ -201,3 +201,35 @@ char *get_message_list_users(user_list_t *list_users);
  * @return char*
  */
 char *get_message_list_team(team_list_t *list_teams, user_t *user);
+
+//Utils Command /create //
+
+/**
+ * @brief Create a new team object
+ *
+ * @param command array
+ * @param myServ server_t struct
+ * @param client client_t struct
+ */
+void create_new_team(char **command, server_t *myServ, client_t *client);
+
+/**
+ * @brief Create a new channel object
+ *
+ * @param command array
+ * @param myServ server_t struct
+ * @param client client_t struct
+ */
+void create_new_channel(char **command, server_t *myServ, client_t *client);
+
+/**
+ * @brief Get the message object
+ *
+ * @param team_uuid char *
+ * @param team_name char *
+ * @param team_description char *
+ * @param code char *
+ * @return char*
+ */
+char *get_message_create(char *team_uuid, char *team_name,
+    char *team_description, char *code);
