@@ -10,6 +10,7 @@
 #include "protocol.h"
 #include "lists.h"
 #include "commands.h"
+#include "logging_server.h"
 
 #include <stdlib.h>
 #include <string.h>
@@ -94,7 +95,7 @@ static void create_new_thread_next(char **command, server_t *myServ,
     user_t *user = NULL;
     channel_t *channel = channel_get_by_uuid(client->_use_uuid_channel,
     team->channels);
-    char *uuid = NULL;
+    char *uuid = create_uuid();
 
     user = user_get_by_uuid(client->_user_data->uuid, team->users);
     if (!user) {
@@ -104,10 +105,11 @@ static void create_new_thread_next(char **command, server_t *myServ,
     }
     if (is_thread_name_exist(channel->threads, command[1], client, myServ))
         return;
-    uuid = create_uuid();
     if (!uuid)
         return;
     create_thread(channel->threads, uuid, command[1], command[2]);
+    server_event_thread_created(channel->uuid, uuid, client->_user_data->uuid,
+    command[1], command[2]);
     send_create_thread_message(command, uuid, myServ, client);
     free(uuid);
 }

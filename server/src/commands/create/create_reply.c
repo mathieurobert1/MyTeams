@@ -10,6 +10,7 @@
 #include "utils.h"
 #include "lists.h"
 #include "commands.h"
+#include "logging_server.h"
 
 #include <stdlib.h>
 #include <time.h>
@@ -85,13 +86,15 @@ static char *get_message_reply_for_all(char *team_uuid, char *code,
 }
 
 static void send_create_reply(char **command,
-    server_t *myServ, client_t *client)
+    server_t *myServ, client_t *client, thread_t *thread)
 {
     char *msg = get_message_reply_for_client(client->_use_uuid_thread,
     client->_user_data->uuid, command[1], "960");
     char *msg_all = get_message_reply_for_all(client->_use_uuid_team, "730",
     client, command[1]);
 
+    server_event_reply_created(thread->uuid,
+    client->_user_data->uuid, command[1]);
     if (!msg)
         return;
     if (!msg_all) {
@@ -126,7 +129,8 @@ static void create_new_reply_next(char **command, server_t *myServ,
         return;
     create_comment(thread->comments, command[1], uuid,
     client->_user_data->uuid);
-    send_create_reply(command, myServ, client);
+    send_create_reply(command, myServ, client, thread);
+    free(uuid);
 }
 
 void create_new_reply(char **command, server_t *myServ, client_t *client)

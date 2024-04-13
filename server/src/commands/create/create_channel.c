@@ -10,6 +10,7 @@
 #include "utils.h"
 #include "lists.h"
 #include "commands.h"
+#include "logging_server.h"
 
 #include <unistd.h>
 #include <string.h>
@@ -116,6 +117,7 @@ static void create_new_channel_next(char **command, server_t *myServ,
     if (!uuid)
         return;
     create_channel(team->channels, command[1], command[2], uuid);
+    server_event_channel_created(team->uuid, uuid, command[1]);
     send_create_channel_message(command, uuid, myServ, client);
     free(uuid);
 }

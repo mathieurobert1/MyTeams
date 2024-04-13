@@ -81,6 +81,7 @@ static bool is_team_name_exist(team_list_t *list, char *name,
 void create_new_team(char **command, server_t *myServ, client_t *client)
 {
     char *uuid = NULL;
+    team_t *team = NULL;
 
     if (!is_no_error(command, myServ, client, MAX_DESCRIPTION_LENGTH))
         return;
@@ -89,7 +90,8 @@ void create_new_team(char **command, server_t *myServ, client_t *client)
     uuid = create_uuid();
     if (!uuid)
         return;
-    create_team(myServ->_list_teams, uuid, command[1], command[2]);
+    team = create_team(myServ->_list_teams, uuid, command[1], command[2]);
+    add_to_list_users(team->users, client->_user_data);
     server_event_team_created(uuid, command[1], client->_user_data->uuid);
     send_create_team_message(command, uuid, myServ, client);
     free(uuid);
