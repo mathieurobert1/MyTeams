@@ -41,6 +41,7 @@ SRC_FILES = parsing.c 				\
 			commands/create/create.c 		\
 			commands/create/create_team.c 		\
 			commands/create/create_channel.c	\
+			commands/create/create_thread.c	\
 			commands/list.c 		\
 			commands/info.c 		\
 			commands/use_utils.c	\

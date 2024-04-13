@@ -24,8 +24,8 @@ void create_command(char **command, server_t *myServ, client_t *client)
         return create_new_team(command, myServ, client);
     if (client->_use_state == TEAM)
         return create_new_channel(command, myServ, client);
-    // if (client->_use_state == CHANNEL)
-    //     return create_new_thread(command, myServ, client);
+    if (client->_use_state == CHANNEL)
+        return create_new_thread(command, myServ, client);
     // if (client->_use_state == THREAD)
     //     return create_new_message(command, myServ, client);
 }

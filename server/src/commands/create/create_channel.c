@@ -16,7 +16,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-static bool is_no_error(char **command, server_t *myServ, client_t *client)
+bool is_no_error(char **command, server_t *myServ, client_t *client)
 {
     if (is_correct_command(&myServ->writefds, command, 2, client->_fd))
         return false;
@@ -49,7 +49,7 @@ static bool is_channel_name_exist(channel_list_t *list, char *name,
     return false;
 }
 
-static void find_user(user_t *user, client_t *tmp,
+void find_user_to_send(user_t *user, client_t *tmp,
     server_t *myServ, char *msg_all)
 {
     while (user) {
@@ -60,7 +60,7 @@ static void find_user(user_t *user, client_t *tmp,
     }
 }
 
-static void find_clients(client_t *client, server_t *myServ, char *msg_all)
+void find_clients_to_send(client_t *client, server_t *myServ, char *msg_all)
 {
     client_t *tmp = myServ->_list_client->first;
     user_t *user = NULL;
@@ -73,7 +73,7 @@ static void find_clients(client_t *client, server_t *myServ, char *msg_all)
             continue;
         }
         user = team->users->first;
-        find_user(user, tmp, myServ, msg_all);
+        find_user_to_send(user, tmp, myServ, msg_all);
         tmp = tmp->_next;
     }
 }
@@ -92,7 +92,7 @@ static void send_create_channel_message(char **command, char *uuid,
     }
     if (FD_ISSET(client->_fd, &myServ->writefds))
         dprintf(client->_fd, "%s\r\n", msg);
-    find_clients(client, myServ, msg_all);
+    find_clients_to_send(client, myServ, msg_all);
     free(msg);
     free(msg_all);
 }

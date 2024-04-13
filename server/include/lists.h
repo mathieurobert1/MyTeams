@@ -150,7 +150,8 @@ void delete_list_threads(thread_list_t *list_threads);
  * @param title of the thread
  * @return thread_t*
  */
-thread_t *create_thread(thread_list_t *list_threads, char *uuid, char *title);
+thread_t *create_thread(thread_list_t *list_threads, char *uuid, char *title,
+    char *content);
 
 /**
  * @brief delete a thread

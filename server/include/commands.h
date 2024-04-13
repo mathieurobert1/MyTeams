@@ -233,3 +233,43 @@ void create_new_channel(char **command, server_t *myServ, client_t *client);
  */
 char *get_message_create(char *team_uuid, char *team_name,
     char *team_description, char *code);
+
+/**
+ * @brief is_no_error in arguments
+ *
+ * @param command array
+ * @param myServ server_t struct
+ * @param client client_t struct
+ * @return true
+ * @return false
+ */
+bool is_no_error(char **command, server_t *myServ, client_t *client);
+
+/**
+ * @brief send messages to clients in team
+ *
+ * @param client client_t struct
+ * @param myServ server_t struct
+ * @param msg_all message to send
+ */
+void find_clients_to_send(client_t *client, server_t *myServ, char *msg_all);
+
+/**
+ * @brief send messages clients in team
+ *
+ * @param user user related to clisent
+ * @param tmp client_t struct
+ * @param myServ server_t struct
+ * @param msg_all message to send
+ */
+void find_user_to_send(user_t *user, client_t *tmp,
+    server_t *myServ, char *msg_all);
+
+/**
+ * @brief Create a new thread object
+ *
+ * @param command array
+ * @param myServ server_t struct
+ * @param client client_t struct
+ */
+void create_new_thread(char **command, server_t *myServ, client_t *client);
