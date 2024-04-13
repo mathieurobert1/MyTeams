@@ -45,9 +45,9 @@ static char *get_message_create_thread(char *uuid, char **command,
         return NULL;
     memset(message, 0, len + 1);
     strcat(message, code);
-    strcat(message, " ");
-    strcat(message, uuid);
     strcat(message, " \"");
+    strcat(message, uuid);
+    strcat(message, "\" \"");
     return get_message_for_clients(user->uuid, ltime, command, message);
 }
 
@@ -117,7 +117,7 @@ void create_new_thread(char **command, server_t *myServ, client_t *client)
     team_t *team = NULL;
     channel_t *channel = NULL;
 
-    if (!is_no_error(command, myServ, client))
+    if (!is_no_error(command, myServ, client, MAX_BODY_LENGTH))
         return;
     if (!client->_use_uuid_team || !client->_use_uuid_channel)
         return;

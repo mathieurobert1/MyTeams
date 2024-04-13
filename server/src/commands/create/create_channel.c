@@ -16,7 +16,8 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-bool is_no_error(char **command, server_t *myServ, client_t *client)
+bool is_no_error(char **command, server_t *myServ, client_t *client,
+    size_t length)
 {
     if (is_correct_command(&myServ->writefds, command, 2, client->_fd))
         return false;
@@ -25,8 +26,8 @@ bool is_no_error(char **command, server_t *myServ, client_t *client)
         client->_fd, &myServ->writefds);
         return false;
     }
-    if (strlen(command[2]) > MAX_DESCRIPTION_LENGTH) {
-        ptc_send(ERROR_PARAMETERS, "Too long description.",
+    if (strlen(command[2]) > length) {
+        ptc_send(ERROR_PARAMETERS, "Too long second args",
         client->_fd, &myServ->writefds);
         return false;
     }
@@ -123,7 +124,7 @@ void create_new_channel(char **command, server_t *myServ, client_t *client)
 {
     team_t *team = NULL;
 
-    if (!is_no_error(command, myServ, client))
+    if (!is_no_error(command, myServ, client, MAX_DESCRIPTION_LENGTH))
         return;
     if (!client->_use_uuid_team)
         return;

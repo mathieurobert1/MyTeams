@@ -240,10 +240,12 @@ char *get_message_create(char *team_uuid, char *team_name,
  * @param command array
  * @param myServ server_t struct
  * @param client client_t struct
+ * @param length of the second argument
  * @return true
  * @return false
  */
-bool is_no_error(char **command, server_t *myServ, client_t *client);
+bool is_no_error(char **command, server_t *myServ, client_t *client,
+    size_t length);
 
 /**
  * @brief send messages to clients in team
@@ -273,3 +275,12 @@ void find_user_to_send(user_t *user, client_t *tmp,
  * @param client client_t struct
  */
 void create_new_thread(char **command, server_t *myServ, client_t *client);
+
+/**
+ * @brief Create a new reply object
+ *
+ * @param command array
+ * @param myServ server_t struct
+ * @param client client_t struct
+ */
+void create_new_reply(char **command, server_t *myServ, client_t *client);
