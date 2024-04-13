@@ -9,6 +9,7 @@
 #include "protocol.h"
 #include "utils.h"
 #include "lists.h"
+#include "commands.h"
 
 #include <unistd.h>
 #include <stdio.h>
@@ -60,22 +61,30 @@ static void send_create_team_message(char **command, char *uuid,
     free(msg_all);
 }
 
+static bool is_team_name_exist(team_list_t *list, char *name,
+    client_t *client, server_t *myServ)
+{
+    team_t *team = list->first;
+
+    while (team) {
+        if (strcmp(team->name, name) == 0) {
+            ptc_send(CLIENT_ERROR_ALREADY_EXIST, "",
+            client->_fd, &myServ->writefds);
+            return true;
+        }
+        team = team->next;
+    }
+    return false;
+}
+
 void create_new_team(char **command, server_t *myServ, client_t *client)
 {
     char *uuid = NULL;
 
-    if (!is_correct_command(&myServ->writefds, command, 2, client->_fd))
+    if (!is_no_error(command, myServ, client, MAX_DESCRIPTION_LENGTH))
         return;
-    if (strlen(command[1]) > MAX_NAME_LENGTH) {
-        ptc_send(ERROR_PARAMETERS, "Too long name.",
-        client->_fd, &myServ->writefds);
+    if (is_team_name_exist(myServ->_list_teams, command[1], client, myServ))
         return;
-    }
-    if (strlen(command[2]) > MAX_DESCRIPTION_LENGTH) {
-        ptc_send(ERROR_PARAMETERS, "Too long description.",
-        client->_fd, &myServ->writefds);
-        return;
-    }
     uuid = create_uuid();
     if (!uuid)
         return;

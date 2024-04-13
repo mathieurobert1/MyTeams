@@ -19,7 +19,7 @@
 bool is_no_error(char **command, server_t *myServ, client_t *client,
     size_t length)
 {
-    if (is_correct_command(&myServ->writefds, command, 2, client->_fd))
+    if (!is_correct_command(&myServ->writefds, command, 2, client->_fd))
         return false;
     if (strlen(command[1]) > MAX_NAME_LENGTH) {
         ptc_send(ERROR_PARAMETERS, "Too long name.",
