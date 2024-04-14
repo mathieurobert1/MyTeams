@@ -13,6 +13,7 @@
 
 #include <unistd.h>
 #include <string.h>
+#include <stdio.h>
 
 static void remove_user(user_list_t *list, user_t *user)
 {
@@ -53,16 +54,16 @@ void unsubscribe_command(char **command, server_t *myServ, client_t *client)
         return;
     team = team_get_by_uuid(command[1], myServ->_list_teams);
     if (!team) {
-        ptc_send(ERROR_PARAMETERS, "User have no access to this team.",
+        ptc_send(CLIENT_ERROR_UNKNOWN_TEAM, command[1],
         client->_fd, &myServ->writefds);
         return;
     }
     if (!remove_user_from_team(team, client->_user_data)) {
-        ptc_send(ERROR_PARAMETERS, "User have no access to this team.",
+        ptc_send(CLIENT_ERROR_UNKNOWN_TEAM, command[1],
         client->_fd, &myServ->writefds);
         return;
     }
     server_event_user_unsubscribed(command[1], client->_user_data->uuid);
-    ptc_send(COMMAND_SUCCESS, "Command success.",
-    client->_fd, &myServ->writefds);
+    dprintf(client->_fd, "%i \"%s\" \"%s\"\r\n", CLIENT_PRINT_UNSUBSCRIBED,
+    client->_user_data->uuid, command[1]);
 }
