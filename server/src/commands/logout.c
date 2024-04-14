@@ -12,12 +12,20 @@
 #include "lists.h"
 #include "utils.h"
 
+#include <stdio.h>
+
 void logout_command(char **command, server_t *myServ, client_t *client)
 {
+    client_t *tmp = myServ->_list_client->first;
+
     if (is_too_more_args(command, 0, client->_fd, &myServ->writefds))
         return;
     server_event_user_logged_out(client->_user_data->uuid);
-    ptc_send(LOGGED_OUT, "Service closing control connection."
-    " Logged out if appropriate.", client->_fd, &myServ->writefds);
+    while (tmp) {
+        if (tmp->_user_data)
+            dprintf(tmp->_fd, "%i \"%s\" \"%s\"\r\n", CLIENT_EVENT_LOGGED_OUT,
+            client->_user_data->uuid, client->_user_data->username);
+        tmp = tmp->_next;
+    }
     delete_a_client(client, myServ);
 }
