@@ -44,7 +44,8 @@ void user_command(char **command, server_t *myServ, client_t *client)
         return;
     user = user_get_by_uuid(command[1], myServ->_list_users);
     if (!user) {
-        ptc_send(UNKNOWN_USER, "Unknown user", client->_fd, &myServ->writefds);
+        ptc_send(CLIENT_ERROR_UNKNOWN_USER, command[1],
+        client->_fd, &myServ->writefds);
         return;
     } else {
         ptc_send(COMMAND_SUCCESS, get_details(user),
