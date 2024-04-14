@@ -18,12 +18,11 @@
 static bool can_perform_command(client_t *client, char *command,
     server_t *myServ)
 {
-    if (strcmp(command, "/help") != 0 && strcmp(command, "/login") != 0 &&
-    strcmp(command, "/logout") != 0) {
+    if (strcmp(command, "/login") != 0) {
         if (client->_user_data)
             return true;
         else {
-            ptc_send(NOT_LOGGED_IN, "Not LOGGED in.",
+            ptc_send(CLIENT_ERROR_UNAUTHORIZED, "",
             client->_fd, &myServ->writefds);
             return false;
         }
