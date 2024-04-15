@@ -8,7 +8,7 @@
 #include "types.h"
 #include "utils.h"  // *
 #include "commands.h"   // use_command_e
-#include "protocol.h"   // ptc_send
+#include "protocol.h"   // *
 
 #include <string.h>     // strlen
 #include <stdlib.h>     // malloc
@@ -17,29 +17,53 @@
 static void print_info_user(user_t *user, int fd, fd_set *write_fds)
 {
     if (FD_ISSET(fd, write_fds))
-        dprintf(fd, "User: username: %s, uuid: %s\n",
-            user->username, user->uuid);
+        dprintf(fd, "%d \"%s\" \"%s\" \"%d\"\r\n", CLIENT_PRINT_USER, user->uuid,
+            user->username, user->is_logged);
 }
 
-static void print_info_team(team_t *team, int fd, fd_set *write_fds)
+static void print_info_team(team_t *team, int fd, fd_set *write_fds,
+    char *uuid)
 {
-    if (FD_ISSET(fd, write_fds))
-        dprintf(fd, "Team: uuid: %s, name: %s, description: %s\n",
-            team->uuid, team->name, team->description);
+    if (team == NULL) {
+        if (FD_ISSET(fd, write_fds)) {
+            dprintf(fd, "%d \"%s\"\r\n", CLIENT_ERROR_UNKNOWN_TEAM, uuid);
+        }
+        return;
+    }
+    if (FD_ISSET(fd, write_fds)) {
+        dprintf(fd, "%d \"%s\" \"%s\" \"%s\"\r\n",
+            CLIENT_PRINT_TEAM, team->uuid, team->name, team->description);
+    }
 }
 
-static void print_info_channel(channel_t *channel, int fd, fd_set *write_fds)
+static void print_info_channel(channel_t *channel, int fd, fd_set *write_fds,
+    char *uuid)
 {
-    if (FD_ISSET(fd, write_fds))
-        dprintf(fd, "Channel: uuid: %s, name: %s, description: %s\n",
+    if (channel == NULL) {
+        if (FD_ISSET(fd, write_fds)) {
+            dprintf(fd, "%d \"%s\"\r\n", CLIENT_ERROR_UNKNOWN_CHANNEL, uuid);
+        }
+        return;
+    }
+    if (FD_ISSET(fd, write_fds)) {
+        dprintf(fd, "%d \"%s\" \"%s\" \"%s\"\r\n", CLIENT_PRINT_CHANNEL,
             channel->uuid, channel->name, channel->description);
+    }
 }
 
-static void print_info_thread(thread_t *thread, int fd, fd_set *write_fds)
+static void print_info_thread(thread_t *thread, int fd, fd_set *write_fds,
+    char *uuid)
 {
+    if (thread == NULL) {
+        if (FD_ISSET(fd, write_fds)) {
+            dprintf(fd, "%d \"%s\"\r\n", CLIENT_ERROR_UNKNOWN_THREAD, uuid);
+        }
+        return;
+    }
     if (FD_ISSET(fd, write_fds))
-        dprintf(fd, "Thread: uuid: %s, title: %s, content: %s\n",
-            thread->uuid, thread->title, thread->content);
+        dprintf(fd, "%d \"%s\" \"%s\" \"%ld\" \"%s\" \"%s\"\r\n",
+            CLIENT_PRINT_THREAD, thread->uuid, thread->author->uuid,
+            thread->timestamp, thread->title, thread->content);
 }
 
 static void print_info(client_t *client, server_t *myServ, fd_set *write_fds)
@@ -54,11 +78,13 @@ static void print_info(client_t *client, server_t *myServ, fd_set *write_fds)
     if (client->_use_state == EMPTY)
         print_info_user(client->_user_data, client->_fd, write_fds);
     if (client->_use_state == TEAM)
-        print_info_team(team, client->_fd, write_fds);
+        print_info_team(team, client->_fd, write_fds, client->_use_uuid_team);
     if (client->_use_state == CHANNEL)
-        print_info_channel(channel, client->_fd, write_fds);
+        print_info_channel(channel, client->_fd, write_fds,
+            client->_use_uuid_channel);
     if (client->_use_state == THREAD)
-        print_info_thread(thread, client->_fd, write_fds);
+        print_info_thread(thread, client->_fd, write_fds,
+            client->_use_uuid_thread);
 }
 
 void info_command(char **command, server_t *myServ, client_t *client)
