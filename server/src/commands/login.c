@@ -13,22 +13,18 @@
 #include "utils.h"
 
 #include <stdlib.h>
+#include <stdio.h>
 #include <string.h>
 
-static void cut_user_name_to_long(char **command)
+static bool is_user_name_too_long(char **command, client_t *client,
+    server_t *myServ)
 {
-    char *new_name = NULL;
-
-    if (strlen(command[1]) < MAX_NAME_LENGTH)
-        return;
-    new_name = malloc(sizeof(char) * (MAX_NAME_LENGTH + 1));
-    if (!new_name)
-        return;
-    for (size_t i = 0; i < MAX_NAME_LENGTH; i++)
-        new_name[i] = command[1][i];
-    new_name[MAX_NAME_LENGTH] = '\0';
-    free(command[1]);
-    command[1] = new_name;
+    if (strlen(command[1]) > MAX_NAME_LENGTH) {
+        ptc_send(ERROR_PARAMETERS, "Too long user name.",
+        client->_fd, &myServ->writefds);
+        return true;
+    }
+    return false;
 }
 
 static user_t *get_user_data(server_t *myServ, char *user_name)
@@ -43,16 +39,28 @@ static user_t *get_user_data(server_t *myServ, char *user_name)
     return NULL;
 }
 
+static void display_login(client_t *client, server_t *myServ)
+{
+    client_t *tmp = myServ->_list_client->first;
+
+    while (tmp) {
+        if (tmp->_user_data)
+            dprintf(tmp->_fd, "%i \"%s\" \"%s\"\r\n", CLIENT_EVENT_LOGGED_IN,
+            client->_user_data->uuid, client->_user_data->username);
+        tmp = tmp->_next;
+    }
+}
+
 static void login_client(char **command, server_t *myServ, client_t *client)
 {
     char *uuid = create_uuid();
 
-    cut_user_name_to_long(command);
+    if (is_user_name_too_long(command, client, myServ))
+        return;
     client->_user_data = get_user_data(myServ, command[1]);
     if (client->_user_data != NULL) {
         server_event_user_logged_in(client->_user_data->uuid);
-        ptc_send(LOGGED_IN, "User logged in, proceed.",
-        client->_fd, &myServ->writefds);
+        display_login(client, myServ);
         return;
     }
     if (!uuid)
@@ -63,8 +71,7 @@ static void login_client(char **command, server_t *myServ, client_t *client)
         return;
     server_event_user_created(client->_user_data->uuid,
     client->_user_data->username);
-    ptc_send(LOGGED_IN, "User logged in, proceed.",
-    client->_fd, &myServ->writefds);
+    display_login(client, myServ);
 }
 
 void login_command(char **command, server_t *myServ, client_t *client)

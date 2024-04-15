@@ -23,7 +23,8 @@ team_list_t *init_list_teams(void)
     return team_list;
 }
 
-team_t *create_team(team_list_t *list_teams, char *uuid, char *name)
+team_t *create_team(team_list_t *list_teams, char *uuid,
+    char *name, char *description)
 {
     team_t *team = malloc(sizeof(team_t));
 
@@ -32,9 +33,9 @@ team_t *create_team(team_list_t *list_teams, char *uuid, char *name)
     team->last = NULL;
     team->next = NULL;
     team->channels = init_list_channels();
-    team->description = NULL;
+    team->description = strdup(description);
     team->name = strdup(name);
-    team->users = NULL;
+    team->users = init_list_users();
     team->uuid = strdup(uuid);
     add_to_list_team(list_teams, team);
     return team;

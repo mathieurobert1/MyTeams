@@ -12,6 +12,7 @@
 #include "lists.h"
 
 #include <string.h>
+#include <stdio.h>
 
 static void send_message(client_t *client, server_t *myServ)
 {
@@ -19,14 +20,16 @@ static void send_message(client_t *client, server_t *myServ)
 }
 
 static void send_message_to_receiver(char *msg, server_t *myServ,
-    user_t *user_to_send)
+    user_t *user_to_send, client_t *client)
 {
     client_t *tmp = myServ->_list_client->first;
 
     while (tmp) {
         if (tmp->_user_data &&
             strcmp(tmp->_user_data->uuid, user_to_send->uuid) == 0)
-            ptc_send(MESSAGE_RECIEVE, msg, tmp->_fd, &myServ->writefds);
+            dprintf(tmp->_fd, "%i \"%s\" \"%s\"\r\n",
+            CLIENT_EVENT_PRIVATE_MESSAGE_RECEIVED,
+            client->_user_data->uuid, msg);
         tmp = tmp->_next;
     }
 }
@@ -54,7 +57,7 @@ void send_command(char **command, server_t *myServ, client_t *client)
     }
     user_to_send = user_get_by_uuid(command[1], myServ->_list_users);
     if (!user_to_send) {
-        ptc_send(ERROR_PARAMETERS, "User uuid didn't exist on domain.",
+        ptc_send(CLIENT_ERROR_UNKNOWN_USER, command[1],
         client->_fd, &myServ->writefds);
         return;
     }
@@ -62,5 +65,5 @@ void send_command(char **command, server_t *myServ, client_t *client)
     user_to_send->uuid, command[2]);
     save_message(client->_user_data, user_to_send, command[2]);
     send_message(client, myServ);
-    send_message_to_receiver(command[2], myServ, user_to_send);
+    send_message_to_receiver(command[2], myServ, user_to_send, client);
 }

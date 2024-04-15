@@ -23,7 +23,8 @@ thread_list_t *init_list_threads(void)
     return thread_list;
 }
 
-thread_t *create_thread(thread_list_t *list_threads, char *uuid, char *title)
+thread_t *create_thread(thread_list_t *list_threads, char *uuid, char *title,
+    char *content)
 {
     thread_t *thread = malloc(sizeof(thread_t));
 
@@ -31,7 +32,7 @@ thread_t *create_thread(thread_list_t *list_threads, char *uuid, char *title)
         return NULL;
     thread->last = NULL;
     thread->next = NULL;
-    thread->content = NULL;
+    thread->content = strdup(content);
     thread->title = strdup(title);
     thread->uuid = strdup(uuid);
     thread->comments = init_list_comments();
