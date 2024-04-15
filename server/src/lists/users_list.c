@@ -34,7 +34,6 @@ user_t *create_user(user_list_t *list_users, char *uuid, char *user_name)
     user->username = strdup(user_name);
     user->uuid = strdup(uuid);
     user->messages = init_list_messages();
-    user->is_logged = false;
     add_to_list_users(list_users, user);
     return user;
 }
