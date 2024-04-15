@@ -33,7 +33,7 @@ static thread_list_t *get_thread_list(server_t *myServ, char *team_uuid,
     return channel->threads;
 }
 
-static comment_list_t *get_comment_list(server_t *myServ, char *team_uuid,
+static thread_t *get_thread(server_t *myServ, char *team_uuid,
     char *channel_uuid, char *thread_uuid)
 {
     team_t *team = team_get_by_uuid(team_uuid, myServ->_list_teams);
@@ -48,38 +48,34 @@ static comment_list_t *get_comment_list(server_t *myServ, char *team_uuid,
     thread = thread_get_by_uuid(thread_uuid, channel->threads);
     if (!thread)
         return NULL;
-    return thread->comments;
+    return thread;
 }
 
-static char *list_get_str(client_t *client, server_t *myServ)
+static void list_print(client_t *client, server_t *myServ)
 {
     channel_list_t *channels = get_channel_list(client->_use_uuid_team,
         myServ);
     thread_list_t *threads = get_thread_list(myServ, client->_use_uuid_team,
             client->_use_uuid_channel);
-    comment_list_t *comments = get_comment_list(myServ, client->_use_uuid_team,
-            client->_use_uuid_channel, client->_use_uuid_thread);
-    char *str = NULL;
+    thread_t *thread = get_thread(myServ, client->_use_uuid_team,
+        client->_use_uuid_channel, client->_use_uuid_thread);
 
     if (client->_use_state == EMPTY)
-        str = get_str_list_all_teams(myServ->_list_teams);
+        print_list_all_teams(myServ->_list_teams, client->_fd,
+            &myServ->writefds);
     if (client->_use_state == TEAM)
-        str = get_str_list_all_channels(channels);
+        print_list_all_channels(channels, client->_fd, &myServ->writefds);
     if (client->_use_state == CHANNEL)
-        str = get_str_list_all_threads(threads);
+        print_list_all_threads(threads, client->_fd, &myServ->writefds);
     if (client->_use_state == THREAD)
-        str = get_str_list_all_comments(comments);
-    return str;
+        print_list_all_comments(thread, client->_fd, &myServ->writefds);
 }
 
 void list_command(char **command, server_t *myServ, client_t *client)
 {
-    char *str = NULL;
-
     if (!is_correct_command(&myServ->writefds, command, 0, client->_fd))
         return;
     if (!is_context_def(client->_fd, &myServ->writefds, client->_use_state))
         return;
-    str = list_get_str(client, myServ);
-    ptc_send(COMMAND_SUCCESS, str, client->_fd, &myServ->writefds);
+    list_print(client, myServ);
 }

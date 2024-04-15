@@ -37,64 +37,48 @@ static bool is_error_unknown(server_t *myServ, client_t *client, team_t *team)
     return false;
 }
 
-static char *get_message_reply_for_client(char *thread_uuid, char *user_uuid,
-    char *reply, int code)
+static char *get_message_reply_for_client(char *thread_uuid,
+    comment_t *comment, int code)
 {
-    time_t ltime;
-    size_t len = strlen(thread_uuid) + strlen(user_uuid) + strlen(reply) + 15;
+    size_t len = strlen(thread_uuid) + strlen(comment->author_uuid) +
+        strlen(comment->content) + 15;
     char *message = NULL;
 
-    time(&ltime);
-    message = malloc(sizeof(char) * (len + 1 + strlen(ctime(&ltime))));
+    message = malloc(sizeof(char) * (len + 1 +
+        strlen(ctime(&comment->timestamp))));
     if (!message)
         return NULL;
     memset(message, 0, len + 1);
-    strcat(message, int_to_char(code));
-    strcat(message, " \"");
-    strcat(message, thread_uuid);
-    strcat(message, "\" \"");
-    strcat(message, user_uuid);
-    strcat(message, "\" \"");
-    strcat(message, ctime(&ltime));
-    strcat(message, "\" \"");
-    strcat(message, reply);
-    strcat(message, "\"");
+    sprintf(message, "%d \"%s\" \"%s\" \"%s\" \"%s\"", code, thread_uuid,
+        comment->author_uuid, ctime(&comment->timestamp), comment->content);
     return message;
 }
 
 static char *get_message_reply_for_all(char *team_uuid, int code,
-    client_t *client, char *reply)
+    client_t *client, comment_t *comment)
 {
     size_t len = strlen(team_uuid) + strlen(client->_use_uuid_thread) +
-    strlen(client->_user_data->uuid) + strlen(reply) + 15;
+    strlen(client->_user_data->uuid) + strlen(comment->content) + 15;
     char *message = malloc(sizeof(char) * (len + 1));
 
     if (!message)
         return NULL;
     memset(message, 0, len + 1);
-    strcat(message, int_to_char(code));
-    strcat(message, " \"");
-    strcat(message, team_uuid);
-    strcat(message, "\" \"");
-    strcat(message, client->_use_uuid_thread);
-    strcat(message, "\" \"");
-    strcat(message, client->_user_data->uuid);
-    strcat(message, "\" \"");
-    strcat(message, reply);
-    strcat(message, "\"");
+    sprintf(message, "%d \"%s\" \"%s\" \"%s\" \"%s\"", code, team_uuid,
+        client->_use_uuid_thread, client->_user_data->uuid, comment->content);
     return message;
 }
 
-static void send_create_reply(char **command,
+static void send_create_reply(comment_t *comment,
     server_t *myServ, client_t *client, thread_t *thread)
 {
-    char *msg = get_message_reply_for_client(client->_use_uuid_thread,
-    client->_user_data->uuid, command[1], CLIENT_PRINT_REPLY_CREATED);
+    char *msg = get_message_reply_for_client(thread->uuid, comment,
+        CLIENT_PRINT_REPLY_CREATED);
     char *msg_all = get_message_reply_for_all(client->_use_uuid_team,
-    CLIENT_EVENT_THREAD_REPLY_RECEIVED, client, command[1]);
+    CLIENT_EVENT_THREAD_REPLY_RECEIVED, client, comment);
 
     server_event_reply_created(thread->uuid,
-    client->_user_data->uuid, command[1]);
+    client->_user_data->uuid, comment->content);
     if (!msg)
         return;
     if (!msg_all) {
@@ -112,11 +96,11 @@ static void create_new_reply_next(char **command, server_t *myServ,
     client_t *client, team_t *team)
 {
     user_t *user = NULL;
-    char *uuid = NULL;
     channel_t *channel = channel_get_by_uuid(client->_use_uuid_channel,
     team->channels);
     thread_t *thread = thread_get_by_uuid(client->_use_uuid_thread,
     channel->threads);
+    comment_t *comment = NULL;
 
     user = user_get_by_uuid(client->_user_data->uuid, team->users);
     if (!user) {
@@ -124,13 +108,11 @@ static void create_new_reply_next(char **command, server_t *myServ,
         client->_fd, &myServ->writefds);
         return;
     }
-    uuid = create_uuid();
-    if (!uuid)
-        return;
-    create_comment(thread->comments, command[1], uuid,
+    comment = create_comment(thread->comments, command[1],
     client->_user_data->uuid);
-    send_create_reply(command, myServ, client, thread);
-    free(uuid);
+    if (!comment)
+        return;
+    send_create_reply(comment, myServ, client, thread);
 }
 
 void create_new_reply(char **command, server_t *myServ, client_t *client)

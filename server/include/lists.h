@@ -266,12 +266,11 @@ comment_list_t *init_list_comments(void);
  *
  * @param list_comments
  * @param content
- * @param uuid
  * @param author_uuid
  * @return comment_t*
  */
 comment_t *create_comment(comment_list_t *list_comments,
-    char *content, char *uuid, char *author_uuid);
+    char *content, char *author_uuid);
 
 /**
  * @brief delete a comment object
