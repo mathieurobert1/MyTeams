@@ -83,8 +83,6 @@ static void init_client_t(client_t *client)
 
 static void clean_client(client_t *client)
 {
-    if (client->user_name && client->user_uuid)
-        client_event_logged_out(client->user_uuid, client->user_name);
     close(client->serv_fd);
     free(client->ip);
     if (client->last_command_parsed)

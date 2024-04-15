@@ -12,6 +12,7 @@
 #include "logging_server.h"
 
 #include <unistd.h>
+#include <stdio.h>
 
 void subscribe_command(char **command, server_t *myServ, client_t *client)
 {
@@ -21,12 +22,12 @@ void subscribe_command(char **command, server_t *myServ, client_t *client)
         return;
     team = team_get_by_uuid(command[1], myServ->_list_teams);
     if (!team) {
-        ptc_send(ERROR_PARAMETERS, "Team uuid didn't exist on domain.",
+        ptc_send(CLIENT_ERROR_UNKNOWN_TEAM, command[1],
         client->_fd, &myServ->writefds);
         return;
     }
     add_to_list_users(team->users, client->_user_data);
     server_event_user_subscribed(command[1], client->_user_data->uuid);
-    ptc_send(COMMAND_SUCCESS, "Command success.",
-    client->_fd, &myServ->writefds);
+    dprintf(client->_fd, "%i \"%s\" \"%s\"\r\n", CLIENT_PRINT_SUBSCRIBED,
+    client->_user_data->uuid, command[1]);
 }
