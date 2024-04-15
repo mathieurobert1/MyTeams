@@ -32,7 +32,7 @@ static char *get_message_for_clients(char *uuid, time_t ltime, char **command,
 }
 
 static char *get_message_create_thread(char *uuid, char **command,
-    char *code, user_t *user)
+    int code, user_t *user)
 {
     time_t ltime;
     size_t len = strlen(uuid) + strlen(user->uuid) +
@@ -45,7 +45,7 @@ static char *get_message_create_thread(char *uuid, char **command,
     if (!message)
         return NULL;
     memset(message, 0, len + 1);
-    strcat(message, code);
+    strcat(message, int_to_char(code));
     strcat(message, " \"");
     strcat(message, uuid);
     strcat(message, "\" \"");
@@ -71,9 +71,11 @@ static bool is_thread_name_exist(thread_list_t *list, char *name,
 static void send_create_thread_message(char **command, char *uuid,
     server_t *myServ, client_t *client)
 {
-    char *msg = get_message_create_thread(uuid, command, "950",
+    char *msg = get_message_create_thread(uuid, command,
+    CLIENT_PRINT_THREAD_CREATED,
     client->_user_data);
-    char *msg_all = get_message_create_thread(uuid, command, "760",
+    char *msg_all = get_message_create_thread(uuid, command,
+    CLIENT_EVENT_THREAD_CREATED,
     client->_user_data);
 
     if (!msg)
@@ -84,7 +86,7 @@ static void send_create_thread_message(char **command, char *uuid,
     }
     if (FD_ISSET(client->_fd, &myServ->writefds))
         dprintf(client->_fd, "%s\r\n", msg);
-    find_clients_to_send(client, myServ, msg_all);
+    send_to_all_clients(client, myServ, msg_all);
     free(msg);
     free(msg_all);
 }

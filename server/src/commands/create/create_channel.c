@@ -51,7 +51,7 @@ static bool is_channel_name_exist(channel_list_t *list, char *name,
     return false;
 }
 
-void find_user_to_send(user_t *user, client_t *tmp,
+void send_to_all_users(user_t *user, client_t *tmp,
     server_t *myServ, char *msg_all)
 {
     while (user) {
@@ -62,7 +62,7 @@ void find_user_to_send(user_t *user, client_t *tmp,
     }
 }
 
-void find_clients_to_send(client_t *client, server_t *myServ, char *msg_all)
+void send_to_all_clients(client_t *client, server_t *myServ, char *msg_all)
 {
     client_t *tmp = myServ->_list_client->first;
     user_t *user = NULL;
@@ -75,7 +75,7 @@ void find_clients_to_send(client_t *client, server_t *myServ, char *msg_all)
             continue;
         }
         user = team->users->first;
-        find_user_to_send(user, tmp, myServ, msg_all);
+        send_to_all_users(user, tmp, myServ, msg_all);
         tmp = tmp->_next;
     }
 }
@@ -83,8 +83,10 @@ void find_clients_to_send(client_t *client, server_t *myServ, char *msg_all)
 static void send_create_channel_message(char **command, char *uuid,
     server_t *myServ, client_t *client)
 {
-    char *msg = get_message_create(uuid, command[1], command[2], "940");
-    char *msg_all = get_message_create(uuid, command[1], command[2], "750");
+    char *msg = get_message_create(uuid, command[1], command[2],
+    CLIENT_PRINT_CHANNEL_CREATED);
+    char *msg_all = get_message_create(uuid, command[1], command[2],
+    CLIENT_EVENT_CHANNEL_CREATED);
 
     if (!msg)
         return;
@@ -94,7 +96,7 @@ static void send_create_channel_message(char **command, char *uuid,
     }
     if (FD_ISSET(client->_fd, &myServ->writefds))
         dprintf(client->_fd, "%s\r\n", msg);
-    find_clients_to_send(client, myServ, msg_all);
+    send_to_all_clients(client, myServ, msg_all);
     free(msg);
     free(msg_all);
 }

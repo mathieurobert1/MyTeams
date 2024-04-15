@@ -38,7 +38,7 @@ static bool is_error_unknown(server_t *myServ, client_t *client, team_t *team)
 }
 
 static char *get_message_reply_for_client(char *thread_uuid, char *user_uuid,
-    char *reply, char *code)
+    char *reply, int code)
 {
     time_t ltime;
     size_t len = strlen(thread_uuid) + strlen(user_uuid) + strlen(reply) + 15;
@@ -49,7 +49,7 @@ static char *get_message_reply_for_client(char *thread_uuid, char *user_uuid,
     if (!message)
         return NULL;
     memset(message, 0, len + 1);
-    strcat(message, code);
+    strcat(message, int_to_char(code));
     strcat(message, " \"");
     strcat(message, thread_uuid);
     strcat(message, "\" \"");
@@ -62,7 +62,7 @@ static char *get_message_reply_for_client(char *thread_uuid, char *user_uuid,
     return message;
 }
 
-static char *get_message_reply_for_all(char *team_uuid, char *code,
+static char *get_message_reply_for_all(char *team_uuid, int code,
     client_t *client, char *reply)
 {
     size_t len = strlen(team_uuid) + strlen(client->_use_uuid_thread) +
@@ -72,7 +72,7 @@ static char *get_message_reply_for_all(char *team_uuid, char *code,
     if (!message)
         return NULL;
     memset(message, 0, len + 1);
-    strcat(message, code);
+    strcat(message, int_to_char(code));
     strcat(message, " \"");
     strcat(message, team_uuid);
     strcat(message, "\" \"");
@@ -89,9 +89,9 @@ static void send_create_reply(char **command,
     server_t *myServ, client_t *client, thread_t *thread)
 {
     char *msg = get_message_reply_for_client(client->_use_uuid_thread,
-    client->_user_data->uuid, command[1], "960");
-    char *msg_all = get_message_reply_for_all(client->_use_uuid_team, "730",
-    client, command[1]);
+    client->_user_data->uuid, command[1], CLIENT_PRINT_REPLY_CREATED);
+    char *msg_all = get_message_reply_for_all(client->_use_uuid_team,
+    CLIENT_EVENT_THREAD_REPLY_RECEIVED, client, command[1]);
 
     server_event_reply_created(thread->uuid,
     client->_user_data->uuid, command[1]);
@@ -103,7 +103,7 @@ static void send_create_reply(char **command,
     }
     if (FD_ISSET(client->_fd, &myServ->writefds))
         dprintf(client->_fd, "%s\r\n", msg);
-    find_clients_to_send(client, myServ, msg_all);
+    send_to_all_clients(client, myServ, msg_all);
     free(msg);
     free(msg_all);
 }

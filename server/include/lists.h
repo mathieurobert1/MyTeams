@@ -63,6 +63,7 @@ void delete_list_channels(channel_list_t *list_channels);
  *
  * @param list_channels list to add to
  * @param name of the channel
+ * @param description of the channel
  * @param uuid of the channel
  * @return channel_t*
  */
@@ -148,6 +149,7 @@ void delete_list_threads(thread_list_t *list_threads);
  * @param list_threads to add to
  * @param uuid of the thread
  * @param title of the thread
+ * @param content of the thread
  * @return thread_t*
  */
 thread_t *create_thread(thread_list_t *list_threads, char *uuid, char *title,

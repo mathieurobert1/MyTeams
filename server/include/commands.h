@@ -228,11 +228,11 @@ void create_new_channel(char **command, server_t *myServ, client_t *client);
  * @param team_uuid char *
  * @param team_name char *
  * @param team_description char *
- * @param code char *
+ * @param code protocol
  * @return char*
  */
 char *get_message_create(char *team_uuid, char *team_name,
-    char *team_description, char *code);
+    char *team_description, int code);
 
 /**
  * @brief is_no_error in arguments
@@ -254,7 +254,7 @@ bool is_no_error(char **command, server_t *myServ, client_t *client,
  * @param myServ server_t struct
  * @param msg_all message to send
  */
-void find_clients_to_send(client_t *client, server_t *myServ, char *msg_all);
+void send_to_all_clients(client_t *client, server_t *myServ, char *msg_all);
 
 /**
  * @brief send messages clients in team
@@ -264,7 +264,7 @@ void find_clients_to_send(client_t *client, server_t *myServ, char *msg_all);
  * @param myServ server_t struct
  * @param msg_all message to send
  */
-void find_user_to_send(user_t *user, client_t *tmp,
+void send_to_all_users(user_t *user, client_t *tmp,
     server_t *myServ, char *msg_all);
 
 /**
@@ -284,3 +284,11 @@ void create_new_thread(char **command, server_t *myServ, client_t *client);
  * @param client client_t struct
  */
 void create_new_reply(char **command, server_t *myServ, client_t *client);
+
+/**
+ * @brief transform int to char
+ *
+ * @param nb
+ * @return char*
+ */
+char *int_to_char(int nb);
