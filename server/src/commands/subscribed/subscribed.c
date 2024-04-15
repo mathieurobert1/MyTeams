@@ -12,6 +12,7 @@
 #include <stddef.h> // NULL
 #include <string.h> // memset, strcat
 #include <stdlib.h> // malloc
+#include <stdio.h> // dprintf
 
 static bool is_user_subscribed_to_team(team_t *team, user_t *user)
 {
@@ -26,104 +27,62 @@ static bool is_user_subscribed_to_team(team_t *team, user_t *user)
     return false;
 }
 
-static size_t get_size_list_teams(team_list_t *list_teams, user_t *user)
+static void print_list_team(server_t *server, client_t *client)
 {
-    size_t size = 0;
-    team_t *tmp = list_teams->first;
+    team_t *tmp = server->_list_teams->first;
+    int fd = client->_fd;
+    fd_set *writefds = &server->writefds;
 
+    if (FD_ISSET(fd, writefds) && !tmp)
+        dprintf(fd, "%d \"%s\"", CLIENT_ERROR_UNKNOWN_TEAM,
+            client->_use_uuid_team);
     while (tmp) {
-        if (is_user_subscribed_to_team(tmp, user)) {
-            size += strlen(tmp->name);
-            size += strlen(tmp->uuid);
-            size += 3 + 2;
+        if (is_user_subscribed_to_team(tmp, client->_user_data) &&
+            FD_ISSET(fd, writefds)) {
+                dprintf(fd, "%d \"%s\" \"%s\" \"%s\"\n", CLIENT_PRINT_TEAM,
+                    tmp->uuid, tmp->name, tmp->description);
         }
         tmp = tmp->next;
     }
-    return size;
+    if (FD_ISSET(fd, writefds))
+        dprintf(fd, "\n\r");
 }
 
-static char *get_message_list_team(team_list_t *list_teams, user_t *user)
+static void print_list_users(user_list_t *list_users, int fd, fd_set *writefds)
 {
-    size_t size = get_size_list_teams(list_teams, user);
-    char *msg = malloc(sizeof(char) * (size + 1));
-    team_t *tmp = list_teams->first;
-
-    if (!msg)
-        return NULL;
-    memset(msg, 0, size + 1);
-    strcat(msg, "[");
-    while (tmp) {
-        if (is_user_subscribed_to_team(tmp, user)) {
-            strcat(msg, tmp->name);
-            strcat(msg, " : ");
-            strcat(msg, tmp->uuid);
-            strcat(msg, ", ");
-        }
-        tmp = tmp->next;
-    }
-    strcat(msg, "]");
-    return msg;
-}
-
-static size_t get_size_list_users(user_list_t *list_users)
-{
-    size_t size = 0;
     user_t *tmp = list_users->first;
 
     while (tmp) {
-        size += strlen(tmp->username);
-        size += strlen(tmp->uuid);
-        size += 3 + 2;
+        if (FD_ISSET(fd, writefds))
+            dprintf(fd, "%d \"%s\" \"%s\" \"%d\"\n", CLIENT_PRINT_USERS,
+                tmp->uuid, tmp->username, tmp->is_logged);
         tmp = tmp->next;
     }
-    return size;
+    if (FD_ISSET(fd, writefds))
+        dprintf(fd, "\n\r");
 }
 
-static char *get_message_list_users(user_list_t *list_users)
-{
-    size_t size = get_size_list_users(list_users);
-    char *msg = malloc(sizeof(char) * (size + 1));
-    user_t *tmp = list_users->first;
-
-    if (!msg)
-        return NULL;
-    memset(msg, 0, size + 1);
-    strcat(msg, "[");
-    while (tmp) {
-        strcat(msg, tmp->username);
-        strcat(msg, " : ");
-        strcat(msg, tmp->uuid);
-        strcat(msg, ", ");
-        tmp = tmp->next;
-    }
-    strcat(msg, "]");
-    return msg;
-}
-
-static char *get_message_team(server_t *myServ, char *team_uuid)
+static void print_message_team(server_t *myServ, char *team_uuid, int fd,
+    fd_set *writefds)
 {
     team_list_t *list_teams = myServ->_list_teams;
     team_t *tmp = list_teams->first;
 
     while (tmp) {
         if (strcmp(tmp->uuid, team_uuid) == 0) {
-            return get_message_list_users(tmp->users);
+            print_list_users(tmp->users, fd, writefds);
         }
         tmp = tmp->next;
     }
-    return NULL;
 }
 
 void subscribed_command(char **command, server_t *myServ, client_t *client)
 {
-    char *msg = NULL;
-
     if (is_too_more_args(command, 1, client->_fd, &myServ->writefds))
         return;
     if (command[1] == NULL)
-        msg = get_message_list_team(myServ->_list_teams, client->_user_data);
+        print_list_team(myServ, client);
     else {
-        msg = get_message_team(myServ, command[1]);
+        print_message_team(myServ, command[1], client->_fd, &myServ->writefds);
     }
-    ptc_send(COMMAND_SUCCESS, msg, client->_fd, &myServ->writefds);
 }
