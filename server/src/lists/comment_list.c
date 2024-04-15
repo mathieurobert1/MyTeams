@@ -6,10 +6,13 @@
 */
 
 #include "types.h"
+#include "lists.h"
+#include "utils.h"
+
+#include <time.h>
 #include <stdlib.h>
 #include <unistd.h>
 #include <string.h>
-#include "lists.h"
 
 comment_list_t *init_list_comments(void)
 {
@@ -24,17 +27,20 @@ comment_list_t *init_list_comments(void)
 }
 
 comment_t *create_comment(comment_list_t *list_comments,
-    char *content, char *uuid, char *author_uuid)
+    char *content, char *author_uuid)
 {
     comment_t *comment = malloc(sizeof(comment_t));
+    time_t timestamp = time(NULL);
+    char *uuid = create_uuid();
 
     if (!comment)
         return NULL;
     comment->last = NULL;
     comment->next = NULL;
     comment->content = strdup(content);
-    comment->uuid = strdup(uuid);
+    comment->uuid = uuid;
     comment->author_uuid = strdup(author_uuid);
+    comment->timestamp = timestamp;
     add_to_list_comment(list_comments, comment);
     return comment;
 }

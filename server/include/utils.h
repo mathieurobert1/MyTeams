@@ -106,34 +106,40 @@ thread_t *thread_get_by_uuid(char *uuid, thread_list_t *threads);
 
 /**
  * @brief Get the str form of all teams
- * in format [team_name: team_uuid, ...]
+ * in format "CODE "team_uuid" "team_name"\n..."
  *
- * @param teams
- * @return char*
+ * @param teams list of teams
+ * @param fd file descriptor to write
+ * @param writefds select variable to check if client can write
  */
-char *get_str_list_all_teams(team_list_t *teams);
+void print_list_all_teams(team_list_t *teams, int fd, fd_set *writefds);
 
 /**
  * @brief Get the str form of all channels
- * in format [channel_tittle: channel_uuid, ...]
+ * in format "CODE "thread_uuid" "thread_name" "thread_content"\n..."
  *
- * @param teams
- * @return char*
+ * @param threads list of channels
+ * @param fd file descriptor to write
+ * @param writefds select variable to check if client can write
  */
-char *get_str_list_all_threads(thread_list_t *threads);
+void print_list_all_threads(thread_list_t *threads, int fd, fd_set *writefds);
 
 /**
  * @brief Get the str form of list channels object
- * in format [channel_name: channel_uuid, ...]
- * @param channels
- * @return char*
+ * in format "CODE "channel_uuid" "channel_name"\n...
+ * @param channels list of channels
+ * @param fd file descriptor to write
+ * @param writefds select variable to check if client can write
  */
-char *get_str_list_all_channels(channel_list_t *channels);
+void print_list_all_channels(channel_list_t *channels, int fd,
+    fd_set *writefds);
 
 /**
  * @brief Get the str form of list users object
- * in format [comment_uuid: comment_content\nBY : author_uuid, ...]
- * @param users
- * @return char*
+ * in format "CODE "thread_uuid" "comment_uuid" "comment_timestamp"
+ *      "comment_content"\n...
+ * @param thread thread to get comments from
+ * @param fd file descriptor to write
+ * @param writefds select variable to check if client can write
  */
-char *get_str_list_all_comments(comment_list_t *comments);
+void print_list_all_comments(thread_t *thread, int fd, fd_set *writefds);

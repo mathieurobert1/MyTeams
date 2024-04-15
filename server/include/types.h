@@ -87,6 +87,7 @@ typedef struct comment_s {
     char *uuid;
     char *content;
     char *author_uuid;
+    time_t timestamp;
     struct comment_s *next;
     struct comment_s *last;
 } comment_t;

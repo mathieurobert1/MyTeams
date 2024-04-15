@@ -43,13 +43,16 @@ SRC_FILES = parsing.c 				\
 			commands/create/create_channel.c	\
 			commands/create/create_thread.c	\
 			commands/create/create_reply.c	\
-			commands/list.c 		\
+			commands/list/list.c 		\
+			commands/list/channels.c 		\
+			commands/list/replys.c 		\
+			commands/list/threads.c 		\
 			commands/info.c 		\
 			commands/use_utils.c	\
 			commands/utils/uuid.c	\
 			commands/utils/command.c	\
 			commands/utils/get_instance.c	\
-			commands/utils/list_instance.c	\
+			commands/utils/print_instance.c	\
 			\
 			protocol/send.c 		\
 			\
