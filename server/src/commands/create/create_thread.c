@@ -31,25 +31,24 @@ static char *get_message_for_clients(char *uuid, time_t ltime, char **command,
     return message;
 }
 
-static char *get_message_create_thread(char *uuid, char **command,
+static char *get_message_create_thread(thread_t *thread, char **command,
     int code, user_t *user)
 {
-    time_t ltime;
-    size_t len = strlen(uuid) + strlen(user->uuid) +
+    size_t len = strlen(thread->uuid) + strlen(user->uuid) +
     strlen(command[1]) + strlen(command[2]) + 15;
     char *message = NULL;
 
-    time(&ltime);
-    len += strlen(ctime(&ltime));
+    len += strlen(ctime(&thread->timestamp));
     message = malloc(sizeof(char) * (len + 1));
     if (!message)
         return NULL;
     memset(message, 0, len + 1);
     strcat(message, int_to_char(code));
     strcat(message, " \"");
-    strcat(message, uuid);
+    strcat(message, thread->uuid);
     strcat(message, "\" \"");
-    return get_message_for_clients(user->uuid, ltime, command, message);
+    return get_message_for_clients(user->uuid, thread->timestamp, command,
+        message);
 }
 
 static bool is_thread_name_exist(thread_list_t *list, char *name,
@@ -68,13 +67,13 @@ static bool is_thread_name_exist(thread_list_t *list, char *name,
     return false;
 }
 
-static void send_create_thread_message(char **command, char *uuid,
+static void send_create_thread_message(char **command, thread_t *thread,
     server_t *myServ, client_t *client)
 {
-    char *msg = get_message_create_thread(uuid, command,
+    char *msg = get_message_create_thread(thread, command,
     CLIENT_PRINT_THREAD_CREATED,
     client->_user_data);
-    char *msg_all = get_message_create_thread(uuid, command,
+    char *msg_all = get_message_create_thread(thread, command,
     CLIENT_EVENT_THREAD_CREATED,
     client->_user_data);
 
@@ -97,7 +96,7 @@ static void create_new_thread_next(char **command, server_t *myServ,
     user_t *user = NULL;
     channel_t *channel = channel_get_by_uuid(client->_use_uuid_channel,
     team->channels);
-    char *uuid = create_uuid();
+    thread_t *thread = NULL;
 
     user = user_get_by_uuid(client->_user_data->uuid, team->users);
     if (!user) {
@@ -107,13 +106,13 @@ static void create_new_thread_next(char **command, server_t *myServ,
     }
     if (is_thread_name_exist(channel->threads, command[1], client, myServ))
         return;
-    if (!uuid)
+    thread = create_thread(channel->threads, command[1], command[2],
+        client->_user_data);
+    if (!thread)
         return;
-    create_thread(channel->threads, uuid, command[1], command[2]);
-    server_event_thread_created(channel->uuid, uuid, client->_user_data->uuid,
-    command[1], command[2]);
-    send_create_thread_message(command, uuid, myServ, client);
-    free(uuid);
+    server_event_thread_created(channel->uuid, thread->uuid,
+        client->_user_data->uuid, command[1], command[2]);
+    send_create_thread_message(command, thread, myServ, client);
 }
 
 void create_new_thread(char **command, server_t *myServ, client_t *client)

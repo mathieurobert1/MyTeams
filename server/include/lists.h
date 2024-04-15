@@ -147,13 +147,13 @@ void delete_list_threads(thread_list_t *list_threads);
  * @brief Create a thread object
  *
  * @param list_threads to add to
- * @param uuid of the thread
  * @param title of the thread
  * @param content of the thread
+ * @param author of the thread
  * @return thread_t*
  */
-thread_t *create_thread(thread_list_t *list_threads, char *uuid, char *title,
-    char *content);
+thread_t *create_thread(thread_list_t *list_threads, char *title,
+    char *content, user_t *author);
 
 /**
  * @brief delete a thread

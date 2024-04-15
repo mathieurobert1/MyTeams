@@ -6,10 +6,13 @@
 */
 
 #include "types.h"
+#include "lists.h"
+#include "utils.h"
+
 #include <stdlib.h>
 #include <unistd.h>
 #include <string.h>
-#include "lists.h"
+#include <time.h>
 
 thread_list_t *init_list_threads(void)
 {
@@ -23,18 +26,21 @@ thread_list_t *init_list_threads(void)
     return thread_list;
 }
 
-thread_t *create_thread(thread_list_t *list_threads, char *uuid, char *title,
-    char *content)
+thread_t *create_thread(thread_list_t *list_threads, char *title,
+    char *content, user_t *author)
 {
     thread_t *thread = malloc(sizeof(thread_t));
+    char *uuid = create_uuid();
 
-    if (!thread)
+    if (!thread || !uuid)
         return NULL;
     thread->last = NULL;
     thread->next = NULL;
     thread->content = strdup(content);
     thread->title = strdup(title);
-    thread->uuid = strdup(uuid);
+    thread->uuid = uuid;
+    thread->author = author;
+    thread->timestamp = time(NULL);
     thread->comments = init_list_comments();
     add_to_list_threads(list_threads, thread);
     return thread;

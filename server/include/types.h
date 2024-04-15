@@ -103,9 +103,11 @@ typedef struct comment_list_s {
 #pragma pack(push, 1)
 typedef struct thread_s {
     char *uuid;
+    user_t *author;
     char *title;
     char *content;
     comment_list_t *comments;
+    time_t timestamp;
     struct thread_s *next;
     struct thread_s *last;
 } thread_t;
