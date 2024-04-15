@@ -68,7 +68,6 @@ typedef struct message_list_s {
 typedef struct user_s {
     char *uuid;
     char *username;
-    bool is_logged;
     message_list_t *messages;
     struct user_s *next;
     struct user_s *last;

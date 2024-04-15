@@ -20,7 +20,6 @@ void logout_command(char **command, server_t *myServ, client_t *client)
 
     if (is_too_more_args(command, 0, client->_fd, &myServ->writefds))
         return;
-    client->_user_data->is_logged = false;
     server_event_user_logged_out(client->_user_data->uuid);
     while (tmp) {
         if (tmp->_user_data)

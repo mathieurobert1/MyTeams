@@ -71,7 +71,6 @@ static void login_client(char **command, server_t *myServ, client_t *client)
         return;
     server_event_user_created(client->_user_data->uuid,
     client->_user_data->username);
-    client->_user_data->is_logged = true;
     display_login(client, myServ);
 }
 
