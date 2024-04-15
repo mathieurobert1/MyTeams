@@ -17,8 +17,8 @@
 static void print_info_user(user_t *user, int fd, fd_set *write_fds)
 {
     if (FD_ISSET(fd, write_fds))
-        dprintf(fd, "%d \"%s\" \"%s\" \"%d\"\r\n", CLIENT_PRINT_USER, user->uuid,
-            user->username, user->is_logged);
+        dprintf(fd, "%d \"%s\" \"%s\" \"%d\"\r\n", CLIENT_PRINT_USER,
+            user->uuid, user->username, user->is_logged);
 }
 
 static void print_info_team(team_t *team, int fd, fd_set *write_fds,
