@@ -63,8 +63,6 @@ static void print_info(client_t *client, server_t *myServ, fd_set *write_fds)
 
 void info_command(char **command, server_t *myServ, client_t *client)
 {
-    char *str = NULL;
-
     if (!is_correct_command(&myServ->writefds, command, 0, client->_fd))
         return;
     if (!is_context_def(client->_fd, &myServ->writefds, client->_use_state))
