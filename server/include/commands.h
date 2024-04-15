@@ -201,3 +201,94 @@ char *get_message_list_users(user_list_t *list_users);
  * @return char*
  */
 char *get_message_list_team(team_list_t *list_teams, user_t *user);
+
+//Utils Command /create //
+
+/**
+ * @brief Create a new team object
+ *
+ * @param command array
+ * @param myServ server_t struct
+ * @param client client_t struct
+ */
+void create_new_team(char **command, server_t *myServ, client_t *client);
+
+/**
+ * @brief Create a new channel object
+ *
+ * @param command array
+ * @param myServ server_t struct
+ * @param client client_t struct
+ */
+void create_new_channel(char **command, server_t *myServ, client_t *client);
+
+/**
+ * @brief Get the message object
+ *
+ * @param team_uuid char *
+ * @param team_name char *
+ * @param team_description char *
+ * @param code protocol
+ * @return char*
+ */
+char *get_message_create(char *team_uuid, char *team_name,
+    char *team_description, int code);
+
+/**
+ * @brief is_no_error in arguments
+ *
+ * @param command array
+ * @param myServ server_t struct
+ * @param client client_t struct
+ * @param length of the second argument
+ * @return true
+ * @return false
+ */
+bool is_no_error(char **command, server_t *myServ, client_t *client,
+    size_t length);
+
+/**
+ * @brief send messages to clients in team
+ *
+ * @param client client_t struct
+ * @param myServ server_t struct
+ * @param msg_all message to send
+ */
+void send_to_all_clients(client_t *client, server_t *myServ, char *msg_all);
+
+/**
+ * @brief send messages clients in team
+ *
+ * @param user user related to clisent
+ * @param tmp client_t struct
+ * @param myServ server_t struct
+ * @param msg_all message to send
+ */
+void send_to_all_users(user_t *user, client_t *tmp,
+    server_t *myServ, char *msg_all);
+
+/**
+ * @brief Create a new thread object
+ *
+ * @param command array
+ * @param myServ server_t struct
+ * @param client client_t struct
+ */
+void create_new_thread(char **command, server_t *myServ, client_t *client);
+
+/**
+ * @brief Create a new reply object
+ *
+ * @param command array
+ * @param myServ server_t struct
+ * @param client client_t struct
+ */
+void create_new_reply(char **command, server_t *myServ, client_t *client);
+
+/**
+ * @brief transform int to char
+ *
+ * @param nb
+ * @return char*
+ */
+char *int_to_char(int nb);
