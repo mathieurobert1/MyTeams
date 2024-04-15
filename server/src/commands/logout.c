@@ -13,6 +13,21 @@
 #include "utils.h"
 
 #include <stdio.h>
+#include <string.h>
+
+static bool is_user_connected_to_another_client(server_t *myServ,
+    char *uuid_user, int fd_current_client)
+{
+    client_t *tmp = myServ->_list_client->first;
+
+    while (tmp) {
+        if (tmp->_fd != fd_current_client && tmp->_user_data &&
+            strcmp(tmp->_user_data->uuid, uuid_user) == 0)
+                return true;
+        tmp = tmp->_next;
+    }
+    return false;
+}
 
 void logout_command(char **command, server_t *myServ, client_t *client)
 {
@@ -21,6 +36,9 @@ void logout_command(char **command, server_t *myServ, client_t *client)
     if (is_too_more_args(command, 0, client->_fd, &myServ->writefds))
         return;
     server_event_user_logged_out(client->_user_data->uuid);
+    if (!is_user_connected_to_another_client(myServ, client->_user_data->uuid,
+        client->_fd))
+        client->_user_data->is_logged = false;
     while (tmp) {
         if (tmp->_user_data)
             dprintf(tmp->_fd, "%i \"%s\" \"%s\"\r\n", CLIENT_EVENT_LOGGED_OUT,
