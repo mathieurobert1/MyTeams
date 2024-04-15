@@ -119,7 +119,7 @@ void create_new_reply(char **command, server_t *myServ, client_t *client)
 {
     team_t *team = NULL;
 
-    if (is_correct_command(&myServ->writefds, command, 1, client->_fd))
+    if (!is_correct_command(&myServ->writefds, command, 1, client->_fd))
         return;
     if (strlen(command[1]) > MAX_BODY_LENGTH) {
         ptc_send(ERROR_PARAMETERS, "Too long second args",
