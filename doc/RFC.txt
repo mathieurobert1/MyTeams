@@ -1,0 +1,113 @@
+RFC (Request for Comments) Documentation for myTeams Protocol
+
+1. Introduction
+
+The myTeams protocol is designed to facilitate communication and collaboration within a team-based environment.
+This document outlines the various codes used in the protocol to signify different states and events.
+
+2. MyTeams Service Commands
+
+The myTeams protocol defines the following commands:
+
+- HELP : Display help message.
+- LOGIN : Log in to the service.
+- LOGOUT : Log out from the service.
+- USERS : List all users.
+- SEND : Send a message to a user.
+- MESSAGES : List all messages.
+- SUBSCRIBE : Subscribe to the event of a team and its sub directories.
+- UNSUBSCRIBE : Unsubscribe from the event of a team and its sub directories.
+- SUBSCRIBED : List all subscribed events.
+- USE : Select a context for create, list and info commands.
+- CREATE : Based on the context :
+    - If Use is configurate as Nothing, create a new team.
+    - If Use is configurate as Team, create a new channel.
+    - If Use is configurate as Channel, create a new thread.
+    - If Use is configurate as Thread, create a new reply.
+- LIST : Based on the context :
+    - If Use is configurate as Nothing, list all teams.
+    - If Use is configurate as Team, list all channels.
+    - If Use is configurate as Channel, list all threads.
+    - If Use is configurate as Thread, list all replies.
+- INFO : Based on the context :
+    - If Use is configurate as Nothing, display the currently logged in user information.
+    - If Use is configurate as Team, display team information.
+    - If Use is configurate as Channel, display channel information.
+    - If Use is configurate as Thread, display thread information.
+
+
+3. Protocol State Codes
+
+The following CODES defines the various states within the myTeams protocol:
+
+- HELP (214): Help message.
+- LOGGED_OUT (221): User logged out successfully.
+- LOGGED_IN (230): User logged in successfully.
+- COMMAND_SUCCESS (200): Command executed successfully.
+- UNKNOWN_USER (400): User is unknown.
+- SYNTAX_ERROR (500): Syntax error in the command.
+- ERROR_PARAMETERS (501): Error in command parameters.
+- TOO_MORE_PARAMETERS (502): Too many parameters provided.
+- TOO_FEW_PARAMETERS (503): Too few parameters provided.
+- NOT_LOGGED_IN (530): User not logged in.
+- NO_CONTEXT (531): No context available.
+- MESSAGE_SEND (600): Message sent successfully.
+- MESSAGE_RECEIVE (601): Message received successfully.
+
+4. Client Event Codes
+
+Additionally, the myTeams protocol defines various client events:
+
+- CLIENT_EVENT_LOGGED_IN (700): Client logged in event.
+- CLIENT_EVENT_LOGGED_OUT (710): Client logged out event.
+- CLIENT_EVENT_PRIVATE_MESSAGE_RECEIVED (720): Private message received event.
+- CLIENT_EVENT_THREAD_REPLY_RECEIVED (730): Thread reply received event.
+- CLIENT_EVENT_TEAM_CREATED (740): Team created event.
+- CLIENT_EVENT_CHANNEL_CREATED (750): Channel created event.
+- CLIENT_EVENT_THREAD_CREATED (760): Thread created event.
+- CLIENT_PRINT_USERS (770): Print users event.
+- CLIENT_PRINT_TEAMS (780): Print teams event.
+- CLIENT_TEAM_PRINT_CHANNELS (790): Print team channels event.
+- CLIENT_CHANNEL_PRINT_THREADS (800): Print channel threads event.
+- CLIENT_THREAD_PRINT_REPLIES (810): Print thread replies event.
+- CLIENT_PRIVATE_MESSAGE_PRINT_MESSAGES (820): Print private messages event.
+- CLIENT_ERROR_UNKNOWN_TEAM (830): Unknown team error.
+- CLIENT_ERROR_UNKNOWN_CHANNEL (840): Unknown channel error.
+- CLIENT_ERROR_UNKNOWN_THREAD (850): Unknown thread error.
+- CLIENT_ERROR_UNKNOWN_USER (860): Unknown user error.
+- CLIENT_ERROR_UNAUTHORIZED (870): Unauthorized error.
+- CLIENT_ERROR_ALREADY_EXIST (880): Already exists error.
+- CLIENT_PRINT_USER (890): Print user event.
+- CLIENT_PRINT_TEAM (900): Print team event.
+- CLIENT_PRINT_CHANNEL (910): Print channel event.
+- CLIENT_PRINT_THREAD (920): Print thread event.
+- CLIENT_PRINT_TEAM_CREATED (930): Print team created event.
+- CLIENT_PRINT_CHANNEL_CREATED (940): Print channel created event.
+- CLIENT_PRINT_THREAD_CREATED (950): Print thread created event.
+- CLIENT_PRINT_REPLY_CREATED (960): Print reply created event.
+- CLIENT_PRINT_SUBSCRIBED (970): Print subscribed event.
+- CLIENT_PRINT_UNSUBSCRIBED (980): Print unsubscribed event.
+
+6. MyTeams Commands
+
+The myTeams protocol defines the following commands:
+
+- HELP <CRLF>
+- LOGIN <SP> <username> <CRLF>
+- LOGOUT <CRLF>
+- USERS <CRLF>
+- SEND <SP> <username> <SP> <message> <CRLF>
+- MESSAGES <CRLF>
+- SUBSCRIBE <SP> <team> <SP> <channel> <SP> <thread> <CRLF>
+- UNSUBSCRIBE <SP> <team> <SP> <channel> <SP> <thread> <CRLF>
+- SUBSCRIBED <SP> [<team_uuid>] <CRLF>
+- USE <SP> <context> [<SP> <context2> <SP> <context3>] <CRLF>
+- CREATE <SP> <context> <SP> <name> <CRLF>
+- LIST <SP> <context> <CRLF>
+- INFO <SP> <context> <CRLF>
+
+5. Conclusion
+
+This RFC documentation provides a comprehensive overview of the myTeams protocol, including the
+state and event codes. Developers can refer to this documentation for implementing and understanding
+the protocol's behavior.
