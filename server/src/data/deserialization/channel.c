@@ -42,7 +42,7 @@ channel_list_t *deserialize_channel_list(int fd)
     list->last = NULL;
     tmp_nb_channel = list->nb_channel;
     list->nb_channel = 0;
-    for (int i = 0; tmp_nb_channel; i++) {
+    for (int i = 0; i < tmp_nb_channel; i++) {
         tmp = deserialize_channel(fd);
         if (!tmp)
             return NULL;
