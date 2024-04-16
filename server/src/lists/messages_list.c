@@ -6,10 +6,12 @@
 */
 
 #include "types.h"
+#include "lists.h"
+
 #include <stdlib.h>
 #include <unistd.h>
 #include <string.h>
-#include "lists.h"
+#include <time.h>
 
 message_list_t *init_list_messages(void)
 {
@@ -24,19 +26,20 @@ message_list_t *init_list_messages(void)
 }
 
 message_t *create_messages(message_list_t *list_messagess,
-    char *uuidReceiver, char *uuidSender, char *message)
+    char *uuidReceiver, char *uuidSender, char *message_content)
 {
-    message_t *messages = malloc(sizeof(message_t));
+    message_t *message = malloc(sizeof(message_t));
 
-    if (!messages)
+    if (!message)
         return NULL;
-    messages->last = NULL;
-    messages->next = NULL;
-    messages->sender_uuid = strdup(uuidSender);
-    messages->receiver_uuid = strdup(uuidReceiver);
-    messages->message = strdup(message);
-    add_to_list_messages(list_messagess, messages);
-    return messages;
+    message->last = NULL;
+    message->next = NULL;
+    message->sender_uuid = strdup(uuidSender);
+    message->receiver_uuid = strdup(uuidReceiver);
+    message->message = strdup(message_content);
+    message->timestamp = time(NULL);
+    add_to_list_messages(list_messagess, message);
+    return message;
 }
 
 void delete_messages(message_t *messages)
