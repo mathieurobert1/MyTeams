@@ -37,8 +37,9 @@ void print_list_all_threads(thread_list_t *threads, int fd, fd_set *writefds)
     while (tmp) {
         if (FD_ISSET(fd, writefds) == 0)
             return;
-        dprintf(fd, "%d \"%s\" \"%s\" \"%s\"\r\n", CLIENT_PRINT_THREAD,
-            tmp->uuid, tmp->title, tmp->content);
+        dprintf(fd, "%d \"%s\" \"%s\" \"%ld\" \"%s\" \"%s\"\r\n",
+            CLIENT_CHANNEL_PRINT_THREADS, tmp->uuid, tmp->author->uuid,
+            tmp->timestamp, tmp->title, tmp->content);
         tmp = tmp->next;
     }
 }
@@ -53,8 +54,8 @@ void print_list_all_channels(channel_list_t *channels, int fd,
     while (tmp) {
         if (FD_ISSET(fd, writefds) == 0)
             return;
-        dprintf(fd, "%d \"%s\" \"%s\"\r\n", CLIENT_PRINT_CHANNEL, tmp->uuid,
-            tmp->name);
+        dprintf(fd, "%d \"%s\" \"%s\" \"%s\"\r\n", CLIENT_TEAM_PRINT_CHANNELS,
+        tmp->uuid, tmp->name, tmp->description);
         tmp = tmp->next;
     }
 }
@@ -70,7 +71,7 @@ void print_list_all_comments(thread_t *thread, int fd, fd_set *writefds)
         if (FD_ISSET(fd, writefds) == 0)
             return;
         dprintf(fd, "%d \"%s\" \"%s\" \"%ld\", \"%s\"\r\n",
-            CLIENT_THREAD_PRINT_REPLIES, thread->uuid, tmp->uuid,
+            CLIENT_THREAD_PRINT_REPLIES, thread->uuid, tmp->author_uuid,
             tmp->timestamp, tmp->content);
         tmp = tmp->next;
     }
