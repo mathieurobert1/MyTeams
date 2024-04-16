@@ -12,46 +12,23 @@
 #include <stddef.h>
 #include <string.h>
 #include <stdlib.h>
+#include <stdio.h>
 
-static int get_size_message(user_t *user, char *uuid_dest)
+static void print_messages(user_t *user, client_t *client)
 {
-    size_t size = 0;
     message_t *tmp = user->messages->first;
 
     while (tmp) {
-        if (strcmp(tmp->sender_uuid, uuid_dest) == 0 &&
-        strcmp(tmp->receiver_uuid, user->uuid) == 0)
-            size += strlen(tmp->message) + 2;
-        if (strcmp(tmp->receiver_uuid, uuid_dest) == 0 &&
-        strcmp(tmp->sender_uuid, user->uuid) == 0)
-            size += strlen(tmp->message) + 2;
-        tmp = tmp->next;
-    }
-    return size;
-}
-
-static char *get_messages(user_t *user, char *uuid_dest)
-{
-    char *messages = malloc(get_size_message(user, uuid_dest) + 1);
-    message_t *tmp = user->messages->first;
-
-    if (!messages)
-        return NULL;
-    memset(messages, 0, get_size_message(user, uuid_dest) + 1);
-    while (tmp) {
-        if (strcmp(tmp->sender_uuid, uuid_dest) == 0 &&
+        if (strcmp(tmp->sender_uuid, client->_user_data->uuid) == 0 &&
         strcmp(tmp->receiver_uuid, user->uuid) == 0) {
-            strcat(messages, tmp->message);
-            strcat(messages, "\n");
+            dprintf(client->_fd, "%d \"%s\" \"%ld\" \"%s\"", CLIENT_PRIVATE_MESSAGE_PRINT_MESSAGES, tmp->sender_uuid, tmp->timestamp, tmp->message);
         }
-        if (strcmp(tmp->receiver_uuid, uuid_dest) == 0 &&
+        if (strcmp(tmp->receiver_uuid, client->_user_data->uuid) == 0 &&
         strcmp(tmp->sender_uuid, user->uuid) == 0) {
-            strcat(messages, tmp->message);
-            strcat(messages, "\n");
+            dprintf(client->_fd, "%d \"%s\" \"%ld\" \"%s\"", CLIENT_PRIVATE_MESSAGE_PRINT_MESSAGES, tmp->sender_uuid, tmp->timestamp, tmp->message);
         }
         tmp = tmp->next;
     }
-    return messages;
 }
 
 void messages_command(char **command, server_t *myServ, client_t *client)
@@ -66,7 +43,6 @@ void messages_command(char **command, server_t *myServ, client_t *client)
         client->_fd, &myServ->writefds);
         return;
     } else {
-        ptc_send(COMMAND_SUCCESS, get_messages(user, client->_user_data->uuid),
-        client->_fd, &myServ->writefds);
+        print_messages(user, client);
     }
 }

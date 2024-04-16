@@ -51,6 +51,7 @@ typedef struct message_s {
     char *sender_uuid;
     char *receiver_uuid;
     char *message;
+    time_t timestamp;
     struct message_s *next;
     struct message_s *last;
 } message_t;
