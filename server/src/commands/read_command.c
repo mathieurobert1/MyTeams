@@ -19,8 +19,8 @@ char *read_data_client(client_t *tmp)
         return NULL;
     while (read(tmp->_fd, buffer, 1) > 0) {
         cmd[n] = buffer[0];
-        if (cmd[n] == '\n' && n != 0
-        && cmd[n -1] == '\r')
+        if ((cmd[n] == '\n' && n != 0 && cmd[n -1] == '\r') ||
+            (cmd[n] == 'n' && n != 0 && cmd[n -1] == '\\'))
             break;
         n++;
     }
