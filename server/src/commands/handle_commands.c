@@ -18,6 +18,8 @@
 static bool can_perform_command(client_t *client, char *command,
     server_t *myServ)
 {
+    if (strcmp(command, "/logout") == 0)
+        return true;
     if (strcmp(command, "/login") != 0) {
         if (client->_user_data)
             return true;
