@@ -26,15 +26,7 @@ CFLAGS = -Wall -Wextra -Werror
 INC = -I./include -I../shared/include \
 	-I../libs/myteams/ -L ../libs/myteams/ -lmyteams
 
-TEST_FILES =
-
-TEST_DIR = tests/
-TEST = $(addprefix $(TEST_DIR), $(TEST_FILES))
-TEST_OBJ = $(TEST:.c=.o)
-TEST_GCNO = $(SRC:.c=.gcno)
-
 NAME = myteams_cli
-TEST_NAME = test_cli
 
 CC = gcc
 
@@ -57,15 +49,3 @@ re: fclean all
 
 %.o: %.c
 	$(CC) -c -o $@ $< $(CFLAGS) $(INC)
-
-test_obj: $(TEST_OBJ)
-
-obj: $(OBJ)
-
-tests_run: fclean
-	$(MAKE) obj CFLAGS+=--coverage
-	$(MAKE) test_obj
-	$(CC) -o $(TEST_NAME) $(OBJ) $(TEST_OBJ) $(TEST_FLAGS) $(INC)
-	./$(TEST_NAME)
-	gcovr --exclude tests/
-	gcovr -b --exclude tests/
