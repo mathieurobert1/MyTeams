@@ -12,28 +12,12 @@
 
 #include <string.h>
 #include <stdlib.h>
+#include <stdio.h>
 
-static size_t get_size_details(user_t *user)
+static void print_details(user_t *user, client_t *client)
 {
-    size_t size = 0;
-
-    size += strlen(user->uuid);
-    size += strlen(user->username);
-    return size;
-}
-
-static char *get_details(user_t *user)
-{
-    size_t size = get_size_details(user);
-    char *details = malloc(size + 2 + 7 + 14);
-
-    if (!details)
-        return NULL;
-    strcpy(details, "UUID: ");
-    strcat(details, user->uuid);
-    strcat(details, " , Username: ");
-    strcat(details, user->username);
-    return details;
+    dprintf(client->_fd, "%d \"%s\" \"%s\" \"%d\"\r\n", CLIENT_PRINT_USER,
+        user->uuid, user->username, user->is_logged);
 }
 
 void user_command(char **command, server_t *myServ, client_t *client)
@@ -48,7 +32,6 @@ void user_command(char **command, server_t *myServ, client_t *client)
         client->_fd, &myServ->writefds);
         return;
     } else {
-        ptc_send(COMMAND_SUCCESS, get_details(user),
-        client->_fd, &myServ->writefds);
+        print_details(user, client);
     }
 }
