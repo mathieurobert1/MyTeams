@@ -51,6 +51,7 @@ char *read_flow(int fd, bool rn)
         if ((rn == false && chunk[0] == '\n') || (b_r && chunk[0] == '\n'))
             return whole_buff;
     }
+    free(whole_buff);
     return NULL;
 }
 

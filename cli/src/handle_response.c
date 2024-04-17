@@ -38,9 +38,8 @@ static void handles1(int code, char **parsed, client_t *client)
             (long int) atoi(parsed[3]), parsed[4], parsed[5]);
 }
 
-static void handles2(int code, char **parsed, client_t *client)
+static void handles2(int code, char **parsed)
 {
-    (void) client;
     if (code == CLIENT_PRINT_USERS)
         client_print_users(parsed[1], parsed[2], atoi(parsed[3]));
     if (code == CLIENT_PRINT_TEAMS)
@@ -62,9 +61,8 @@ static void handles2(int code, char **parsed, client_t *client)
         client_error_unknown_channel(parsed[1]);
 }
 
-static void handles3(int code, char **parsed, client_t *client)
+static void handles3(int code, char **parsed)
 {
-    (void) client;
     if (code == CLIENT_ERROR_UNKNOWN_THREAD)
         client_error_unknown_thread(parsed[1]);
     if (code == CLIENT_ERROR_UNKNOWN_USER)
@@ -86,9 +84,8 @@ static void handles3(int code, char **parsed, client_t *client)
         client_print_team_created(parsed[1], parsed[2], parsed[3]);
 }
 
-static void handles4(int code, char **parsed, client_t *client)
+static void handles4(int code, char **parsed)
 {
-    (void) client;
     if (code == CLIENT_PRINT_CHANNEL_CREATED)
         client_print_channel_created(parsed[1], parsed[2], parsed[3]);
     if (code == CLIENT_PRINT_THREAD_CREATED)
@@ -109,9 +106,9 @@ void handle_response(client_t *client, char *msg)
     int code = atoi(parsed[0]);
 
     handles1(code, parsed, client);
-    handles2(code, parsed, client);
-    handles3(code, parsed, client);
-    handles4(code, parsed, client);
+    handles2(code, parsed);
+    handles3(code, parsed);
+    handles4(code, parsed);
     write(1, msg, strlen(msg));
     delete_list_arg(parsed);
 }
