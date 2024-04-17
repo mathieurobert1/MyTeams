@@ -43,6 +43,7 @@ static void display_login(client_t *client, server_t *myServ)
 {
     client_t *tmp = myServ->_list_client->first;
 
+    client->_user_data->is_logged = true;
     while (tmp) {
         if (tmp->_user_data)
             dprintf(tmp->_fd, "%i \"%s\" \"%s\"\r\n", CLIENT_EVENT_LOGGED_IN,

@@ -24,6 +24,7 @@ user_t *deserialize_user(int fd)
     user->uuid = deserialize_string(fd);
     user->username = deserialize_string(fd);
     user->messages = deserialize_message_list(fd);
+    user->is_logged = 0;
     return user;
 }
 
