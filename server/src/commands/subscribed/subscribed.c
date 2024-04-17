@@ -34,18 +34,18 @@ static void print_list_team(server_t *server, client_t *client)
     fd_set *writefds = &server->writefds;
 
     if (FD_ISSET(fd, writefds) && !tmp)
-        dprintf(fd, "%d \"%s\"", CLIENT_ERROR_UNKNOWN_TEAM,
+        dprintf(fd, "%d \"%s\"\r\n", CLIENT_ERROR_UNKNOWN_TEAM,
             client->_use_uuid_team);
     while (tmp) {
         if (is_user_subscribed_to_team(tmp, client->_user_data) &&
             FD_ISSET(fd, writefds)) {
-                dprintf(fd, "%d \"%s\" \"%s\" \"%s\"\n", CLIENT_PRINT_TEAM,
+                dprintf(fd, "%d \"%s\" \"%s\" \"%s\"\r\n", CLIENT_PRINT_TEAM,
                     tmp->uuid, tmp->name, tmp->description);
         }
         tmp = tmp->next;
     }
     if (FD_ISSET(fd, writefds))
-        dprintf(fd, "\n\r");
+        dprintf(fd, "\r\n");
 }
 
 static void print_list_users(user_list_t *list_users, int fd, fd_set *writefds)
@@ -54,12 +54,12 @@ static void print_list_users(user_list_t *list_users, int fd, fd_set *writefds)
 
     while (tmp) {
         if (FD_ISSET(fd, writefds))
-            dprintf(fd, "%d \"%s\" \"%s\" \"%d\"\n", CLIENT_PRINT_USERS,
+            dprintf(fd, "%d \"%s\" \"%s\" \"%d\"\r\n", CLIENT_PRINT_USERS,
                 tmp->uuid, tmp->username, tmp->is_logged);
         tmp = tmp->next;
     }
     if (FD_ISSET(fd, writefds))
-        dprintf(fd, "\n\r");
+        dprintf(fd, "\r\n");
 }
 
 static void print_message_team(server_t *myServ, char *team_uuid, int fd,
