@@ -14,10 +14,11 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-static void print_details(user_t *user, client_t *client)
+static void print_details(user_t *user, client_t *client, server_t *server)
 {
-    dprintf(client->_fd, "%d \"%s\" \"%s\" \"%d\"\r\n", CLIENT_PRINT_USER,
-        user->uuid, user->username, user->is_logged);
+    if (FD_ISSET(client->_fd, &server->writefds))
+        dprintf(client->_fd, "%d \"%s\" \"%s\" \"%d\"\r\n", CLIENT_PRINT_USER,
+            user->uuid, user->username, user->is_logged);
 }
 
 void user_command(char **command, server_t *myServ, client_t *client)
@@ -32,6 +33,6 @@ void user_command(char **command, server_t *myServ, client_t *client)
         client->_fd, &myServ->writefds);
         return;
     } else {
-        print_details(user, client);
+        print_details(user, client, myServ);
     }
 }

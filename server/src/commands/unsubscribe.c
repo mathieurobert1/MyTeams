@@ -64,6 +64,7 @@ void unsubscribe_command(char **command, server_t *myServ, client_t *client)
         return;
     }
     server_event_user_unsubscribed(command[1], client->_user_data->uuid);
-    dprintf(client->_fd, "%i \"%s\" \"%s\"\r\n", CLIENT_PRINT_UNSUBSCRIBED,
-    client->_user_data->uuid, command[1]);
+    if (FD_ISSET(client->_fd, &myServ->writefds))
+        dprintf(client->_fd, "%i \"%s\" \"%s\"\r\n", CLIENT_PRINT_UNSUBSCRIBED,
+        client->_user_data->uuid, command[1]);
 }

@@ -26,10 +26,11 @@ static void send_message_to_receiver(char *msg, server_t *myServ,
 
     while (tmp) {
         if (tmp->_user_data &&
-            strcmp(tmp->_user_data->uuid, user_to_send->uuid) == 0)
-            dprintf(tmp->_fd, "%i \"%s\" \"%s\"\r\n",
-            CLIENT_EVENT_PRIVATE_MESSAGE_RECEIVED,
-            client->_user_data->uuid, msg);
+            strcmp(tmp->_user_data->uuid, user_to_send->uuid) == 0 &&
+                FD_ISSET(tmp->_fd, &myServ->writefds))
+                    dprintf(tmp->_fd, "%i \"%s\" \"%s\"\r\n",
+                    CLIENT_EVENT_PRIVATE_MESSAGE_RECEIVED,
+                    client->_user_data->uuid, msg);
         tmp = tmp->_next;
     }
 }

@@ -13,10 +13,12 @@
 #include <stdio.h>
 #include <stdbool.h>
 
-static bool check_thread(thread_t *thread, int fd, char *uuid)
+static bool check_thread(thread_t *thread, int fd, char *uuid,
+    server_t *server)
 {
     if (!thread) {
-        dprintf(fd, "%d \"%s\"\r\n", CLIENT_ERROR_UNKNOWN_THREAD, uuid);
+        if (FD_ISSET(fd, &server->writefds))
+            dprintf(fd, "%d \"%s\"\r\n", CLIENT_ERROR_UNKNOWN_THREAD, uuid);
         return false;
     }
     return true;
@@ -31,19 +33,19 @@ static bool all_set(client_t *client, server_t *server)
     channel_t *channel = NULL;
     thread_t *thread = NULL;
 
-    if (!team) {
+    if (!team && FD_ISSET(client->_fd, &server->writefds)) {
         dprintf(client->_fd, "%d \"%s\"\r\n", CLIENT_ERROR_UNKNOWN_TEAM,
             team_uuid);
         return false;
     }
     channel = channel_get_by_uuid(channel_uuid, team->channels);
-    if (!channel) {
+    if (!channel && FD_ISSET(client->_fd, &server->writefds)) {
         dprintf(client->_fd, "%d \"%s\"\r\n", CLIENT_ERROR_UNKNOWN_CHANNEL,
             channel_uuid);
         return false;
     }
     thread = thread_get_by_uuid(thread_uuid, channel->threads);
-    return check_thread(thread, client->_fd, thread_uuid);
+    return check_thread(thread, client->_fd, thread_uuid, server);
 }
 
 void print_replys(server_t *server, client_t *client)

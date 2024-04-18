@@ -44,7 +44,7 @@ void logout_command(char **command, server_t *myServ, client_t *client)
         client->_fd))
         client->_user_data->is_logged = false;
     while (tmp) {
-        if (tmp->_user_data)
+        if (tmp->_user_data && FD_ISSET(tmp->_fd, &myServ->writefds))
             dprintf(tmp->_fd, "%i \"%s\" \"%s\"\r\n", CLIENT_EVENT_LOGGED_OUT,
             client->_user_data->uuid, client->_user_data->username);
         tmp = tmp->_next;
