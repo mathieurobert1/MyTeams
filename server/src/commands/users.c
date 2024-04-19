@@ -14,13 +14,15 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-static void print_message(user_list_t *user_list, client_t *client)
+static void print_message(user_list_t *user_list, client_t *client,
+    server_t *server)
 {
     user_t *tmp = user_list->first;
 
     while (tmp != NULL) {
-        dprintf(client->_fd, "%d \"%s\" \"%s\" \"%d\"\r\n", CLIENT_PRINT_USERS,
-            tmp->uuid, tmp->username, tmp->is_logged);
+        if (FD_ISSET(client->_fd, &server->writefds))
+            dprintf(client->_fd, "%d \"%s\" \"%s\" \"%d\"\r\n",
+                CLIENT_PRINT_USERS, tmp->uuid, tmp->username, tmp->is_logged);
         tmp = tmp->next;
     }
 }
@@ -32,5 +34,5 @@ void users_command(char **command, server_t *myServ, client_t *client)
     if (is_correct_command(&myServ->writefds,
     command, 0, client->_fd) == false)
         return;
-    print_message(user_list, client);
+    print_message(user_list, client, myServ);
 }
