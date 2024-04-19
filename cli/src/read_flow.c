@@ -13,8 +13,9 @@
 #include <string.h>
 #include "shared.h"
 
-static void update_endline_bool(bool *b_r, char *chunk)
+static void update_endline_bool(bool *b_r, char *chunk, int *csize)
 {
+    (*csize) += 1;
     if (chunk[0] == '\r')
         (*b_r) = true;
     if (chunk[0] != '\r' && chunk[0] != '\n')
@@ -46,8 +47,7 @@ char *read_flow(int fd, bool rn)
         if (!realloc_if_needed(csize, &msize, &whole_buff))
             return NULL;
         strcat(whole_buff, chunk);
-        csize++;
-        update_endline_bool(&b_r, chunk);
+        update_endline_bool(&b_r, chunk, &csize);
         if ((rn == false && chunk[0] == '\n') || (b_r && chunk[0] == '\n'))
             return whole_buff;
     }
