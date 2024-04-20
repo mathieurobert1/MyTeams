@@ -106,6 +106,72 @@ The myTeams protocol defines the following commands:
 - LIST <SP> <context> <CRLF>
 - INFO <SP> <context> <CRLF>
 
+With Space <SP> between each arguments and terminated by the Telnet end-of-line code <CRLF> (\r\n).
+
+Example :
+
+-> LOGIN <SP> "Username" <CRLF>
+<- 230
+
+-> : Request command from client to server
+<- : Reply from server to client
+
+    Login
+        LOGIN ->
+            <- 230 700 
+            <- 500 501 502 503
+
+    Logout
+        LOGOUT ->
+            <- 221 710
+            <- 500 502
+
+    Context command
+        USE -> 200
+            <- 500 501 502 503 530
+
+    Transfer command
+        USERS ->
+            <- 770
+            <- 500 502 530
+
+        SEND ->
+            <- 600
+            <- 500 501 502 503 530
+
+        MESSAGES ->
+            <- 820
+            <- 500 502 530
+
+        SUBSCRIBE ->
+            <- 200
+            <- 500 501 502 503 530
+
+        UNSUBSCRIBE ->
+            <- 200
+            <- 500 501 502 503 530
+
+        SUBSCRIBED ->
+            <- 970
+            <- 500 502 530
+
+        CREATE ->
+            <- 730 740 750 760 930 940 950 960
+            <- 500 501 502 503 530 830 840 850 870 880
+
+        LIST ->
+            <- 200
+            <- 500 501 502 503 530 870 830 840 850
+
+        INFO ->
+            <- 890 900 910 920
+            <- 500 501 502 503 530 830 840 850
+
+    Informational commands
+        HELP ->
+            <- 214
+            <- 500 502 530
+
 5. Conclusion
 
 This RFC documentation provides a comprehensive overview of the myTeams protocol, including the
