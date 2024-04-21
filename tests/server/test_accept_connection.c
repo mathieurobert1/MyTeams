@@ -21,7 +21,7 @@
 #define PORT_MIN 49152
 #define PORT_MAX 65535
 
-int get_random_port() {
+static int get_random_port() {
     return rand() % (PORT_MAX - PORT_MIN + 1) + PORT_MIN;
 }
 
