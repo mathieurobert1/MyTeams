@@ -84,6 +84,7 @@ TEST_FILES = 	server/test_accept_connection.c	\
 				server/test_data_serialize_messages.c\
 				server/test_create.c	\
 				server/test_data_serailize_comment.c\
+				server/test_data_serialize_thread.c\
 
 TEST_DIR = tests/
 TEST = $(addprefix $(TEST_DIR), $(TEST_FILES))
