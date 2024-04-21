@@ -116,7 +116,7 @@ fclean:
 	$(MAKE) fclean -C server
 	$(MAKE) fclean -C cli
 	rm -f $(SERVER_BIN) $(CLI_BIN)
-	rm -f $(OBJ) $(TEST_OBJ) $(TEST_GCNO) $(TEST_GCDA)
+	rm -f $(OBJ) $(TEST_OBJ) $(TEST_GCNO) $(TEST_GCDA) $(TEST_NAME)
 
 re: fclean all
 

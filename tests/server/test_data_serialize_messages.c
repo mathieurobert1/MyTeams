@@ -8,6 +8,7 @@
 #include <criterion/criterion.h>
 #include <unistd.h>
 #include <fcntl.h>
+#include <stdio.h>
 
 #include "server/include/types.h"
 #include "server/include/data.h"
@@ -35,7 +36,7 @@ Test(serialize_message, serialization_test) {
 
     close(fd);
 
-    revoke(filename);
+    remove(filename);
 }
 
 Test(serialize_message_list, serialization_test) {
@@ -81,5 +82,5 @@ Test(serialize_message_list, serialization_test) {
 
     close(fd);
 
-    revoke(filename);
+    remove(filename);
 }

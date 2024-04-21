@@ -8,6 +8,7 @@
 #include <criterion/criterion.h>
 #include <unistd.h>
 #include <fcntl.h>
+#include <stdio.h>
 
 #include "data.h"
 
@@ -45,7 +46,7 @@ Test(serialize_thread, serialization_test) {
 
     close(fd);
 
-    revoke(filename);
+    remove(filename);
 }
 
 Test(serialize_thread_list, serialization_test) {
@@ -130,4 +131,5 @@ Test(serialize_thread_list, serialization_test) {
     cr_assert_str_eq(tmp_comment->content, "Comment5 content", "Serialized comment5 content of thread2 incorrect");
 
     close(fd);
+    remove(filename);
 }

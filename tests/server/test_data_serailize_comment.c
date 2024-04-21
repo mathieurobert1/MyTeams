@@ -8,6 +8,7 @@
 #include <criterion/criterion.h>
 #include <unistd.h>
 #include <fcntl.h>
+#include <stdio.h>
 
 #include "data.h"
 
@@ -35,7 +36,7 @@ Test(serialize_comment, serialization_test) {
 
     close(fd);
 
-    revoke(filename);
+    remove(filename);
 }
 
 Test(serialize_comment_list, serialization_test) {
@@ -79,5 +80,5 @@ Test(serialize_comment_list, serialization_test) {
 
     close(fd);
 
-    revoke(filename);
+    remove(filename);
 }
