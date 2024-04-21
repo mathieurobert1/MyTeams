@@ -80,6 +80,7 @@ INC = -I./include -I./shared/include -I./libs/myteams/ -L ./libs/myteams/\
 -lmyteams -luuid -I./server/include -I.
 
 TEST_FILES = server/test_accept_connection.c	\
+				server/test_data_serialize_messages.c\
 				server/test_create.c	\
 
 TEST_DIR = tests/
